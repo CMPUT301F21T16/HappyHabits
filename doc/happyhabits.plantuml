@@ -1,0 +1,45 @@
+@startuml HappyHabits
+skinparam classAttributeIconSize 0
+Habits <-- User
+Habits <-- Habit_Events
+
+class Habits {
+    -String title
+    -String Reason
+    -Date start_date
+    -String[] Frequency
+    
+    +String getTitle()
+    +void setTitle(String title)
+    +String getReason()
+    +void setReason(String reason)
+    +Date getstarting_date()
+    +String[] getFreq()
+}
+
+class User {
+    - habitDatabase
+    - ProfilePic
+    - ArrayList<Habits> HabitList
+    - ArrayList<User> FollowList
+    - Date today
+
+    + Constructor User(String userName)
+    + void setHabitEvent(Habits set_habit)
+    + void changeProfilePic()
+    + void addHabit(Habits H)
+    + void deleteHabit(Habits H)
+    + void editHabit(Habits old,Habits new)
+    + void Follow(User username)
+    + ArrayList<Habits> getHabitList()
+    + ArrayList<User> getFollowList()
+}
+bet
+class Habit_Events {
+    - Habit habit
+    - Location location
+    - Date habbit_event
+    - Picture photo
+    - String Description
+}
+@enduml
