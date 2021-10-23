@@ -1,9 +1,10 @@
 @startuml HappyHabits
 skinparam classAttributeIconSize 0
-Habits <-- User
-Habits <-- Habit_Events
-
-class Habits {
+Habit <-- User
+Habit <-- Habit_Events
+onFragmentInteractionListener <--- HabitActivity 
+HabitFragment <-- onFragmentInteractionListener
+class Habit {
     -String title
     -String Reason
     -Date start_date
@@ -20,21 +21,21 @@ class Habits {
 class User {
     - habitDatabase
     - ProfilePic
-    - ArrayList<Habits> HabitList
+    - ArrayList<Habit> HabitList
     - ArrayList<User> FollowList
     - Date today
 
     + Constructor User(String userName)
-    + void setHabitEvent(Habits set_habit)
+    + void setHabitEvent(Habit set_habit)
     + void changeProfilePic()
-    + void addHabit(Habits H)
-    + void deleteHabit(Habits H)
-    + void editHabit(Habits old,Habits new)
+    + void addHabit(Habit H)
+    + void deleteHabit(Habit H)
+    + void editHabit(Habit old,Habit new)
     + void Follow(User username)
-    + ArrayList<Habits> getHabitList()
+    + ArrayList<Habit> getHabitList()
     + ArrayList<User> getFollowList()
 }
-bet
+
 class Habit_Events {
     - Habit habit
     - Location location
@@ -42,4 +43,35 @@ class Habit_Events {
     - Picture photo
     - String Description
 }
+
+class DashBoardActivity {
+    - ArrayList<Habit> habitList
+    - Button goToHabitList
+}
+
+class HabitActivity {
+    - ArrayList<Habit> habitList
+    - Button addHabit
+
+    + onCreate()
+    + void onAddPressed(Habit new_Habit)
+    + void onEditPressed(Habit old, Habit new)
+}
+
+class HabitFragment {
+    - EditText habit_Title
+    - EditText habit_Reason
+    - DatePicker habit_starting_date
+    - RadioGroup habit_Weekly_Freq
+    - onFragmentInteractionListener listener
+
+    + onAttach(@NonNull Context context)
+    + Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
+    
+}
+
+interface onFragmentInteractionListener{
+        void onAddPressed(Habit new_Habit)
+        void onEditPressed(Habit old, Habit new)
+    }
 @enduml
