@@ -1,5 +1,9 @@
 plugins {
+    /* for unknown reason I have to change apply plugin: to id --- Frank
+     */
     id 'com.android.application'
+    id 'com.google.gms.google-services'
+
 }
 
 android {
@@ -7,8 +11,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.happyhabitapp"
-        minSdk 26
-        targetSdk 31
+        minSdk 16
+        targetSdk 29
         versionCode 1
         versionName "1.0"
 
@@ -35,4 +39,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-analytics'
 }
