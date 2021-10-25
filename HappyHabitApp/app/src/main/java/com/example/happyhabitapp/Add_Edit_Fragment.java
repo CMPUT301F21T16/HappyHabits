@@ -73,7 +73,7 @@ public class Add_Edit_Fragment extends DialogFragment {
                     String reason = habit_reason.getText().toString();
 
                     int selectedId = habit_freq.getCheckedRadioButtonId();
-                    //mg is a default selection of unit
+
                     String freq = "Sun";
                     if (selectedId == R.id.freq_Mon) {
                         freq = "Mon";
