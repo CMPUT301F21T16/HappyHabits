@@ -175,26 +175,7 @@ public class Add_Edit_Fragment extends DialogFragment {
 
                     String reason = habit_reason.getText().toString();
 
-<<<<<<< Updated upstream
-                    int selectedId = habit_freq.getCheckedRadioButtonId();
-
-                    String freq = "Sun";
-                    if (selectedId == R.id.freq_Mon) {
-                        freq = "Mon";
-                    } else if (selectedId == R.id.freq_Tue) {
-                        freq = "Tue";
-                    } else if (selectedId == R.id.freq_Wed) {
-                        freq = "Wed";
-                    } else if (selectedId == R.id.freq_Thu) {
-                        freq = "Thr";
-                    } else if (selectedId == R.id.freq_Fri) {
-                        freq = "Fri";
-                    } else if (selectedId == R.id.freq_Sat) {
-                        freq = "Sat";
-                    }
-=======
                     int[] week_freq = {1,0,0,0,0,0,0};
->>>>>>> Stashed changes
 
                     if(sun.isChecked()){
                         week_freq[0] = 1;
