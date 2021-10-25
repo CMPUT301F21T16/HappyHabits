@@ -49,8 +49,8 @@ public class Add_Edit_Fragment extends DialogFragment {
     }
 
     /**
-     * initialize the EditTexts, DatePicker, and RadioGroup. Create a Dialog Fragment from add_medicine_fragment_layout.xml
-     *  and on Add Medicine click, store all values in a new Medicine Object and return the Dialog Fragment instance
+     * initialize the EditTexts, DatePicker, and checkboxes. Create a Dialog Fragment from add_edit_habit_fragment_layout.xml
+     *  and on Add habit click, store all values in a new habit Object and return the Dialog Fragment instance
      *
      * @param savedInstanceState
      *
@@ -92,7 +92,9 @@ public class Add_Edit_Fragment extends DialogFragment {
             habit_starting_date.setMaxDate(selectedDate.getTimeInMillis());
 
             int[] week_freq = habit.getWeek_freq();
-
+/**
+ * setting checkboxes from weekly frequency
+ */
             if(week_freq[0] == 1){
                 sun.setChecked(true);
             }
