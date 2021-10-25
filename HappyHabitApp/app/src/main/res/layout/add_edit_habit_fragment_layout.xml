@@ -23,64 +23,101 @@
         android:maxLength = "30"
         android:inputType = "textPersonName" />
 
-    <RadioGroup
-        android:id="@+id/group_radio_units"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="#e0e0e0"
         android:orientation="horizontal">
 
-        <RadioButton
+        <CheckBox
+            android:id="@+id/SunCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/freq_Sun"
+            android:layout_centerHorizontal="true"
+            android:checked="true"
             android:text="Sun"
-            android:textSize="10sp"/>
-        <!--mg button should be clicked on default-->
-        <RadioButton
+            android:textSize="15sp"
+            android:textStyle="italic"
+             />
+
+        <CheckBox
+            android:id="@+id/MonCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/freq_Mon"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+
             android:text="Mon"
-            android:textSize="10sp"
-            android:checked="true"/>
+            android:textSize="15sp"
+            android:textStyle="italic"
+            />
 
-        <RadioButton
+        <CheckBox
+            android:id="@+id/TueCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/freq_Tue"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+
             android:text="Tue"
-            android:textSize="10sp"/>
 
-        <RadioButton
+            android:textSize="15sp"
+            android:textStyle="italic"
+            />
+
+        <CheckBox
+            android:id="@+id/WedCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/freq_Wed"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+
             android:text="Wed"
-            android:textSize="10sp"/>
-        <RadioButton
+            android:textSize="15sp"
+            android:textStyle="italic"
+            />
+
+        <CheckBox
+            android:id="@+id/ThrCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/freq_Thu"
-            android:text="Thu"
-            android:textSize="10sp"/>
-        <RadioButton
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+
+            android:text="Thr"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            />
+        <CheckBox
+            android:id="@+id/FriCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/freq_Fri"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+
             android:text="Fri"
-            android:textSize="10sp"/>
-        <RadioButton
+            android:textSize="15sp"
+            android:textStyle="italic"
+            />
+
+        <CheckBox
+            android:id="@+id/SatCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/freq_Sat"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
             android:text="Sat"
-            android:textSize="10sp"/>
-    </RadioGroup>
+            android:textSize="15sp"
+            android:textStyle="italic"
+            />
+    </LinearLayout>
 
     <DatePicker
         android:id="@+id/habit_starting_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:datePickerMode="calendar"/>
+        android:layout_width="339dp"
+        android:layout_height="561dp"
+        android:layout_gravity="center"
+        android:datePickerMode="calendar" />
 
 </LinearLayout>
