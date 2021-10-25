@@ -40,6 +40,15 @@ public class Add_Edit_Fragment extends DialogFragment {
         }
     }
 
+    public static Add_Edit_Fragment newInstance(Habit habit){
+        Bundle args = new Bundle();
+        args.putSerializable("habit",habit);
+
+        Add_Edit_Fragment fragment = new Add_Edit_Fragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     /**
      * initialize the EditTexts, DatePicker, and RadioGroup. Create a Dialog Fragment from add_medicine_fragment_layout.xml
      *  and on Add Medicine click, store all values in a new Medicine Object and return the Dialog Fragment instance
