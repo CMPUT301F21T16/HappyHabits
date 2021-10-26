@@ -26,7 +26,6 @@ class User {
     - Date today
 
     + Constructor User(String userName)
-    + Date getTodayDate()
     + void setHabitEvent(Habit set_habit)
     + void changeProfilePic()
     + void addHabit(Habit H)
@@ -35,6 +34,9 @@ class User {
     + void Follow(User username)
     + ArrayList<Habit> getHabitList()
     + ArrayList<User> getFollowList()
+    + Date getTodayDate()
+    + User getUser(String username)
+    + String getUsername()
 }
 
 class Habit_Events {
