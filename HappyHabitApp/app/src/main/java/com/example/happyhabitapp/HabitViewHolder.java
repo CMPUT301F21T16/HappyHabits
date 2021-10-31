@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,8 +24,9 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
     private ImageButton dragHandle;
 
     private ItemTouchHelper touchHelper;
+    private HabitListener viewListener;
 
-    public HabitViewHolder(View habitView, ItemTouchHelper helper) {
+    public HabitViewHolder(View habitView, ItemTouchHelper helper, HabitListener habitListener) {
         super(habitView);
 
         titleTextView = (TextView) habitView.findViewById(R.id.habit_title);
@@ -34,9 +36,9 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
 
         habitGestureDetector = new GestureDetector(habitView.getContext(), this);
         touchHelper = helper;
+        viewListener = habitListener;
 
         habitView.setOnTouchListener(this);
-
     }
 
     public void attachData(Habit habit) {
@@ -54,12 +56,13 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
 
     @Override
     public void onShowPress(MotionEvent motionEvent) {
-
+        //Does nothing
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent motionEvent) {
         //TODO: OnHabitListener Implementation
+        viewListener.onHabitClick(getAdapterPosition());
         return false;
     }
 
@@ -77,7 +80,6 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
         return false;
     }
-
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {

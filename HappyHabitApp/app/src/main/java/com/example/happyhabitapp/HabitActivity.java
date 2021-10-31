@@ -2,6 +2,7 @@ package com.example.happyhabitapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +18,7 @@ import java.util.List;
 
 //TODO: Create Brand new RecycleView Adapter, Implement HelperAdapter Interface, habitTouchHelper class, and make sure all elements are changeable.
 
-public class HabitActivity extends AppCompatActivity {
+public class HabitActivity extends AppCompatActivity implements HabitListener {
 
     //Private variables
     private User currentUser;   //Contains habit list, profile picture, and username
@@ -59,7 +60,7 @@ public class HabitActivity extends AppCompatActivity {
     //TODO: have to set up an item touch helper to assist in re-ordering, and swipe
     private void setList() {
         //Connect the adapter to the recyclerView
-        HabitsAdapter adapter = new HabitsAdapter(currentUser.getHabitList());      //Connect list to our own custom adapter
+        HabitsAdapter adapter = new HabitsAdapter(currentUser.getHabitList(), this);      //Connect list to our own custom adapter
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.habit_list);   //Select our RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));        //Set our data to be displayed linearly (instead of grid, etc.)
         recyclerView.setHasFixedSize(true);
@@ -67,8 +68,8 @@ public class HabitActivity extends AppCompatActivity {
         ItemTouchHelper.Callback callback = new HabitTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         //TODO: Look at this part in the tutorial again?
-        //something
-        //something
+        adapter.setTouchHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         recyclerView.setAdapter(adapter);                                           //Attach our RecycleView to our list via adapter.
     }
@@ -77,4 +78,15 @@ public class HabitActivity extends AppCompatActivity {
 //        TextView usernameField = (TextView) findViewById(R.id.username);
 //        usernameField.setText(currentUser.getUsername());
 //    }
+
+    /**
+     * Launches a new instance of
+     * @param position
+     */
+    public void onHabitClick(int position){
+        Habit selectedHabit = currentUser.getHabitList().get(position);
+        //Go to new add/edit fragment
+        DialogFragment newFragment = Add_Edit_Fragment.newInstance(selectedHabit);
+        newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
+    }
 }
