@@ -25,7 +25,7 @@ public class User {
      *Constructor for a new user who opts out of setting a profile picture.
      * @param username a String that is unique when compared against the database.
      */
-    private User(String username) {
+    public User(String username) {
         this.username = username;
         //this.picPath = someDefaultPath; //Where we will put the default profile image
         this.dateToday = getDateToday();
@@ -37,7 +37,7 @@ public class User {
      * @param username a String that is unique when compared against the database.
      * @param path a String that specifies location of profile picture.
      */
-    private User(String username, String path) {
+    public User(String username, String path) {
         this.username = username;
         this.picPath = path;
         this.dateToday = getDateToday();
@@ -51,7 +51,7 @@ public class User {
      * @param habitList an ArrayList of Habit that contains all the user's habits.
      * @param followList an ArrayList of User that contains all the user's friends/followers/followees?
      */
-    private User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList) {
+    public User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList) {
         this.username = username;
         this.picPath = path;
         this.habitList = habitList;
