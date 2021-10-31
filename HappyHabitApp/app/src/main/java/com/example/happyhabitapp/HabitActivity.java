@@ -58,10 +58,18 @@ public class HabitActivity extends AppCompatActivity {
 
     //TODO: have to set up an item touch helper to assist in re-ordering, and swipe
     private void setList() {
+        //Connect the adapter to the recyclerView
         HabitsAdapter adapter = new HabitsAdapter(currentUser.getHabitList());      //Connect list to our own custom adapter
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.habit_list);   //Select our RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));        //Set our data to be displayed linearly (instead of grid, etc.)
         recyclerView.setHasFixedSize(true);
+
+        ItemTouchHelper.Callback callback = new HabitTouchHelper(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        //TODO: Look at this part in the tutorial again?
+        //something
+        //something
+
         recyclerView.setAdapter(adapter);                                           //Attach our RecycleView to our list via adapter.
     }
 
