@@ -2,6 +2,8 @@ package com.example.happyhabitapp;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Habit implements Serializable {
     private String title;
@@ -42,6 +44,23 @@ public class Habit implements Serializable {
 
     public int[] getWeek_freq() {
         return week_freq;
+    }
+
+    //Returns days selected in human readable format
+    public String getWeekAsStr(){
+        String weekDaysSelected = "";
+
+        String[] week = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+        for (int k = 0; k < week.length - 1; k++) {
+            if (week_freq[k] == 1) {
+                weekDaysSelected = weekDaysSelected.concat(week[k]);
+                if (k != week.length - 2) {
+                    weekDaysSelected = weekDaysSelected.concat(", ");
+                }
+            }
+        }
+        return weekDaysSelected;
     }
 
     public void setWeek_freq(int[] week_freq) {

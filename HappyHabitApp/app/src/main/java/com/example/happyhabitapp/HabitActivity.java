@@ -3,6 +3,7 @@ package com.example.happyhabitapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
@@ -21,7 +22,6 @@ public class HabitActivity extends AppCompatActivity {
     //Private variables
     private User currentUser;   //Contains habit list, profile picture, and username
     private RecyclerView habitViewList;
-    private HabitListRecyclerAdapter habitAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +42,15 @@ public class HabitActivity extends AppCompatActivity {
     }
 
     private void initActivity() {
-        setImage();
         setList();
-        setUsername();
+        //setImage();
+        //setUsername();
     }
 
 
-    private void setImage() {
+    //private void setImage() {
         //Unsure how to do this without knowing fireBase implementation
-    }
+    //}
 
     /**
      * Sets up the list and all relevant listeners.
@@ -58,14 +58,15 @@ public class HabitActivity extends AppCompatActivity {
 
     //TODO: have to set up an item touch helper to assist in re-ordering, and swipe
     private void setList() {
-        habitViewList = findViewById(R.id.habit_list);                  //What is to be displayed
-        List<Habit> habitDetailList = currentUser.getHabitList();  //List that data is drawn from
-        habitAdapter = new HabitListRecyclerAdapter(habitDetailList);
-        habitViewList.setAdapter(habitAdapter);
+        HabitsAdapter adapter = new HabitsAdapter(currentUser.getHabitList());      //Connect list to our own custom adapter
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.habit_list);   //Select our RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));        //Set our data to be displayed linearly (instead of grid, etc.)
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);                                           //Attach our RecycleView to our list via adapter.
     }
 
-    private void setUsername(){
-        TextView usernameField = (TextView) findViewById(R.id.username);
-        usernameField.setText(currentUser.getUsername());
-    }
+//    private void setUsername(){
+//        TextView usernameField = (TextView) findViewById(R.id.username);
+//        usernameField.setText(currentUser.getUsername());
+//    }
 }
