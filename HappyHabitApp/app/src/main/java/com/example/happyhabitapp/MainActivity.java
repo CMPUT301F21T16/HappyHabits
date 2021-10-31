@@ -15,5 +15,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Access a Cloud Firestore instance from your Activity
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //FirebaseFirestore db = FirebaseFirestore.getInstance();
 }

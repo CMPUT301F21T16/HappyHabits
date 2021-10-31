@@ -7,14 +7,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//TODO: Create Brand new RecycleView Adapter, Implement HelperAdapter Interface, habitTouchHelper class, and make sure all elements are changeable.
 
 public class HabitActivity extends AppCompatActivity {
 
     //Private variables
     private User currentUser;   //Contains habit list, profile picture, and username
     private RecyclerView habitViewList;
-    private arrayAdapter<Habit> habitAdapter;
+    private HabitListRecyclerAdapter habitAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +47,6 @@ public class HabitActivity extends AppCompatActivity {
         setUsername();
     }
 
-    private void initListeners(){
-
-    }
 
     private void setImage() {
         //Unsure how to do this without knowing fireBase implementation
@@ -55,38 +59,13 @@ public class HabitActivity extends AppCompatActivity {
     //TODO: have to set up an item touch helper to assist in re-ordering, and swipe
     private void setList() {
         habitViewList = findViewById(R.id.habit_list);                  //What is to be displayed
-        ArrayList<Habit> habitDetailList = currentUser.getHabitList();  //List that data is drawn from
-        habitAdapter = new CustomHabitList(this, habitDetailList);
-        new ItemTouchHelper(makeItemTouchCallback(habitDetailList)).attachToRecyclerView(habitViewList);   //Connect the list to itemTouchHelper
+        List<Habit> habitDetailList = currentUser.getHabitList();  //List that data is drawn from
+        habitAdapter = new HabitListRecyclerAdapter(habitDetailList);
         habitViewList.setAdapter(habitAdapter);
-
-
-
     }
 
-
-    private ItemTouchHelper.Callback makeItemTouchCallback(ArrayList<Habit> detailList) {
-        ItemTouchHelper.Callback itemTouchCallback = new ItemTouchHelper.Callback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                return 0;
-            }
-
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                detailList.remove(viewHolder.getAdapterPosition());
-                habitAdapter.notifyDataSetChanged();
-            }
-        };
-        return itemTouchCallback;
+    private void setUsername(){
+        TextView usernameField = (TextView) findViewById(R.id.username);
+        usernameField.setText(currentUser.getUsername());
     }
-
-
-
-
 }

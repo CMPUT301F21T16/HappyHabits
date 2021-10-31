@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 /**
  * For use with the HabitListRecyclerAdapter
- * Represents and instance of a habit
+ * Represents an instance of a habit
  */
 public class HabitViewModel {
     private String title;

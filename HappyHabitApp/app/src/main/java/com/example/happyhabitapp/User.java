@@ -21,15 +21,15 @@ public class User {
     private ArrayList<User> followList;
 
     //Constructors
-
     /**
      *Constructor for a new user who opts out of setting a profile picture.
      * @param username a String that is unique when compared against the database.
      */
     private User(String username) {
         this.username = username;
-        this.picPath = someDefaultPath; //Where we will put the default profile image
+        //this.picPath = someDefaultPath; //Where we will put the default profile image
         this.dateToday = getDateToday();
+        this.habitList = new ArrayList<Habit>();
     }
 
     /**
@@ -41,6 +41,7 @@ public class User {
         this.username = username;
         this.picPath = path;
         this.dateToday = getDateToday();
+        this.habitList = new ArrayList<Habit>();
     }
 
     /**
@@ -123,7 +124,7 @@ public class User {
 
     /**
      * Add User to the list of followers.
-     * @param User the user to be added to the follow list.
+     * @param follower the User to be added to the follow list.
      */
     public void follow(User follower) {
         this.followList.add(follower);
@@ -135,21 +136,9 @@ public class User {
 
     /**
      * Sets Habit Event
-     * @param Habit the habit to add an event to.
+     * @param setHabit the Habit to add an event to.
      */
     public void setHabitEvent(Habit setHabit){
-        //Not sure how to implment this, so empty for now
+        //Not sure how to implement this, so empty for now
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

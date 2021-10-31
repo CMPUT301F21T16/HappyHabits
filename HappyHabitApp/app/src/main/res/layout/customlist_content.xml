@@ -27,7 +27,7 @@
                 android:text="Habit Title" />
 
             <TextView
-                android:id="@+id/date_started"
+                android:id="@+id/selected_dates"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="4"

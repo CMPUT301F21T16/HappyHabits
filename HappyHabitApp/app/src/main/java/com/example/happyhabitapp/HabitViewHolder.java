@@ -16,7 +16,6 @@ public class HabitViewHolder extends RecyclerView.ViewHolder {
     private TextView frequencyTextView;
     private ImageButton dragHandle;
 
-
     /**
      * Constructor to connect all the ViewHolder with the XML file
      * @param itemView some itemView that comes from somewhere
@@ -33,21 +32,21 @@ public class HabitViewHolder extends RecyclerView.ViewHolder {
      * Sets all relevant fields to view model specifications
      * @param
      */
-    public void attachData(final HabitViewModel viewModel) {
-        titleTextView.setText(viewModel.getTitle());
-        reasonTextView.setText(viewModel.getReason());
-        frequencyTextView.setText(FreqToString(viewModel));
+    public void attachData(final Habit habit) {
+        titleTextView.setText(habit.getTitle());
+        reasonTextView.setText(habit.getReason());
+        frequencyTextView.setText(FreqToString(habit));
         //Add event listener elsewhere???
     }
 
     /**
      * Converts an array of integers to their respective days
-     * @param viewModel
+     * @param habit
      * @return resultStr
      */
     //TODO: Convert from just numbers to the weekdays
-    protected String FreqToString(final HabitViewModel viewModel) {
-        int[] freqArray = viewModel.getFrequency();
+    protected String FreqToString(final Habit habit) {
+        int[] freqArray = habit.getWeek_freq();
         String resultStr = "";
 
         for (int i = 0; i < freqArray.length; i++) {
@@ -56,6 +55,15 @@ public class HabitViewHolder extends RecyclerView.ViewHolder {
         }
         return resultStr;
     }
+
+
+
+
+
+
+
+
+
 
 
 }
