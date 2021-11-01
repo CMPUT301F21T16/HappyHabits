@@ -50,12 +50,12 @@ public class Habit implements Serializable {
 
         String[] week = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-        for (int k = 0; k < week.length - 1; k++) {
+        for (int k = 0; k < week.length; k++) {
             if (week_freq[k] == 1) {
-                weekDaysSelected = weekDaysSelected.concat(week[k]);
-                if (k != week.length - 2) {
-                    weekDaysSelected = weekDaysSelected.concat(", ");
+                if (!weekDaysSelected.equals("")) {
+                    weekDaysSelected = weekDaysSelected.concat(", ");   //Do not do on first day selected
                 }
+                weekDaysSelected = weekDaysSelected.concat(week[k]);
             }
         }
         return weekDaysSelected;
