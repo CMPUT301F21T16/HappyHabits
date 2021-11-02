@@ -20,7 +20,8 @@
             android:text="HH"
             android:textSize="60dp"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/white">
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp">
 
         </TextView>
         <TextView
@@ -29,13 +30,27 @@
             android:layout_height="wrap_content"
             android:text="User-01"
             android:textSize="25dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="200dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="10dp"
             android:textColor="@color/white">
 
         </TextView>
 
+        <ImageView
+            android:id="@+id/user_profile_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            tools:srcCompat="@drawable/lol"
+            android:scaleType="fitXY"/>
+
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:text="yes"
+        android:background="@drawable/textlines">
+    </TextView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,6 +60,13 @@
         android:textSize="45dp"
         android:textColor="@color/white">
 
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:text="yes"
+        android:background="@drawable/textlines">
     </TextView>
 
     <TextView

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/textlines.xml" value="0.475" />
         <entry key="app/src/main/res/layout/activity_dash_board.xml" value="0.33" />
       </map>
     </option>
