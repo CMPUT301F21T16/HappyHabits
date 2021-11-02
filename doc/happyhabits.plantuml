@@ -84,12 +84,10 @@ class HabitFragment {
 
     + onAttach(@NonNull Context context)
     + Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
-    
 }
 
 interface onFragmentInteractionListener{
-        void onAddPressed(Habit new_Habit)
-        void onEditPressed(Habit old, Habit new)
-    }
-
+    void onAddPressed(Habit new_Habit)
+    void onEditPressed(Habit old, Habit new)
+}
 @enduml
