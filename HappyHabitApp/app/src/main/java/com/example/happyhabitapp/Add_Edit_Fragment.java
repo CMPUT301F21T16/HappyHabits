@@ -130,7 +130,7 @@ public class Add_Edit_Fragment extends DialogFragment {
                         Calendar date = Calendar.getInstance();
                         date.set(habit_starting_date.getYear(), habit_starting_date.getMonth(), habit_starting_date.getDayOfMonth());
 
-                        int[] freq = {1,0,0,0,0,0,0};
+                        int[] freq = {0,0,0,0,0,0,0};
 
                         if(sun.isChecked()){
                             freq[0] = 1;
@@ -156,7 +156,7 @@ public class Add_Edit_Fragment extends DialogFragment {
 
                         // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                         if(title.compareTo("") != 0 && reason.compareTo("") != 0){
-                            Habit newHabit = new Habit(title,reason,date,week_freq);
+                            Habit newHabit = new Habit(title,reason,date,freq);
                             listener.onEditPressed(newHabit, habit);
                         }
                     }).create();
