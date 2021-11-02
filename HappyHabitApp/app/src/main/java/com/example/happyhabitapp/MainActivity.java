@@ -11,14 +11,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements Add_Edit_Fragment.onFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Just launch habit activity for now
+        //Just launch habit activity for now (Delete when Main Activity is Implemented)
         Intent testIntent = new Intent(MainActivity.this, HabitActivity.class);
         startActivity(testIntent);
     }
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements Add_Edit_Fragment
         // Access a Cloud Firestore instance from your Activity
         //FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /*
 
     @Override
     public void onAddPressed(Habit newHabit) {
@@ -43,5 +44,7 @@ public class MainActivity extends AppCompatActivity implements Add_Edit_Fragment
     public void onEditPressed(Habit newHabit, Habit oldHabit) {
 
     }
+    */
+
 
 }

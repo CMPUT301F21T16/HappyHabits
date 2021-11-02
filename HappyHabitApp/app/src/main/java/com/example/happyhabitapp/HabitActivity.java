@@ -35,10 +35,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
 
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
-        int[] weekFreq = {1,1,0,1,1,1,1};
-        testList.add(new Habit("A", "B", null, weekFreq));
-        testList.add(new Habit("C", "D", null, weekFreq));
-        testList.add(new Habit("E", "F", null, weekFreq));
+
 
 
         currentUser = new User("TestUser", "somePath", testList, null);
@@ -103,7 +100,8 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Add_Edit_Fragment.show(getSupportFragmentManager(),"ADD_HABIT");
+                DialogFragment newFragment = Add_Edit_Fragment.newInstance(null);
+                newFragment.show(getSupportFragmentManager(),"ADD_HABIT");
             }
         });
     }
