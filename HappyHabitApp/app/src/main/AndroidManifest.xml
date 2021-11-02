@@ -10,13 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyHabitApp">
         <activity
-<<<<<<< HEAD
             android:name=".HabitActivity"
             android:exported="true" />
-=======
+        <activity
             android:name=".DashBoard"
             android:exported="false" />
->>>>>>> 455410179f3048dd018f0f3f92bed23c4d78a113
         <activity
             android:name=".MainActivity"
             android:exported="true">

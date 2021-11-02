@@ -33,10 +33,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit);
 
-
         ArrayList<Habit> testList = new ArrayList<Habit>();
-
-
 
         currentUser = new User("TestUser", "somePath", testList, null);
         initActivity();
