@@ -1,50 +1,64 @@
 @startuml HappyHabits
 skinparam classAttributeIconSize 0
-Habit <-- User
-Habit <-- Habit_Events
+
+Habit --* User
+Habit --* HabitFragment
+Habit --o HabitActivity
 onFragmentInteractionListener <--- HabitActivity 
 HabitFragment <-- onFragmentInteractionListener
+
 class Habit {
     -String title
     -String Reason
     -Date start_date
-    -String[] Frequency
+    -int[] Frequency
     
+    +Habit Habit(String title, String reason, Calendar date, int[] week_freq)
     +String getTitle()
     +void setTitle(String title)
     +String getReason()
     +void setReason(String reason)
-    +Date getstarting_date()
-    +String[] getFreq()
+    +Date getDate()
+    +void setDate(Calendar date)
+    +void setWeek_Freq(int[] week_freq)
+    +String getWeekAsStr()
+    +int[] getWeek_freq()
 }
 
 class User {
-    - habitDatabase
-    - ProfilePic
+    - String username
+    - String ProfilePicpath
     - ArrayList<Habit> HabitList
     - ArrayList<User> FollowList
-    - Date today
+    - Date dateToday
 
-    + Constructor User(String userName)
-    + void setHabitEvent(Habit set_habit)
-    + void changeProfilePic()
+    + User(String userName)
+    + User(String userName, String path)
+    + User User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList)
+    
+    
+    + User getUser(String username)
+    + String getUsername()
+    + Date getDateToday()
+    + ArrayList<Habit> getHabitList()
+    + ArrayList<User> getFollowList()
     + void addHabit(Habit H)
     + void deleteHabit(Habit H)
     + void editHabit(Habit old,Habit new)
-    + void Follow(User username)
-    + ArrayList<Habit> getHabitList()
-    + ArrayList<User> getFollowList()
-    + Date getTodayDate()
-    + User getUser(String username)
-    + String getUsername()
+    + void follow(User username)
+    + void setProfilePic(String path)
+    + void setHabitEvent(Habit set_habit)
 }
 
-class Habit_Events {
+class Habit_Events implements Habit{
     - Habit habit
     - Location location
     - Date habbit_event
     - Picture photo
     - String Description
+
+    + HabitEvent HabitEvent(String title,String reason, Date date, int[] week_freq)
+
 }
 
 class DashBoardActivity {
@@ -77,4 +91,5 @@ interface onFragmentInteractionListener{
         void onAddPressed(Habit new_Habit)
         void onEditPressed(Habit old, Habit new)
     }
+
 @enduml
