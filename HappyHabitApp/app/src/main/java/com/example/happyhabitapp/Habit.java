@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Habit implements Serializable {
     private String title;
     private String reason;
@@ -66,4 +67,7 @@ public class Habit implements Serializable {
     public void setWeek_freq(int[] week_freq) {
         this.week_freq = week_freq;
     }
+
+
 }
+

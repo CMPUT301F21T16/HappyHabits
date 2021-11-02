@@ -61,7 +61,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         setList();
         //setImage();
         setUsername();
-        setButtonListeners();
+        setListeners();
     }
 
 
@@ -98,7 +98,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     /**
      * Initializes Listeners for all buttons in the Activity
      */
-    private void setButtonListeners(){
+    private void setListeners(){
         addButton = findViewById(R.id.add_habit_btn);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

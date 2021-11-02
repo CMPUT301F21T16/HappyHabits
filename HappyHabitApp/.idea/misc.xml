@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_habit.xml" value="0.5458823529411765" />
-        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+
+        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
+        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit.xml" value="0.5541666666666667" />
+
       </map>
     </option>
   </component>
