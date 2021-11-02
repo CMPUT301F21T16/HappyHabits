@@ -28,6 +28,16 @@ public class HabitActivity extends AppCompatActivity implements HabitListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit);
+
+        ArrayList<Habit> testList = new ArrayList<Habit>();
+        int[] weekFreq = {1,1,0,1,1,1,1};
+        testList.add(new Habit("A", "B", null, weekFreq));
+        testList.add(new Habit("C", "D", null, weekFreq));
+        testList.add(new Habit("E", "F", null, weekFreq));
+
+
+        currentUser = new User("TestUser", "somePath", testList, null);
+        initActivity();
     }
 
     private void setUser(User currentUser) {
@@ -45,7 +55,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener {
     private void initActivity() {
         setList();
         //setImage();
-        //setUsername();
+        setUsername();
     }
 
 
@@ -74,10 +84,10 @@ public class HabitActivity extends AppCompatActivity implements HabitListener {
         recyclerView.setAdapter(adapter);                                           //Attach our RecycleView to our list via adapter.
     }
 
-//    private void setUsername(){
-//        TextView usernameField = (TextView) findViewById(R.id.username);
-//        usernameField.setText(currentUser.getUsername());
-//    }
+    private void setUsername(){
+        TextView usernameField = (TextView) findViewById(R.id.username);
+        usernameField.setText(currentUser.getUsername());
+    }
 
     /**
      * Launches a new instance of
@@ -86,7 +96,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener {
     public void onHabitClick(int position){
         Habit selectedHabit = currentUser.getHabitList().get(position);
         //Go to new add/edit fragment
-        DialogFragment newFragment = Add_Edit_Fragment.newInstance(selectedHabit);
-        newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
+        //DialogFragment newFragment = Add_Edit_Fragment.newInstance(selectedHabit);
+        //newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
     }
 }
