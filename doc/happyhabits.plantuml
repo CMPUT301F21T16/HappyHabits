@@ -35,8 +35,8 @@ class User {
     + User(String userName)
     + User(String userName, String path)
     + User User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList)
-    
-    
+
+
     + User getUser(String username)
     + String getUsername()
     + Date getDateToday()
