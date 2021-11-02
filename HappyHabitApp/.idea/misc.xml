@@ -4,8 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
 
+
         <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
         <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit.xml" value="0.5541666666666667" />
+
+        <entry key="app/src/main/res/drawable/circleshape.xml" value="0.475" />
+        <entry key="app/src/main/res/drawable/textlines.xml" value="0.475" />
+        <entry key="app/src/main/res/layout/activity_dash_board.xml" value="0.33" />
 
       </map>
     </option>

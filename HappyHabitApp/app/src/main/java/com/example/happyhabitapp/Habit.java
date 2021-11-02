@@ -2,8 +2,6 @@ package com.example.happyhabitapp;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class Habit implements Serializable {
@@ -73,4 +71,3 @@ public class Habit implements Serializable {
 
 
 }
-

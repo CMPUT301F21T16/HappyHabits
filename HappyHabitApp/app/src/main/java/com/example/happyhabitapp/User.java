@@ -117,10 +117,12 @@ public class User {
      * @param oldHabit the old habit to be replaced.
      * @param newHabit the new habit to put in place of the old.
      */
+
    public void editHabit(Habit oldHabit, Habit newHabit) {
         int position = this.habitList.indexOf(oldHabit);    //Put at the same position in array
         this.habitList.set(position, newHabit);
    }
+
 
     /**
      * Add User to the list of followers.

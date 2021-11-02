@@ -34,6 +34,9 @@ class User {
     + void Follow(User username)
     + ArrayList<Habit> getHabitList()
     + ArrayList<User> getFollowList()
+    + Date getTodayDate()
+    + User getUser(String username)
+    + String getUsername()
 }
 
 class Habit_Events {
