@@ -58,4 +58,8 @@ public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
     public void setTouchHelper(ItemTouchHelper helper) {
         this.touchHelper = helper;
     }
+
+    public List<Habit> getHabitList(){
+        return habitList;
+    }
 }

@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,16 +20,19 @@ import java.util.List;
 
 //TODO: Create Brand new RecycleView Adapter, Implement HelperAdapter Interface, habitTouchHelper class, and make sure all elements are changeable.
 
-public class HabitActivity extends AppCompatActivity implements HabitListener {
+public class HabitActivity extends AppCompatActivity implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener {
 
     //Private variables
     private User currentUser;   //Contains habit list, profile picture, and username
     private RecyclerView habitViewList;
+    private ImageButton addButton; // button to add habits to list
+    private HabitsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit);
+
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
         int[] weekFreq = {1,1,0,1,1,1,1};
@@ -56,6 +61,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener {
         setList();
         //setImage();
         setUsername();
+        setButtonListeners();
     }
 
 
@@ -70,7 +76,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener {
     //TODO: have to set up an item touch helper to assist in re-ordering, and swipe
     private void setList() {
         //Connect the adapter to the recyclerView
-        HabitsAdapter adapter = new HabitsAdapter(currentUser.getHabitList(), this);      //Connect list to our own custom adapter
+        adapter = new HabitsAdapter(currentUser.getHabitList(), this);      //Connect list to our own custom adapter
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.habit_list);   //Select our RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));        //Set our data to be displayed linearly (instead of grid, etc.)
         recyclerView.setHasFixedSize(true);
@@ -90,13 +96,62 @@ public class HabitActivity extends AppCompatActivity implements HabitListener {
     }
 
     /**
+     * Initializes Listeners for all buttons in the Activity
+     */
+    private void setButtonListeners(){
+        addButton = findViewById(R.id.add_habit_btn);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Add_Edit_Fragment.show(getSupportFragmentManager(),"ADD_HABIT");
+            }
+        });
+    }
+
+
+    /**
      * Launches a new instance of
      * @param position
+     *       the position of a selected habit in the data list of Habits
      */
     public void onHabitClick(int position){
         Habit selectedHabit = currentUser.getHabitList().get(position);
         //Go to new add/edit fragment
-        //DialogFragment newFragment = Add_Edit_Fragment.newInstance(selectedHabit);
-        //newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
+        DialogFragment newFragment = Add_Edit_Fragment.newInstance(selectedHabit);
+        newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
     }
+
+    /**
+     * Adds a new Habit to the list when the ADD button is pressed on
+     * the Add_Edit_fragment
+     * @param newHabit
+     *      a Habit to add to the list
+     */
+    @Override
+    public void onAddPressed(Habit newHabit){
+        // Needs to firebase implementation
+        // this code is likely to be replaced
+        adapter.getHabitList().add(newHabit); // adds habit to data list
+        adapter.notifyItemInserted(adapter.getItemCount() - 1); // notifies item at last position has been added
+        adapter.notifyDataSetChanged(); // notifies adpater of change
+
+    }
+
+    /**
+     * Edits the information of an existing Habit in the list by replacing the habit
+     * with a new one with updated information
+     * @param newHabit
+     *      The new Habit that to add to the list
+     * @param oldHabit
+     *      The old Habit to be swapped with the new Habit
+     */
+    @Override
+    public void onEditPressed(Habit newHabit, Habit oldHabit){
+        List<Habit> dataList = adapter.getHabitList();
+        int pos = dataList.indexOf(oldHabit);
+        dataList.set(pos, newHabit);
+        adapter.notifyDataSetChanged();
+    }
+
+
 }
