@@ -77,7 +77,6 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
 
         ItemTouchHelper.Callback callback = new HabitTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        //TODO: Look at this part in the tutorial again?
         adapter.setTouchHelper(itemTouchHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
