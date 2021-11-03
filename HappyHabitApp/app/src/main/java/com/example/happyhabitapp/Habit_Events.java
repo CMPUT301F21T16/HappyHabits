@@ -12,6 +12,7 @@ public class Habit_Events extends Habit {
 
     public Habit_Events(String title, String reason, Calendar date, int[] week_freq) {
         super(title, reason, date, week_freq);
+        
     }
 
 
