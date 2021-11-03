@@ -26,18 +26,17 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:background="#e0e0e0"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
 
         <CheckBox
             android:id="@+id/SunCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="true"
             android:text="Sun"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="italic"
              />
 
@@ -45,11 +44,11 @@
             android:id="@+id/MonCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/SunCheckBox"
             android:checked="false"
 
             android:text="Mon"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="italic"
             />
 
@@ -57,12 +56,12 @@
             android:id="@+id/TueCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/MonCheckBox"
             android:checked="false"
 
             android:text="Tue"
 
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="italic"
             />
 
@@ -70,11 +69,11 @@
             android:id="@+id/WedCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/TueCheckBox"
             android:checked="false"
 
             android:text="Wed"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="italic"
             />
 
@@ -82,22 +81,22 @@
             android:id="@+id/ThrCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/WedCheckBox"
             android:checked="false"
 
             android:text="Thr"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="italic"
             />
         <CheckBox
             android:id="@+id/FriCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/ThrCheckBox"
             android:checked="false"
 
             android:text="Fri"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="italic"
             />
 
@@ -105,10 +104,10 @@
             android:id="@+id/SatCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/FriCheckBox"
             android:checked="false"
             android:text="Sat"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="italic"
             />
     </LinearLayout>
