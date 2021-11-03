@@ -1,10 +1,9 @@
 package com.example.happyhabitapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DashBoardActivity extends AppCompatActivity {
 
@@ -15,6 +14,6 @@ public class DashBoardActivity extends AppCompatActivity {
 
         Button  TransferToList_Button;
 
-        TransferToList_Button = findViewById(R.id.TranferToList_Button);
+        TransferToList_Button = findViewById(R.id.TransferToList_Button);
     }
 }
