@@ -21,6 +21,10 @@ public class User {
     private ArrayList<User> followList;
 
     //Constructors
+
+    public User() {
+    }
+
     /**
      *Constructor for a new user who opts out of setting a profile picture.
      * @param username a String that is unique when compared against the database.
@@ -43,7 +47,6 @@ public class User {
         this.dateToday = getDateToday();
         this.habitList = new ArrayList<Habit>();
     }
-
     /**
      * Constructor for a returning user.
      * @param username a String that is unique when compared against the database.
@@ -98,6 +101,10 @@ public class User {
         return this.followList;
     }
 
+    public String getPicPath() {
+        return picPath;
+    }
+
     //Setters
 
     /**
@@ -132,8 +139,8 @@ public class User {
         this.followList.add(follower);
     }
 
-    public void setProfilePic(String path){
-        this.picPath = path;
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
     }
 
     /**

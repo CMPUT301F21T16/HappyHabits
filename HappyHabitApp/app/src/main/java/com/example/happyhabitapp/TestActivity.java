@@ -8,25 +8,48 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DashBoard extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestActivity extends AppCompatActivity {
+
+    Date d = new Date();
+    int week_freq[] = {1,2,3,4};
+    Calendar c = Calendar.getInstance();
+
+    Habit habit = new Habit("jump", "exercise", c, week_freq);
+
+    ArrayList<Habit> habitList;
+
+
+    ArrayList<User> followList;
+    User user = new User("lichild", "path");
+
 
     private static final String TAG = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dash_board);
-
-        ImageView user_prof = (ImageView) findViewById(R.id.user_profile_pic);
-        user_prof.setBackgroundResource(R.drawable.lol);
+        setContentView(R.layout.activity_test);
+        //habitList.add(habit);
+        //followList.add(user);
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null){
             startLogin();
@@ -34,7 +57,7 @@ public class DashBoard extends AppCompatActivity {
     }
 
     private void startLogin(){
-        startActivity(new Intent(DashBoard.this, MainActivity.class));
+        startActivity(new Intent(TestActivity.this, MainActivity.class));
         this.finish();
     }
 
@@ -65,5 +88,33 @@ public class DashBoard extends AppCompatActivity {
         }
 
         return true;
+    }
+
+
+    public void createDocument(View view) {
+        Toast.makeText(this, "createDocument", Toast.LENGTH_SHORT).show();
+        FireBase fire = new FireBase(user);
+        fire.init();
+    }
+
+    public void readDocument(View view) {
+        Toast.makeText(this, "Reading a doc...", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void updateDocument(View view) {
+        Toast.makeText(this, "updateDocument", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void deleteDocument(View view) {
+    }
+
+    public void getAllDocuments(View view) {
+        Toast.makeText(this, "getAllDocuments", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void getAllDocumentsWithRealtimeUpdates(View view) {
     }
 }
