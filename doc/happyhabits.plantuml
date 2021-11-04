@@ -1,5 +1,6 @@
 @startuml HappyHabits
 skinparam classAttributeIconSize 0
+left to right direction
 
 User "1"-->"0..*" Habit
 User "1"-->"0..*" Habit_Events
