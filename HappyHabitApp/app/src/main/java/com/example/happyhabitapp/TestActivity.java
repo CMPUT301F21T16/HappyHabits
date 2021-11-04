@@ -1,3 +1,9 @@
+/**
+ * This activity is used for testing firebase
+ * Author: Frank Li
+ */
+
+
 package com.example.happyhabitapp;
 
 import androidx.annotation.NonNull;
@@ -30,8 +36,10 @@ import java.util.Map;
 
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
+    ArrayList<User> list = new ArrayList<>();
+
     Calendar c = Calendar.getInstance();
-    int week_frq[] = {2,2,2,2};
+    int week_frq[] = {1};
 
 
     User user = new User("lichild", "path");
@@ -88,7 +96,6 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void createDocument(View view) {
         Toast.makeText(this, "createDocument", Toast.LENGTH_SHORT).show();
         fire.setHabitEventEvent(event);
-        fire.setUser(user);
         fire.setFollowees(user);
         fire.setFollowers(user);
         fire.setHabit(habit);
@@ -98,8 +105,6 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void readDocument(View view) {
         Toast.makeText(this, "Reading a doc...", Toast.LENGTH_SHORT).show();
-        fire.getUser();
-        //fire.getHabit();
     }
 
     public void updateDocument(View view) {

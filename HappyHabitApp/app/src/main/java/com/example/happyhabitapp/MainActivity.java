@@ -1,3 +1,8 @@
+/**
+ * This Activity is responsable for login screen
+ * Author: Frank Li
+ */
+
 package com.example.happyhabitapp;
 
 import androidx.annotation.Nullable;
@@ -35,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         // if signed in go to Dashboard
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            Intent testIntent = new Intent(MainActivity.this, TestActivity.class);
+            Intent testIntent = new Intent(MainActivity.this, DashBoard.class);
             startActivity(testIntent);
             this.finish();
         }

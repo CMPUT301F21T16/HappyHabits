@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 
-public class DashBoard extends AppCompatActivity {
+public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthStateListener{
 
     private static final String TAG = "";
 
@@ -27,10 +29,6 @@ public class DashBoard extends AppCompatActivity {
 
         ImageView user_prof = (ImageView) findViewById(R.id.user_profile_pic);
         user_prof.setBackgroundResource(R.drawable.lol);
-
-        if (FirebaseAuth.getInstance().getCurrentUser() == null){
-            startLogin();
-        }
     }
 
     private void startLogin(){
@@ -65,5 +63,36 @@ public class DashBoard extends AppCompatActivity {
         }
 
         return true;
+    }
+
+
+
+    /* To check if there is a signed in user */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseAuth.getInstance().removeAuthStateListener(this);
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            startLogin();
+            return;
+        }
+
+        firebaseAuth.getCurrentUser().getIdToken(true)
+                .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                    @Override
+                    public void onSuccess(GetTokenResult getTokenResult) {
+                        Log.d(TAG, "onSuccess" + getTokenResult.getToken());
+                    }
+                });
     }
 }

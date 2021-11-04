@@ -1,8 +1,17 @@
+/**
+ * This class is able to upload desired data to the firebase, and get the current user uid
+ * Author: Katia Zhang, Frank Li
+ */
+
+
+
 package com.example.happyhabitapp;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -12,10 +21,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +43,13 @@ public class FireBase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String current_uid;
 
-    private String user_name;
+
+    private ArrayList<User> followerList;
+    private ArrayList<User> followeeList;
+    private ArrayList<Habit> habitsList;
+    private ArrayList<HabitEvent> eventList;
+
+
     CollectionReference Habit = db.collection("Habits");
     CollectionReference Followers = db.collection("Followers");
     CollectionReference Followees = db.collection("Followees");
@@ -48,7 +67,14 @@ public class FireBase {
     }
 
     /* setters */
+
+    /**
+     * this function upload user's information to firebase
+     * @param user (User class object)
+     */
+
     public void setUser(User user) {
+        /*
         Map<String, Object> map = new HashMap<>();
 
         map.put("Current_uid", user.getCurrent_uid());
@@ -57,106 +83,144 @@ public class FireBase {
         map.put("habits", user.getHabitList());
         map.put("followers", user.getFollowList());
 
+         */
+
         User
-                //.add(user)
-                .add(map)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(user.getUsername())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "onSuccess: Added user");
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: user added to fire");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                        Log.e(TAG, "onFailure: could not add user", e);
                     }
                 });
+                //.add(user)
+                //.add(map)
+
+
+
     }
 
+    /**
+     * this function upload habits to the firebase
+     * @param habit (Habit class object)
+     */
+
     public void setHabit(Habit habit) {
+        List<Integer> freq = new ArrayList<Integer>();
+        for (int i = 0; i < (habit.getWeek_freq().length); i++){
+            freq.add(habit.getWeek_freq()[i]);
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("Current_uid", habit.getCurrent_uid());
         map.put("Title", habit.getTitle());
         map.put("Reason", habit.getReason());
-        //map.put("Days", habit.getWeekAsStr());
+        map.put("Days", freq);
         map.put("Dates", habit.getDate());
 
 
         Habit
-                .add(map)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(habit.getTitle())
+                .update(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        CollectionReference habitEvent = Habit.document(documentReference.getId()).collection("HabitEvents");
-
-                        Log.d(TAG, "onSuccess: Added habit");
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: added habit to fire");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                        Log.e(TAG, "onFailure: could not add habit to fire", e);
                     }
                 });
 
     }
+
+    /**
+     * this function upload information about followers to firebase
+     * @param followers (User class object)
+     */
 
     public void setFollowers(User followers) {
         Followers
-                .add(followers)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(followers.getUsername())
+                .set(followers)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "onSuccess: Added followers");
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: added follower to fire");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                        Log.e(TAG, "onFailure: could not add follower", e);
                     }
                 });
     }
+
+    /**
+     * this function upload information about followees
+     * @param followees (User class object)
+     */
 
     public void setFollowees(User followees) {
         Followees
-                .add(followees)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(followees.getUsername())
+                .set(followees)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "onSuccess: Added followees");
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: added followees to fire");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                        Log.e(TAG, "onFailure: could not add followees", e);
                     }
                 });
     }
 
+    /**
+     * this function will upload habit event to the firebase
+     * @param event (HabitEvent class object)
+     */
+
     public void setHabitEventEvent(HabitEvent event) {
+
+        List<Integer> freq = new ArrayList<Integer>();
+        for (int i = 0; i < (habit.getWeek_freq().length); i++){
+            freq.add(habit.getWeek_freq()[i]);
+        }
 
         Map<String, Object> map = new HashMap<>();
         map.put("Current_uid", event.getCurrent_uid());
         map.put("Title", event.getTitle());
         map.put("Reason", event.getReason());
-        //map.put("Days", habit.getWeekAsStr());
+        map.put("Days", freq);
         map.put("Dates", event.getDate());
         map.put("About", event.getAbout());
         habitEvent
-                .add(map)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(event.getTitle())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "onSuccess: Added event");
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: added event to fire");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: " + e.getLocalizedMessage());
+                        Log.e(TAG, "onFailure: could not add event", e);
                     }
                 });
     }
@@ -164,151 +228,38 @@ public class FireBase {
 
     /* getters */
 
-
+    /**
+     * This function will return the current userid
+     * @return
+     */
     public String getCurrent_uid() {
         current_uid =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         return current_uid;
     }
 
-    public User getUser() {
+    /* get information: this feature is not working */
 
-        DocumentReference docRef = db.collection("Users").document(getCurrent_uid());
-        docRef
+
+    /*
+    public void getUser(){
+        User
+                .whereEqualTo("current_uid", getCurrent_uid())
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            user = document.toObject(User.class);
-
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                Log.d(TAG, "onComplete: " + documentSnapshot.getId() + documentSnapshot.getData());
+                            }
+                        }
+                        else {
+                            Log.e(TAG, "onComplete: ", task.getException());
                         }
                     }
                 });
-        return user;
     }
 
-    public String getUserName(){
-        //final String[] user_name = new String[1];
-        db
-                .collection("User")
-                .whereEqualTo("Current_uid", getCurrent_uid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "onSuccess: We are getting the date");
-                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                        {
-                            Log.d(TAG, String.valueOf(doc.getData().get("Name")));
-                            user_name = (String) doc.getString("Name");
+     */
 
-                        }
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: ", e);
-                    }
-                });
-        return user_name;
-    }
-
-
-    public Habit getHabit() {
-        db
-                .collection("Habits")
-                .whereEqualTo("Current_uid", getCurrent_uid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "onSuccess: We are getting the date");
-                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        for (DocumentSnapshot snapshot: snapshotList){
-                            Log.d(TAG, "onSuccess: " + snapshot.getData().toString());
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: ", e);
-                    }
-                });
-        return habit;
-    }
-
-    public User getFollowers() {
-        db
-                .collection("Followers")
-                .whereEqualTo("Current_uid", getCurrent_uid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
-
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Log.d(TAG, "onSuccess: We are getting the date");
-                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        Log.d(TAG, "onSuccess: " + snapshotList.get(0).getString("Name"));
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: ", e);
-                    }
-                });
-        return followers;
-    }
-
-    public User getFollowees() {
-        db
-                .collection("Followees")
-                .whereEqualTo("Current_uid", getCurrent_uid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
-
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Log.d(TAG, "onSuccess: We are getting the date");
-                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        Log.d(TAG, "onSuccess: " + snapshotList.get(0).getString("Name"));
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: ", e);
-                    }
-                });
-        return followees;
-    }
-
-    public HabitEvent getEvent() {
-        db
-                .collection("Events")
-                .whereEqualTo("Current_uid", getCurrent_uid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        //Log.d(TAG, "onSuccess: We are getting the date");
-                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        Log.d(TAG, "onSuccess: " + snapshotList.get(0).getString("About"));
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: ", e);
-                    }
-                });
-
-        return event;
-    }
 }
