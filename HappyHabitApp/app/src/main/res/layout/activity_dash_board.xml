@@ -101,18 +101,19 @@
         <ListView
             android:id="@+id/today_habit_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:layout_weight="1"></ListView>
+
+            <Button
+                android:id="@+id/go_to_list_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Habits List"
+                app:backgroundTint="@color/theme_primary"></Button>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/go_to_list_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginTop="450dp"
-        android:text="Habits List">
-
-    </Button>
-
 
 </LinearLayout>

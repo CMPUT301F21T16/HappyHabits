@@ -40,9 +40,10 @@ public class DashBoard extends AppCompatActivity {
     private User getUser(){
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
-        int[] selectedDates = {1,0,1,1,1,0,1};
+        int[] selectedDates = {1,0,0,1,0,0,0};
+        int[] selectedDates2 = {0,0,0,0,0,1,1};
         Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2);
         Habit habit3 = new Habit("Run for president", "MAGA", today, selectedDates);
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
@@ -59,7 +60,9 @@ public class DashBoard extends AppCompatActivity {
 
         for(int i = 0; i < currentUser.getHabitList().size(); i++) {
             Habit currentHabit = allHabits.get(i);
-            if(currentHabit.getDate().get(Calendar.DATE) == today.get(Calendar.DATE)) {
+            //Adds habit if it the corresponding weekday has a value of 1
+            //DATE sets Sunday to be 1, Monday to be 2, etc...
+            if(currentHabit.getWeek_freq()[today.get(Calendar.DAY_OF_WEEK) - 1] == 1) {
                 todaysHabits.add(currentHabit);
             }
         }

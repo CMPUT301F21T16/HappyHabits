@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,7 +44,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> {
         TextView habitTitle = view.findViewById(R.id.habit_title);
         TextView habitReason = view.findViewById(R.id.reason_text);
         TextView habitFreq = view.findViewById(R.id.selected_dates);
-        Button dragHandle = view.findViewById(R.id.drag_handle);
+        ImageButton dragHandle = view.findViewById(R.id.drag_handle);
 
         //Setters
         habitTitle.setText(habit.getTitle());
