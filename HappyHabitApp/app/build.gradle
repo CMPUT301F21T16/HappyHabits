@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.happyhabitapp"
-        minSdk 16
+        minSdk 19
         targetSdk 29
         versionCode 1
         versionName "1.0"
@@ -42,4 +42,5 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'ca.antonious:materialdaypicker:0.7.3'
 }
