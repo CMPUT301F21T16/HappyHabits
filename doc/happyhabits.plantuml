@@ -1,28 +1,26 @@
 @startuml HappyHabits
 skinparam classAttributeIconSize 0
 
-Habit --* User
-Habit --* HabitFragment
-Habit --o HabitActivity
-onFragmentInteractionListener <--- HabitActivity 
-HabitFragment <-- onFragmentInteractionListener
+User "1"-->"0..*" Habit
+User "1"-->"0..*" Habit_Events
+Habit "1..*"-->"0..*" Habit_Events
 
 class Habit {
-    -String title
-    -String Reason
-    -Date start_date
-    -int[] Frequency
+    - String title
+    - String Reason
+    - Calendar date
+    - int[] Frequency
     
-    +Habit Habit(String title, String reason, Calendar date, int[] week_freq)
-    +String getTitle()
-    +void setTitle(String title)
-    +String getReason()
-    +void setReason(String reason)
-    +Date getDate()
-    +void setDate(Calendar date)
-    +void setWeek_Freq(int[] week_freq)
-    +String getWeekAsStr()
-    +int[] getWeek_freq()
+    + Habit Habit(String title, String reason, Calendar date, int[] week_freq)
+    + String getTitle()
+    + void setTitle(String title)
+    + String getReason()
+    + void setReason(String reason)
+    + Date getDate()
+    + void setDate(Calendar date)
+    + void setWeek_Freq(int[] week_freq)
+    + int[] getWeek_freq()
+    + String getWeekAsStr()
 }
 
 class User {
@@ -35,7 +33,6 @@ class User {
     + User(String userName)
     + User(String userName, String path)
     + User User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList)
-
 
     + User getUser(String username)
     + String getUsername()
@@ -50,44 +47,161 @@ class User {
     + void setHabitEvent(Habit set_habit)
 }
 
-class Habit_Events implements Habit{
+class Habit_Events {
     - Habit habit
+    - Calendar habbit_event_date
+    - Picture habit_pic
     - Location location
-    - Date habbit_event
-    - Picture photo
-    - String Description
+    - String description
 
-    + HabitEvent HabitEvent(String title,String reason, Date date, int[] week_freq)
-
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date)
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date, String description)
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date, Location location)
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date, String description, Location location)
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date, Picture habit_pic)
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date, Picture habit_pic, Location location)
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date, Picture habit_pic, String description)
+    + HabitEvent HabitEvent(Habit habit, Calendar habbit_event_date, Picture habit_pic,Location loaction, String description)
+    
+    + Habit getHabit()
+    + void setHabit(Habit habit)
+    + Picture getHabit_pic()
+    + void setHabit_pic(Picture habit_pic)
+    + Location getLocation()
+    + void setLocation(Location location)
+    + Date getHabit_event()
+    + void setHabit_event(Date habit_event)
+    + String getDescription()
+    + void setDescription(String description)
 }
 
-class DashBoardActivity {
-    - ArrayList<Habit> habitList
-    - Button goToHabitList
+class Add_Edit_Fragment extends DialogFragment{
+    - EditText habit_title
+    - DatePicker habit_starting_date
+    - EditText habit_reason
+    - CheckBox sun
+    - CheckBox mon
+    - CheckBox tue
+    - CheckBox wed
+    - CheckBox thr
+    - CheckBox fri
+    - CheckBox sat
+    - onFragmentInteractionListener listener
+    - View view
+
+    {static} Add_Edit_Fragment newInstance(Habit habit)
+    + void onAttach(Context context)
+    - void initFragment()
+    + Dialog onCreateDialog(Bundle savedInstanceState)
+    - Dialog addHabit(AlertDialog.Builder builder)
+    - Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder)
 }
 
-class HabitActivity {
-    - ArrayList<Habit> habitList
-    - Button addHabit
+class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
+    - List<Habit> habitList
+    - ItemTouchHelper touchHelper
+    - HabitListener habitListener
 
-    + onCreate()
+    + HabitsAdapter HabitsAdapter(List<Habit> habitList, HabitListener habitListener)
+    + RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    + void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    + int getItemCount()
+    + void onItemMove(int fromPosition, int toPosition)
+    + void onItemSwipe(int position)
+    + void setTouchHelper(ItemTouchHelper helper)
+    + List<Habit> getHabitList()
+}
+
+class HabitTouchHelper extends ItemTouchHelper.Callback {
+    - final ItemTouchHelperAdapter touchHelperAdapter
+    
+    + HabitTouchHelper HabitTouchHelper(ItemTouchHelperAdapter touchHelperAdapter)
+    + boolean isLongPressDragEnabled()
+    + boolean isItemViewSwipeEnabled()
+    + void clearView (RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
+    + void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState)
+    + int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
+    + boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
+    + void onSwiped(RecyclerView.ViewHolder viewHolder, int direction)
+}
+
+class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener{
+        
+        - GestureDetector habitGestureDetector
+        - TextView titleTextView
+        - TextView reasonTextView
+        - TextView frequencyTextView
+        - ImageButton dragHandle
+
+        - ItemTouchHelper touchHelper
+        - HabitListener viewListener
+
+        + HabitViewHolder HabitViewHolder(View habitView, ItemTouchHelper helper, HabitListener habitListener)
+        + void attachData(Habit habit)
+        + boolean onDown(MotionEvent motionEvent)
+        + void onShowPress(MotionEvent motionEvent)
+        + boolean onSingleTapUp(MotionEvent motionEvent)
+        + boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1)
+        + void onLongPress(MotionEvent motionEvent)
+        + boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1)
+        + boolean onTouch(View view, MotionEvent motionEvent)
+    }
+
+
+class MainActivity extends AppCompatActivity {
+    # void onCreate(Bundle savedInstanceState)
+}
+
+class DashBoardActivity extends AppCompatActivity{
+    - User currentUser
+    - ArrayList<Habit> todaysHabits
+    - ArrayAdapter<Habit> habitAdapter
+
+    # void onCreate(Bundle savedInstanceState)
+    - User getUser()
+    - ArrayList<Habit> getTodaysHabits()
+    - void setList()
+    - void setButton()
+}
+
+
+class DashboardAdapter extends ArrayList{
+    - ArrayList<Habit> Habits
+    - Context context
+
+    + DashboardAdapter(Context context, ArrayList<Habit> habits)
+    + View getView(int pos, View convertView, ViewGroup parent)
+}
+
+class HabitActivity extends AppCompatActivity implements HabitListener, onFragmentInteractionListener{
+    - User currentUser
+    - RecyclerView habitViewList
+    - ImageButton addButton
+    - HabitsAdapter adapter
+
+    # void onCreate(Bundle savedInstanceState)
+    - void setUser(User currentUser)
+    - void setUpActivity()
+    - void initActivity()
+    - void setList()
+    - void setUsername()
+    - void setListeners()
+    + void onHabitClick(int position)
     + void onAddPressed(Habit new_Habit)
     + void onEditPressed(Habit old, Habit new)
 }
 
-class HabitFragment {
-    - EditText habit_Title
-    - EditText habit_Reason
-    - DatePicker habit_starting_date
-    - RadioGroup habit_Weekly_Freq
-    - onFragmentInteractionListener listener
-
-    + onAttach(@NonNull Context context)
-    + Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
+interface onFragmentInteractionListener{
+    void onAddPressed(Habit newHabit)
+    void onEditPressed(Habit oldHabit, Habit newHabit)
 }
 
-interface onFragmentInteractionListener{
-    void onAddPressed(Habit new_Habit)
-    void onEditPressed(Habit old, Habit new)
+interface HabitListener {
+    void onHabitClick(int position)
+}
+
+interface ItemTouchHelperAdapter {
+    void onItemMove(int fromPosition, int toPosition)
+    void onItemSwipe(int position)
 }
 @enduml

@@ -76,11 +76,11 @@ public class Add_Edit_Fragment extends DialogFragment {
         initFragment();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        Habit habit = (Habit) getArguments().getSerializable("habit");
+        Habit selectedHabit = (Habit) getArguments().getSerializable("habit");
 
-        if(habit != null) { //if edit habit was clicked
+        if(selectedHabit != null) { //if edit habit was clicked
             //editing the Habit
-            return editHabit(habit, builder);
+            return editHabit(selectedHabit, builder);
         } else { //if add habit was clicked
             return addHabit(builder);
         }
@@ -131,11 +131,11 @@ public class Add_Edit_Fragment extends DialogFragment {
                 }).create();
     }
 
-    private Dialog editHabit(Habit habit, AlertDialog.Builder builder) {
-        habit_title.setText(habit.getTitle());
-        habit_reason.setText(habit.getReason());
+    private Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder) {
+        habit_title.setText(selectedHabit.getTitle());
+        habit_reason.setText(selectedHabit.getReason());
 
-        Calendar selectedDate = habit.getDate();
+        Calendar selectedDate = selectedHabit.getDate();
 
         int year = selectedDate.get(Calendar.YEAR);
         int month = selectedDate.get(Calendar.MONTH);
@@ -147,7 +147,7 @@ public class Add_Edit_Fragment extends DialogFragment {
         habit_starting_date.setMinDate(selectedDate.getTimeInMillis() - 1000);
         habit_starting_date.setMaxDate(selectedDate.getTimeInMillis());
 
-        int[] week_freq = habit.getWeek_freq();
+        int[] week_freq = selectedHabit.getWeek_freq();
         /**
          * setting checkboxes from weekly frequency
          */
@@ -211,7 +211,7 @@ public class Add_Edit_Fragment extends DialogFragment {
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0){
                         Habit newHabit = new Habit(title,reason,date,freq);
-                        listener.onEditPressed(newHabit, habit);
+                        listener.onEditPressed(newHabit, selectedHabit);
                     }
                 }).create();
 
