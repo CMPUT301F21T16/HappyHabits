@@ -56,7 +56,8 @@ public class Add_Edit_Fragment extends DialogFragment {
         }
     }
     private void initFragment() {
-        view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
+        //view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
+        view = getActivity().getLayoutInflater().inflate(R.layout.add_edit_habit_fragment_layout,null);
 
         habit_title = view.findViewById(R.id.habit_title_editText);
         habit_reason = view.findViewById(R.id.habit_reason_editText);

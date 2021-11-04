@@ -14,10 +14,16 @@
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textColorHint">@color/text_secondary</item>
+        <item name="alertDialogTheme">@style/Theme.AddEditFragment</item>
         <!-- Customize your theme here. -->
 
     </style>
     <style name="Theme.AddEditFragment" parent="android:Theme.DeviceDefault.Dialog">
         <item name="android:background">@color/theme_bg</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DialogButtonstyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DialogButtonstyle</item>
+    </style>
+    <style name="DialogButtonstyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/text_secondary</item>
     </style>
 </resources>

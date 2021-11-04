@@ -9,8 +9,9 @@
     <color name="teal_700">#FF018786</color>
 
     <!-- Change as we please   -->
-    <color name="text_primary">#FFE0E0E0</color>
-    <color name="text_secondary">#c9c9c9</color>
+    <color name="text_primary">#679dc2</color>
+    <color name="text_secondary">#85b1ce</color>
+    <color name="button_text">#293f4e</color>
     <color name="theme_primary">#FF03B6CE</color>
     <color name="theme_secondary">#FFFFFCFC</color>
     <color name="theme_bg">#FF262626</color>

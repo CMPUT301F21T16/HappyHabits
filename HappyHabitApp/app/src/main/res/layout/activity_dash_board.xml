@@ -113,7 +113,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Habits List"
-                app:backgroundTint="@color/theme_primary"></Button>
+                app:backgroundTint="@color/theme_primary"
+                android:textColor="@color/button_text"></Button>
     </LinearLayout>
 
 
