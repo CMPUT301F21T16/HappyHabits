@@ -4,6 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit_fragment_layout.xml" value="0.31979166666666664" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/drawable/element_border.xml" value="0.26851851851851855" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/drawable/habit_list_border.xml" value="0.26851851851851855" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_add_btn.xml" value="0.26851851851851855" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_dash_board.xml" value="0.375" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_habit.xml" value="0.5" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/customlist_content.xml" value="0.625" />
       </map>
     </option>
   </component>
