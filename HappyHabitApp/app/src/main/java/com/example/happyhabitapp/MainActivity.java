@@ -36,17 +36,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-<<<<<<< HEAD
+        /*
         //Just launch habit activity for now (Delete when Main Activity is Implemented)
         Intent testIntent = new Intent(MainActivity.this, DashBoard.class);
         startActivity(testIntent);
-    }
 
-
-
-=======
->>>>>>> lichild
+         */
 
         // if signed in go to Dashboard
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
@@ -56,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
     public void handleLoginRegister(View view) {
         List<AuthUI.IdpConfig> provider = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build()
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(provider)
-                .setLogo(R.drawable.icon)
+                .setLogo(R.drawable.hhicon2)
                 .setAlwaysShowSignInMethodScreen(true)
                 .build();
 

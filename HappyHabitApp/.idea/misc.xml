@@ -6,13 +6,22 @@
         <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
         <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_dash_board.xml" value="0.335" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/circleshape.xml" value="0.475" />
+        <entry key="app/src/main/res/drawable/element_border.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_add_btn.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_drag_handler.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_more_vert.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/textlines.xml" value="0.475" />
         <entry key="app/src/main/res/layout/activity_dash_board.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_habit.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.29444444444444445" />
+        <entry key="app/src/main/res/layout/add_edit_habit_fragment_layout.xml" value="0.2871376811594203" />
+        <entry key="app/src/main/res/layout/customlist_content.xml" value="0.2871376811594203" />
         <entry key="app/src/main/res/menu/menu_item.xml" value="0.33" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.17685185185185184" />
       </map>
     </option>
