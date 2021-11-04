@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Just launch habit activity for now (Delete when Main Activity is Implemented)
-        Intent testIntent = new Intent(MainActivity.this, HabitActivity.class);
+        Intent testIntent = new Intent(MainActivity.this, DashBoard.class);
         startActivity(testIntent);
     }
 
