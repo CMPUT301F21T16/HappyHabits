@@ -3,15 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
-        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit.xml" value="0.5541666666666667" />
+        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_main.xml" value="0.3234375" />
+        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit_fragment_layout.xml" value="0.31979166666666664" />
       </map>
     </option>
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
   </component>
 </project>
