@@ -7,15 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
@@ -38,6 +39,10 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
     private ArrayList<Habit> todaysHabits;
     private ArrayAdapter<Habit> habitAdapter;
 
+    private User currentUser;
+    private ArrayList<Habit> todaysHabits;
+    private ArrayAdapter<Habit> habitAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,7 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
         ImageView user_prof = (ImageView) findViewById(R.id.user_profile_pic);
         user_prof.setBackgroundResource(R.drawable.lol);
     }
+
 
     private void startLogin(){
         startActivity(new Intent(DashBoard.this, MainActivity.class));
@@ -116,8 +122,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
 
     }
 
-
-
     private User getUser(){
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
@@ -160,7 +164,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
         ListView todaysHabitList = (ListView) findViewById(R.id.today_habit_list);
         todaysHabitList.setAdapter(habitAdapter);
     }
-
     /**
      * Connects the goToList Button with the Habits Activity
      */
@@ -174,7 +177,16 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
         });
     }
 
-
-
-
+    /**
+     * Connects the goToList Button with the Habits Activity
+     */
+    private void setButton(){
+        Button goToListBtn = (Button) findViewById(R.id.go_to_list_button);
+        goToListBtn.setOnClickListener(view ->
+        {
+            Intent habitActivity = new Intent(DashBoard.this, HabitActivity.class);
+            //habitActivity.putExtra(User currentUser);
+            startActivity(habitActivity);
+        });
+    }
 }

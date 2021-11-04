@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@color/theme_bg"
     tools:context=".HabitActivity">
 
@@ -16,6 +17,7 @@
         android:text="username"
         android:textColor="@color/text_primary"
         android:textSize="24sp"
+        android:textColor="@color/text_primary"
         app:layout_constraintEnd_toStartOf="@+id/profile_picture"
         app:layout_constraintStart_toEndOf="@+id/logo"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,42 +39,58 @@
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
+        app:srcCompat="@drawable/hhicon2" />
 
     <TextView
         android:id="@+id/list_title"
-        android:layout_width="217dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="64dp"
+
+        android:layout_width="197dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="198dp"
+        android:layout_marginRight="198dp"
+
         android:text="username's Habits"
         android:textAlignment="center"
         android:textColor="@color/text_primary"
         android:textSize="20sp"
+
+        android:textColor="@color/text_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/habit_list"
-        android:layout_width="409dp"
-        android:layout_height="545dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="553dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_title" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <ImageButton
         android:id="@+id/add_habit_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="24dp"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginRight="140dp"
         android:layout_marginBottom="16dp"
         android:background="@color/theme_bg"
-        android:visibility="visible"
+        app:tint="@color/text_primary"
+
         app:layout_constraintBottom_toTopOf="@+id/habit_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/list_title"
