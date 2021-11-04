@@ -28,6 +28,7 @@ public class FireBase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String current_uid;
 
+    private String user_name;
     CollectionReference Habit = db.collection("Habits");
     CollectionReference Followers = db.collection("Followers");
     CollectionReference Followees = db.collection("Followees");
@@ -190,8 +191,8 @@ public class FireBase {
         return user;
     }
 
-    public String[] getUserName(){
-        final String[] user_name = new String[1];
+    public String getUserName(){
+        //final String[] user_name = new String[1];
         db
                 .collection("User")
                 .whereEqualTo("Current_uid", getCurrent_uid())
@@ -200,9 +201,13 @@ public class FireBase {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         Log.d(TAG, "onSuccess: We are getting the date");
-                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        QueryDocumentSnapshot user = (QueryDocumentSnapshot) snapshotList.get(0);
-                        user_name[0] = (String) user.getString("Name");
+                        for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                        {
+                            Log.d(TAG, String.valueOf(doc.getData().get("Name")));
+                            user_name = (String) doc.getString("Name");
+
+                        }
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -240,14 +245,73 @@ public class FireBase {
     }
 
     public User getFollowers() {
+        db
+                .collection("Followers")
+                .whereEqualTo("Current_uid", getCurrent_uid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
+
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        //Log.d(TAG, "onSuccess: We are getting the date");
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                        Log.d(TAG, "onSuccess: " + snapshotList.get(0).getString("Name"));
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ", e);
+                    }
+                });
         return followers;
     }
 
     public User getFollowees() {
+        db
+                .collection("Followees")
+                .whereEqualTo("Current_uid", getCurrent_uid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>(){
+
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        //Log.d(TAG, "onSuccess: We are getting the date");
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                        Log.d(TAG, "onSuccess: " + snapshotList.get(0).getString("Name"));
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ", e);
+                    }
+                });
         return followees;
     }
 
     public HabitEvent getEvent() {
+        db
+                .collection("Events")
+                .whereEqualTo("Current_uid", getCurrent_uid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        //Log.d(TAG, "onSuccess: We are getting the date");
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                        Log.d(TAG, "onSuccess: " + snapshotList.get(0).getString("About"));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ", e);
+                    }
+                });
+
         return event;
     }
 }
