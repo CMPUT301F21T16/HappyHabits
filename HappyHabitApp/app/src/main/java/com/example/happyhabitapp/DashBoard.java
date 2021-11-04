@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -65,14 +67,12 @@ public class DashBoard extends AppCompatActivity {
     }
 
     /**
-     * Adds a view only recycler-view from the user's list
+     * Adds a view only list view from the user's list
      */
     private void setList(){
-        HabitsAdapter adapter = new HabitsAdapter(todaysHabits, null);    //View only
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.today_habit_list);   //Select our RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));        //Set our data to be displayed linearly (instead of grid, etc.)
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        DashboardAdapter adapter = new DashboardAdapter(this, todaysHabits);    //View only
+        ListView todaysHabitList = (ListView) findViewById(R.id.today_habit_list);   //Select our RecyclerView
+        todaysHabitList.setAdapter(adapter);
     }
 
     /**
