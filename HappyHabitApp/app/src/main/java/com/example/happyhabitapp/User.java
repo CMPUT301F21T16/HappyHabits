@@ -1,5 +1,7 @@
 package com.example.happyhabitapp;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +21,8 @@ public class User {
     private Date dateToday;
     private ArrayList<Habit> habitList;
     private ArrayList<User> followList;
+    private String current_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     //Constructors
 
@@ -103,6 +107,10 @@ public class User {
 
     public String getPicPath() {
         return picPath;
+    }
+
+    public String getCurrent_uid() {
+        return current_uid;
     }
 
     //Setters
