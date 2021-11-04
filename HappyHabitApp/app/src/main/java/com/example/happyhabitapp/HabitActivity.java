@@ -3,17 +3,29 @@ package com.example.happyhabitapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +39,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     private RecyclerView habitViewList;
     private ImageButton addButton; // button to add habits to list
     private HabitsAdapter adapter;
+    private static final String TAG = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +50,48 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
 
         currentUser = new User("TestUser", "somePath", testList, null);
         initActivity();
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            startLogin();
+        }
+
+    }
+
+    /**
+     * this function will start login activity
+     */
+    private void startLogin(){
+        startActivity(new Intent(HabitActivity.this, MainActivity.class));
+        this.finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+
+        if (item_id == R.id.logout){
+            Toast.makeText(this, "Logging Out...", Toast.LENGTH_SHORT).show();
+            AuthUI.getInstance().signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                startLogin();
+                            }
+                            else{
+                                Log.e(TAG, "onComplete", task.getException());
+                            }
+                        }
+                    });
+        }
+
+        return true;
     }
 
     private void setUser(User currentUser) {
@@ -74,6 +129,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.habit_list);   //Select our RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));        //Set our data to be displayed linearly (instead of grid, etc.)
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         ItemTouchHelper.Callback callback = new HabitTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);

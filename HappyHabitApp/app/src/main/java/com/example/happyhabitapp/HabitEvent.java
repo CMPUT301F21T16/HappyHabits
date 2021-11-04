@@ -1,9 +1,21 @@
 package com.example.happyhabitapp;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class HabitEvent extends Habit{
-    public HabitEvent(String title, String reason, Calendar date, int[] week_freq) {
+    private String about;
+
+    public HabitEvent(String title, String reason, Calendar date, int[] week_freq, String about) {
         super(title, reason, date, week_freq);
+        this.about = about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getAbout() {
+        return about;
     }
 }

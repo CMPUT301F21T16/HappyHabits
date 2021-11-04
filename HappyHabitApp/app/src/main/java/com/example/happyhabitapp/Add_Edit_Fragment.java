@@ -13,7 +13,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import ca.antonious.materialdaypicker.MaterialDayPicker;
 
 
 public class Add_Edit_Fragment extends DialogFragment {
@@ -22,6 +27,8 @@ public class Add_Edit_Fragment extends DialogFragment {
     private DatePicker habit_starting_date;
     private EditText habit_reason;
     private CheckBox sun,mon,tue,wed,thr,fri,sat;
+    private List<MaterialDayPicker.Weekday> pickerSelectedDays = new ArrayList<>();
+    private MaterialDayPicker dayPicker;
     private onFragmentInteractionListener listener;
     private View view;
 
@@ -49,17 +56,14 @@ public class Add_Edit_Fragment extends DialogFragment {
         }
     }
     private void initFragment() {
-        view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
+        //view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
+        view = getActivity().getLayoutInflater().inflate(R.layout.add_edit_habit_fragment_layout,null);
+
         habit_title = view.findViewById(R.id.habit_title_editText);
         habit_reason = view.findViewById(R.id.habit_reason_editText);
         habit_starting_date = view.findViewById(R.id.habit_starting_date);
-        sun = view.findViewById(R.id.SunCheckBox);
-        mon = view.findViewById(R.id.MonCheckBox);
-        tue = view.findViewById(R.id.TueCheckBox);
-        wed = view.findViewById(R.id.WedCheckBox);
-        thr = view.findViewById(R.id.ThrCheckBox);
-        fri = view.findViewById(R.id.FriCheckBox);
-        sat = view.findViewById(R.id.SatCheckBox);
+        dayPicker = view.findViewById(R.id.day_picker);
+
     }
     /**
      * initialize the EditTexts, DatePicker, and checkboxes. Create a Dialog Fragment from add_edit_habit_fragment_layout.xml
@@ -75,12 +79,12 @@ public class Add_Edit_Fragment extends DialogFragment {
 
         initFragment();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        Habit habit = (Habit) getArguments().getSerializable("habit");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.Theme_AddEditFragment);
+        Habit selectedHabit = (Habit) getArguments().getSerializable("habit");
 
-        if(habit != null) { //if edit habit was clicked
+        if(selectedHabit != null) { //if edit habit was clicked
             //editing the Habit
-            return editHabit(habit, builder);
+            return editHabit(selectedHabit, builder);
         } else { //if add habit was clicked
             return addHabit(builder);
         }
@@ -100,27 +104,28 @@ public class Add_Edit_Fragment extends DialogFragment {
 
                     String reason = habit_reason.getText().toString();
 
-                    int[] week_freq = {1,0,0,0,0,0,0};
+                    int[] week_freq = {0,0,0,0,0,0,0};
+                    pickerSelectedDays = dayPicker.getSelectedDays();
 
-                    if(sun.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SUNDAY)){
                         week_freq[0] = 1;
                     }
-                    if(mon.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.MONDAY)){
                         week_freq[1] = 1;
                     }
-                    if(tue.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.TUESDAY)){
                         week_freq[2] = 1;
                     }
-                    if(wed.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.WEDNESDAY)){
                         week_freq[3] = 1;
                     }
-                    if(thr.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.THURSDAY)){
                         week_freq[4] = 1;
                     }
-                    if(fri.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.FRIDAY)){
                         week_freq[5] = 1;
                     }
-                    if(sat.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SATURDAY)){
                         week_freq[6] = 1;
                     }
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
@@ -131,15 +136,16 @@ public class Add_Edit_Fragment extends DialogFragment {
                 }).create();
     }
 
-    private Dialog editHabit(Habit habit, AlertDialog.Builder builder) {
-        habit_title.setText(habit.getTitle());
-        habit_reason.setText(habit.getReason());
+    private Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder) {
+        habit_title.setText(selectedHabit.getTitle());
+        habit_reason.setText(selectedHabit.getReason());
 
-        Calendar selectedDate = habit.getDate();
+        Calendar selectedDate = selectedHabit.getDate();
 
         int year = selectedDate.get(Calendar.YEAR);
         int month = selectedDate.get(Calendar.MONTH);
         int day = selectedDate.get(Calendar.DATE);
+
 
         habit_starting_date.updateDate(year,month,day);
 
@@ -147,31 +153,36 @@ public class Add_Edit_Fragment extends DialogFragment {
         habit_starting_date.setMinDate(selectedDate.getTimeInMillis() - 1000);
         habit_starting_date.setMaxDate(selectedDate.getTimeInMillis());
 
-        int[] week_freq = habit.getWeek_freq();
+        int[] week_freq = selectedHabit.getWeek_freq();
         /**
          * setting checkboxes from weekly frequency
          */
+
+
+
         if(week_freq[0] == 1){
-            sun.setChecked(true);
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.SUNDAY);
         }
         if(week_freq[1] == 1){
-            mon.setChecked(true);
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.MONDAY);
         }
         if(week_freq[2] == 1){
-            tue.setChecked(true);
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.TUESDAY);
         }
         if(week_freq[3] == 1){
-            wed.setChecked(true);
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.WEDNESDAY);
         }
         if(week_freq[4] == 1){
-            thr.setChecked(true);
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.THURSDAY);
         }
         if(week_freq[5] == 1){
-            fri.setChecked(true);
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.FRIDAY);
         }
         if(week_freq[6] == 1){
-            sat.setChecked(true);
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.SATURDAY);
         }
+
+        dayPicker.setSelectedDays(pickerSelectedDays);
         return builder
                 .setView(view)
                 .setTitle("View and Edit Habit")
@@ -186,32 +197,34 @@ public class Add_Edit_Fragment extends DialogFragment {
 
                     int[] freq = {0,0,0,0,0,0,0};
 
-                    if(sun.isChecked()){
+                    pickerSelectedDays = dayPicker.getSelectedDays();
+
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SUNDAY)){
                         freq[0] = 1;
                     }
-                    if(mon.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.MONDAY)){
                         freq[1] = 1;
                     }
-                    if(tue.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.TUESDAY)){
                         freq[2] = 1;
                     }
-                    if(wed.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.WEDNESDAY)){
                         freq[3] = 1;
                     }
-                    if(thr.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.THURSDAY)){
                         freq[4] = 1;
                     }
-                    if(fri.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.FRIDAY)){
                         freq[5] = 1;
                     }
-                    if(sat.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SATURDAY)){
                         freq[6] = 1;
                     }
 
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0){
                         Habit newHabit = new Habit(title,reason,date,freq);
-                        listener.onEditPressed(newHabit, habit);
+                        listener.onEditPressed(newHabit, selectedHabit);
                     }
                 }).create();
 

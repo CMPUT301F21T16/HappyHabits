@@ -10,8 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyHabitApp">
         <activity
+            android:name=".TestActivity"
+            android:exported="false" />
+        <activity
             android:name=".HabitActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".DashBoard"/>
         <activity
             android:name=".DashBoard"
             android:exported="false" />

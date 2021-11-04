@@ -1,5 +1,7 @@
 package com.example.happyhabitapp;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,8 +21,14 @@ public class User {
     private Calendar dateToday;
     private ArrayList<Habit> habitList;
     private ArrayList<User> followList;
+    private String current_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     //Constructors
+
+    public User() {
+    }
+
     /**
      *Constructor for a new user who opts out of setting a profile picture.
      * @param username a String that is unique when compared against the database.
@@ -43,7 +51,6 @@ public class User {
         this.dateToday = getDateToday();
         this.habitList = new ArrayList<Habit>();
     }
-
     /**
      * Constructor for a returning user.
      * @param username a String that is unique when compared against the database.
@@ -98,6 +105,14 @@ public class User {
         return this.followList;
     }
 
+    public String getPicPath() {
+        return picPath;
+    }
+
+    public String getCurrent_uid() {
+        return current_uid;
+    }
+
     //Setters
 
     /**
@@ -132,8 +147,8 @@ public class User {
         this.followList.add(follower);
     }
 
-    public void setProfilePic(String path){
-        this.picPath = path;
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
     }
 
     /**

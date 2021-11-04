@@ -12,23 +12,21 @@
         android:id="@+id/username"
         android:layout_width="161dp"
         android:layout_height="37dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginTop="32dp"
         android:gravity="right"
         android:text="username"
+        android:textColor="@color/text_primary"
         android:textSize="24sp"
         android:textColor="@color/text_primary"
         app:layout_constraintEnd_toStartOf="@+id/profile_picture"
+        app:layout_constraintStart_toEndOf="@+id/logo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/profile_picture"
-        android:layout_width="82dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_gallery"
@@ -36,17 +34,16 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="81dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/hhicon2" />
 
     <TextView
         android:id="@+id/list_title"
+
         android:layout_width="197dp"
         android:layout_height="35dp"
         android:layout_marginStart="16dp"
@@ -54,11 +51,16 @@
         android:layout_marginTop="34dp"
         android:layout_marginEnd="198dp"
         android:layout_marginRight="198dp"
+
         android:text="username's Habits"
+        android:textAlignment="center"
+        android:textColor="@color/text_primary"
         android:textSize="20sp"
+
         android:textColor="@color/text_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -74,10 +76,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <ImageButton
         android:id="@+id/add_habit_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
+
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="26dp"
@@ -86,11 +90,13 @@
         android:layout_marginBottom="16dp"
         android:background="@color/theme_bg"
         app:tint="@color/text_primary"
+
         app:layout_constraintBottom_toTopOf="@+id/habit_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/list_title"
         app:layout_constraintTop_toBottomOf="@+id/username"
         app:srcCompat="@android:drawable/ic_menu_add"
+        app:tint="@color/text_primary"
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
         tools:srcCompat="@drawable/ic_add_btn" />
 

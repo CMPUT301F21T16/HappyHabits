@@ -2,8 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="100dp"
     android:background="@drawable/habit_list_border"
+
     android:backgroundTint="@color/theme_bg"
     android:orientation="horizontal">
 
@@ -30,10 +32,12 @@
                 android:text="Habit Title" />
 
 
+
             <TextView
                 android:id="@+id/selected_dates"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:paddingTop="2dp"
                 android:layout_weight="1"
                 android:textSize="10dp"
@@ -47,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
                 android:text="User's Reason"
                 android:textColor="@color/text_primary"/>
     </LinearLayout>

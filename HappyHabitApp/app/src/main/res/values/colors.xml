@@ -9,7 +9,9 @@
     <color name="teal_700">#FF018786</color>
 
     <!-- Change as we please   -->
-    <color name="text_primary">#FFE0E0E0</color>
+    <color name="text_primary">#679dc2</color>
+    <color name="text_secondary">#85b1ce</color>
+    <color name="button_text">#293f4e</color>
     <color name="theme_primary">#FF03B6CE</color>
     <color name="theme_secondary">#FFFFFCFC</color>
     <color name="theme_bg">#FF262626</color>
@@ -17,5 +19,16 @@
     <color name="highlighted_entry">#FFABCDEF</color>     <!-- For use with dragging from habit list -->
     <color name="rejected_red">#FFBA1313</color>
     <color name="verified_green">#FF16BA13</color>
+
+    <color name="dayPressed" xmlns:tools="http://schemas.android.com/tools"
+        tools:override="true">@color/black</color>
+    <color name="daySelected" xmlns:tools="http://schemas.android.com/tools"
+        tools:override="true">@color/highlighted_entry</color>
+    <color name="daySelectedTextColor" xmlns:tools="http://schemas.android.com/tools"
+        tools:override="true">@android:color/black</color>
+    <color name="dayDeselected" xmlns:tools="http://schemas.android.com/tools"
+        tools:override="true">@color/theme_bg_secondary</color>
+    <color name="dayDeselectedTextColor" xmlns:tools="http://schemas.android.com/tools"
+        tools:override="true">@android:color/black</color>
 
 </resources>
