@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:background="@drawable/element_border"
+    android:backgroundTint="@color/theme_bg"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -24,14 +25,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="Habit Title" />
+                android:text="Habit Title"
+                android:textColor="@color/text_primary"/>
 
             <TextView
                 android:id="@+id/selected_dates"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
-                android:text="Selected Dates" />
+                android:text="Selected Dates"
+                android:textColor="@color/text_primary"/>
         </LinearLayout>
 
         <LinearLayout
@@ -45,7 +48,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="User's Reason" />
+                android:text="User's Reason"
+                android:textColor="@color/text_primary"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -56,7 +60,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="6"
-        android:background="#00FFFFFF"
+        android:background="@color/theme_bg"
+        app:tint="@color/text_primary"
         android:padding="4dp"
         tools:ignore="SpeakableTextPresentCheck"
         tools:srcCompat="@drawable/ic_baseline_drag_handler" />

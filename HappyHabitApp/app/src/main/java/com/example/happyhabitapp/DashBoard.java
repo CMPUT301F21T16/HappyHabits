@@ -21,6 +21,7 @@ public class DashBoard extends AppCompatActivity {
 
     private User currentUser;
     private ArrayList<Habit> todaysHabits;
+    private ArrayAdapter<Habit> habitAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +37,20 @@ public class DashBoard extends AppCompatActivity {
         user_prof.setBackgroundResource(R.drawable.lol);
     }
 
-
     private User getUser(){
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
+
+        //-------TEST INFO - REMOVE LATER -------
         int[] selectedDates = {1,0,0,1,0,0,0};
         int[] selectedDates2 = {0,0,0,0,0,1,1};
         Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates);
         Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2);
-        Habit habit3 = new Habit("Run for president", "MAGA", today, selectedDates);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates);
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
-
+        //-----------------------------------
         currentUser = new User("TestUser", "somePath", testList, null);
         return currentUser;
     }
@@ -61,9 +63,9 @@ public class DashBoard extends AppCompatActivity {
         for(int i = 0; i < currentUser.getHabitList().size(); i++) {
             Habit currentHabit = allHabits.get(i);
             //Adds habit if it the corresponding weekday has a value of 1
-            //DATE sets Sunday to be 1, Monday to be 2, etc...
+            //DAY_OF_WEEK sets Sunday to be 1, Monday to be 2, etc...
             if(currentHabit.getWeek_freq()[today.get(Calendar.DAY_OF_WEEK) - 1] == 1) {
-                todaysHabits.add(currentHabit);
+                todaysHabits.add(currentHabit); //Preserves order
             }
         }
         return todaysHabits;
@@ -73,9 +75,9 @@ public class DashBoard extends AppCompatActivity {
      * Adds a view only list view from the user's list
      */
     private void setList(){
-        DashboardAdapter adapter = new DashboardAdapter(this, todaysHabits);    //View only
-        ListView todaysHabitList = (ListView) findViewById(R.id.today_habit_list);   //Select our RecyclerView
-        todaysHabitList.setAdapter(adapter);
+        habitAdapter = new DashboardAdapter(this, todaysHabits);    //View only
+        ListView todaysHabitList = (ListView) findViewById(R.id.today_habit_list);
+        todaysHabitList.setAdapter(habitAdapter);
     }
 
     /**

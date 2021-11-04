@@ -48,8 +48,8 @@ public class DashboardAdapter extends ArrayAdapter<Habit> {
 
         //Setters
         habitTitle.setText(habit.getTitle());
-        habitTitle.setText(habit.getReason());
-        habitTitle.setText(habit.getWeekAsStr());
+        habitReason.setText(habit.getReason());
+        habitFreq.setText(habit.getWeekAsStr());
         dragHandle.setVisibility(View.GONE);        //Since non-intractable, hide the drag handle
 
     return view;
