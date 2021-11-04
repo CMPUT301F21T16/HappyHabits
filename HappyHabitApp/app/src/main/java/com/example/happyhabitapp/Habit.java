@@ -1,5 +1,7 @@
 package com.example.happyhabitapp;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -9,12 +11,20 @@ public class Habit implements Serializable {
     private String reason;
     private Calendar date;
     private int[] week_freq;
+    private String current_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    public Habit() {
+    }
 
     public Habit(String title, String reason, Calendar date, int[] week_freq) {
         this.title = title;
         this.reason = reason;
         this.date = date;
         this.week_freq = week_freq;
+    }
+
+    public String getCurrent_uid() {
+        return current_uid;
     }
 
     public String getTitle() {
@@ -45,6 +55,7 @@ public class Habit implements Serializable {
         return week_freq;
     }
 
+
     //Returns days selected in human readable format
     public String getWeekAsStr(){
         String weekDaysSelected = "";
@@ -64,6 +75,7 @@ public class Habit implements Serializable {
         }
         return weekDaysSelected;
     }
+
 
     public void setWeek_freq(int[] week_freq) {
         this.week_freq = week_freq;

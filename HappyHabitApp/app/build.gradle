@@ -42,5 +42,19 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'
+<<<<<<< HEAD
     implementation 'ca.antonious:materialdaypicker:0.7.3'
+=======
+    implementation 'com.google.firebase:firebase-auth'
+    // FirebaseUI for Cloud Firestore
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
+
+    // FirebaseUI for Firebase Auth
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
+
+    // Cloud Storage dependency
+    implementation 'com.google.firebase:firebase-storage'
+
+
+>>>>>>> lichild
 }

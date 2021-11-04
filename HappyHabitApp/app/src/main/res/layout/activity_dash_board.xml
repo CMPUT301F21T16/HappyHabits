@@ -28,7 +28,11 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
+<<<<<<< HEAD
             tools:srcCompat="@drawable/hhicon2"
+=======
+            android:src="@drawable/icon"
+>>>>>>> lichild
             android:scaleType="fitXY">
         </ImageView>
 
@@ -116,4 +120,17 @@
                 app:backgroundTint="@color/theme_primary"></Button>
     </LinearLayout>
 
+<<<<<<< HEAD
+=======
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="350dp"
+        android:text="Habits List">
+
+    </Button>
+
+
+>>>>>>> lichild
 </LinearLayout>
