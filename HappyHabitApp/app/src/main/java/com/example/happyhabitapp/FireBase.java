@@ -35,36 +35,25 @@ import java.util.Map;
 
 public class FireBase {
     private static final String TAG = "FireBase";
-    private User user;
-    private Habit habit;
-    private User followers;
-    private User followees;
-    private HabitEvent event;
+
+    private ArrayList<Habit> habitList;
+    private ArrayList<User> followerLst = new ArrayList<>();
+    private ArrayList<User> followeeLst;
+    private ArrayList<HabitEvent> eventLst;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String current_uid;
 
+    CollectionReference Users = db.collection("Users");
+    DocumentReference User = Users.document(getUserName());
+    CollectionReference HabitList = User.collection("HabitList");
+    CollectionReference Followers = User.collection("Followers");
+    CollectionReference Followees = User.collection("Followees");
 
-    private ArrayList<User> followerList;
-    private ArrayList<User> followeeList;
-    private ArrayList<Habit> habitsList;
-    private ArrayList<HabitEvent> eventList;
-
-
-    CollectionReference Habit = db.collection("Habits");
-    CollectionReference Followers = db.collection("Followers");
-    CollectionReference Followees = db.collection("Followees");
-    CollectionReference User = db.collection("User");
-    CollectionReference habitEvent = db.collection("Events");
 
 
     /* Constructors */
-    public FireBase(User user, Habit habit, User followers, User followees, HabitEvent event) {
-        this.user = user;
-        this.habit = habit;
-        this.followers = followers;
-        this.followees = followees;
-        this.event = event;
-    }
+    public FireBase() {}
 
     /* setters */
 
@@ -86,7 +75,6 @@ public class FireBase {
          */
 
         User
-                .document(user.getUsername())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -118,14 +106,14 @@ public class FireBase {
             freq.add(habit.getWeek_freq()[i]);
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("Current_uid", habit.getCurrent_uid());
+
         map.put("Title", habit.getTitle());
         map.put("Reason", habit.getReason());
         map.put("Days", freq);
         map.put("Dates", habit.getDate());
 
 
-        Habit
+        HabitList
                 .document(habit.getTitle())
                 .update(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -197,18 +185,17 @@ public class FireBase {
     public void setHabitEventEvent(HabitEvent event) {
 
         List<Integer> freq = new ArrayList<Integer>();
-        for (int i = 0; i < (habit.getWeek_freq().length); i++){
-            freq.add(habit.getWeek_freq()[i]);
+        for (int i = 0; i < (event.getWeek_freq().length); i++){
+            freq.add(event.getWeek_freq()[i]);
         }
 
         Map<String, Object> map = new HashMap<>();
-        map.put("Current_uid", event.getCurrent_uid());
         map.put("Title", event.getTitle());
         map.put("Reason", event.getReason());
         map.put("Days", freq);
         map.put("Dates", event.getDate());
         map.put("About", event.getAbout());
-        habitEvent
+        HabitList
                 .document(event.getTitle())
                 .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -239,27 +226,38 @@ public class FireBase {
 
     /* get information: this feature is not working */
 
+    /**
+     * this function return current user's user name as string
+     * @return
+     */
+    public String getUserName(){
+        String current_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        return current_name;
+    }
 
-    /*
-    public void getUser(){
-        User
-                .whereEqualTo("current_uid", getCurrent_uid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+    /**
+     * this function returns follower list
+     * @return
+     */
+    public ArrayList<User> getFollowerLst(){
+        Followers
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                Log.d(TAG, "onComplete: " + documentSnapshot.getId() + documentSnapshot.getData());
-                            }
-                        }
-                        else {
-                            Log.e(TAG, "onComplete: ", task.getException());
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        followerLst.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting followers");
+                            User follower = doc.toObject(com.example.happyhabitapp.User.class);
+                            followerLst.add(follower);
                         }
                     }
                 });
+        return followerLst;
     }
 
-     */
+
+
 
 }
+

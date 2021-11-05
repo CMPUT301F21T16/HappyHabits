@@ -19,7 +19,9 @@
         android:text="username"
         android:textColor="@color/text_primary"
         android:textSize="24sp"
+
         app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
+
         app:layout_constraintEnd_toStartOf="@+id/profile_picture"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/logo"
@@ -64,7 +66,6 @@
         android:text="username's Habits"
 
         android:textAlignment="center"
-        android:textColor="@color/text_primary"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo"
@@ -94,7 +95,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:background="@color/theme_bg"
+
         app:layout_constraintBottom_toBottomOf="@+id/list_title"
+
         app:layout_constraintStart_toEndOf="@+id/list_title"
         app:layout_constraintTop_toTopOf="@+id/list_title"
         app:srcCompat="@android:drawable/ic_menu_add"
