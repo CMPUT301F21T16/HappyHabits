@@ -176,11 +176,9 @@ public class Add_Edit_Fragment extends DialogFragment {
                     Boolean switchState = publicSwitch.isChecked();
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
-<<<<<<< HEAD
+
                         Habit newHabit = new Habit(title, reason, date, week_freq,true);
-=======
-                        Habit newHabit = new Habit(title, reason, date, week_freq,switchState);
->>>>>>> 14dfae456734c90f6813d92e07eebe4d17d9bab8
+
                         listener.onAddPressed(newHabit);
                     }
                     else{
