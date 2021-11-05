@@ -49,13 +49,15 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     User user = new User("lichild", "path");
     User user2 = new User("koko", "path2");
-    Habit habit = new Habit("jump", "exercise",c, week_frq);
+
+    Habit habit = new Habit("jump", "exercise",c, week_frq,true);
+
     HabitEvent event = new HabitEvent("today's jump", "like", c, week_frq, habit.getTitle());
     FireBase fire = new FireBase();
 
 
 
-    private static final String TAG = "TestActivity";
+    private final String TAG = "TestActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Tests User behaviour excluding Firebase related methods.
+ */
 public class UserTest {
 
     private User sampleUser;
@@ -18,6 +21,9 @@ public class UserTest {
     }
 
     //Passed
+    /**
+     * Checks if both adding and removing habits from the list is functional
+     */
     @Test
     public void habitListAddRemove() {
         int[] weekFreq = {1,1,1,1,1,1,1};
@@ -30,12 +36,18 @@ public class UserTest {
     }
 
     //Passed
+    /**
+     * Checks if the username of the User is correctly assigned.
+     */
     @Test
     public void testName() {
         Assert.assertEquals("Todd", sampleUser.getUsername());
     }
 
     //Passed
+    /**
+     * Checks if a habit is edited.
+     */
     @Test
     public void editHabit(){
         int[] weekFreq = {1,1,1,1,1,1,1};
@@ -51,5 +63,43 @@ public class UserTest {
         Assert.assertEquals(sampleUser.getHabitList().get(0), newHabit); //First item is new Habit
     }
 
+    /**
+     * Checks if both adding and removing followers from the list is functional
+     */
+    @Test
+    public void followListAddRemove(){
+        int[] weekFreq = {1,1,1,1,0,0,1};
 
+        User sampleFollower = new User("Sarah", "somePicture", null, null);
+
+        sampleUser.follow(sampleFollower);
+        Assert.assertEquals(1, sampleUser.getFollowList().size());
+
+        sampleUser.unfollow(sampleFollower);
+        Assert.assertEquals(0, sampleUser.getFollowList().size());
+    }
+
+    /**
+     * Checks if User is correctly returned on username input
+     */
+    @Test
+    public void isUserMatchUsername() {
+        User userRetrieved;
+
+        //Name is wrong
+        userRetrieved = sampleUser.getUser("Sarah");
+        Assert.assertNull(userRetrieved);
+
+        //Whitespace is inconsistent
+        userRetrieved = sampleUser.getUser(" Todd");
+        Assert.assertNull(userRetrieved);
+
+        //Casing is inconsistent
+        userRetrieved = sampleUser.getUser("todd");
+        Assert.assertNull(userRetrieved);
+
+        //Username matches completely.
+        userRetrieved = sampleUser.getUser("Todd");
+        Assert.assertNotNull(userRetrieved);
+    }
 }

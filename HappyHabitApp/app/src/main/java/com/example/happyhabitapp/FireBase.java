@@ -36,7 +36,7 @@ import java.util.concurrent.Semaphore;
 
 public class FireBase {
 
-    private static final String TAG = "FireBase"; // for the logd and loge will be deleted after finishing the implementation
+    private final String TAG = "FireBase";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
