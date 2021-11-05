@@ -154,7 +154,6 @@ public class Add_Edit_Fragment extends DialogFragment {
                     int[] week_freq = {0,0,0,0,0,0,0};
 
                     pickerSelectedDays = dayPicker.getSelectedDays();
-
                     if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SUNDAY)){
                         week_freq[0] = 1;
                     }
