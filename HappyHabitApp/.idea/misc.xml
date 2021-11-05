@@ -3,10 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_habit.xml" value="0.5" />
-        <entry key="..\:/Users/Armaan Singh M/Desktop/CMPUT 301/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit_fragment_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_dash_board.xml" value="0.14791666666666667" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/javadocs" />
+    <option name="OPTION_SCOPE" value="private" />
+    <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
+    <option name="OTHER_OPTIONS" value="-sourcepath C:\Android\Sdk\platforms\android-29\android.jar" />
+  </component>
+
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

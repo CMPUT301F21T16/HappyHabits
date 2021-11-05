@@ -9,6 +9,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Assists {@link HabitsAdapter} in detecting touch inputs.
+ * @author: Jonathan
+ */
 public class HabitTouchHelper extends ItemTouchHelper.Callback{
 
     private final ItemTouchHelperAdapter touchHelperAdapter;
