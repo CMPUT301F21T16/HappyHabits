@@ -21,7 +21,8 @@ import java.util.List;
 import ca.antonious.materialdaypicker.MaterialDayPicker;
 
 /**
- * This class is used for the fragment for adding, editing and viewing {@link String}. Viewing and editing is done in the same fragment.
+ * This class is used for the fragment for adding, editing and viewing {@link String}. Viewing
+ * and editing is done in the same fragment.
  * @author Anuj, Armaan
  * @version 1.0
  */
@@ -33,26 +34,47 @@ public class Add_Edit_Fragment extends DialogFragment {
     private EditText habit_title;
 
     /**
-     * This variable is linked to the DatePicker for the starting date of {@link Habit}. It is of type {@link DatePicker}
+     * This variable is linked to the DatePicker for the starting date of {@link Habit}. It is of
+     * type {@link DatePicker}
      */
     private DatePicker habit_starting_date;
+
     /**
-     *
+     * This variable is linked to the EditText for habit reason and is of type {@link EditText}
      */
     private EditText habit_reason;
 
-    private List<MaterialDayPicker.Weekday> pickerSelectedDays = new ArrayList<>();
-
+    /**
+     * The widget is used to pick the days of the week selected by the user
+     */
     private MaterialDayPicker dayPicker;
 
+    /**
+     * A List that is directly connected to the MaterialDayPicker
+     */
+    private List<MaterialDayPicker.Weekday> pickerSelectedDays;
+
+    /**
+     * This listener is linked to the activity the fragment was called in and is of type
+     * {@link onFragmentInteractionListener}
+     */
     private onFragmentInteractionListener listener;
 
+    /**
+     * This variable is linked to the View for thelayout of the fragment in res and is of
+     * type {@link View}
+     */
     private View view;
 
+    /**
+     * This variable is a {@link Habit} that is null if the fragment is used for adding, and is an
+     * actual habit if used for editing
+     */
     private Habit habit;
 
     /**
-     * This interface is linked to the interactions the fragment has, which correlate to both adding and editing {@link Habit}
+     * This interface is linked to the interactions the fragment has, which correlate to both
+     * adding and editing {@link Habit}
      */
     public interface onFragmentInteractionListener{
         void onAddPressed(Habit newHabit);
@@ -60,11 +82,13 @@ public class Add_Edit_Fragment extends DialogFragment {
     }
 
     /**
-     * Constructor of Add_Edit_Fragment that initializes the variables needed for both adding and editing
+     * Constructor of Add_Edit_Fragment that initializes the variables needed for both adding and
+     * editing
      * @param habit - null if adding, an actual {@link Habit} if editing/viewing
      */
     Add_Edit_Fragment (Habit habit) {
         this.habit = habit;
+        pickerSelectedDays = new ArrayList<>();
         view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
         habit_title = view.findViewById(R.id.habit_title_editText);
         habit_reason = view.findViewById(R.id.habit_reason_editText);
@@ -83,8 +107,8 @@ public class Add_Edit_Fragment extends DialogFragment {
     }
 
     /**
-     * Create a Dialog Fragment from add_edit_habit_fragment_layout.xml and checks what made the user wanted,
-     *  Adding or editing.
+     * Create a Dialog Fragment from add_edit_habit_fragment_layout.xml and checks what made the
+     * user wanted, Adding or editing.
      *
      * @param savedInstanceState
      *
@@ -105,8 +129,9 @@ public class Add_Edit_Fragment extends DialogFragment {
     }
 
     /**
-     * When called, This function will build on an AlertDialog.Builder instance and on add Habit clicked in the fragment,
-     * it will store all values inputted by the user and performs checks on the validity of some, and if passes, will return the builder
+     * When called, This function will build on an AlertDialog.Builder instance and on add Habit
+     * clicked in the fragment, it will store all values inputted by the user and performs checks
+     * on the validity of some, and if passes, will return the builder
      *
      * @param builder
      *
@@ -127,8 +152,8 @@ public class Add_Edit_Fragment extends DialogFragment {
                     String reason = habit_reason.getText().toString();
 
                     int[] week_freq = {0,0,0,0,0,0,0};
-                    pickerSelectedDays = dayPicker.getSelectedDays();
 
+                    pickerSelectedDays = dayPicker.getSelectedDays();
                     if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SUNDAY)){
                         week_freq[0] = 1;
                     }
@@ -167,8 +192,8 @@ public class Add_Edit_Fragment extends DialogFragment {
     }
 
     /**
-     * When called, This function will build on an AlertDialog.Builder instance and intilizae
-     * all widgets to be the corresponding value given by the selectedHabit
+     * When called, This function will build on an AlertDialog.Builder instance and initialize
+     * all widgets necessary for editing to be the corresponding value given by the selectedHabit
      * On done editing clicked in the fragment, it will store all values inputted by the user and
      * perform checks on the validity of some, and if passes, will return the builder
      *
@@ -272,7 +297,6 @@ public class Add_Edit_Fragment extends DialogFragment {
                         toast.show();
                     }
                 }).create();
-
     }
 }
 
