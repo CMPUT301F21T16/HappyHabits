@@ -50,7 +50,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
 
 
-    private static final String TAG = "TestActivity";
+    private final String TAG = "TestActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

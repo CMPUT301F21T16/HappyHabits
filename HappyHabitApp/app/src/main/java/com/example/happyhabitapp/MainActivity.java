@@ -26,7 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "";
+    private final String TAG = "";
     int AUTHUI_REQUEST_CODE = 10001;
 
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         // if signed in go to Dashboard
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            Intent testIntent = new Intent(MainActivity.this, TestActivity.class);
+            Intent testIntent = new Intent(MainActivity.this, DashBoard.class);
             startActivity(testIntent);
             this.finish();
         }
