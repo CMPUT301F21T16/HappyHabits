@@ -39,6 +39,10 @@ public class AddEditTest {
 
     @Test
     public void testAdd(){
+        /**
+         * click add button and input Title into habit title edit text and Reason into habit reason
+         * edit text
+         */
         onView(withId(R.id.add_habit_btn)).perform(click());
 
         onView(withId(R.id.habit_title_editText))
@@ -46,7 +50,9 @@ public class AddEditTest {
 
         onView(withId(R.id.habit_reason_editText))
                 .perform(typeText("Reason"), closeSoftKeyboard());
-
+        /**
+         * find W button and click it
+         */
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject chooseDays = device.findObject(new UiSelector().text("W"));
         if (chooseDays.exists()){
@@ -77,6 +83,10 @@ public class AddEditTest {
 
     @Test
     public void testEdit() {
+        /**
+         * click add button and input Title into habit title edit text and Reason into habit reason
+         * edit text
+         */
         onView(withId(R.id.add_habit_btn)).perform(click());
 
         onView(withId(R.id.habit_title_editText))
@@ -84,7 +94,9 @@ public class AddEditTest {
 
         onView(withId(R.id.habit_reason_editText))
                 .perform(typeText("Reason"), closeSoftKeyboard());
-
+        /**
+         * find button with W and click it
+         */
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject chooseDays = device.findObject(new UiSelector().text("W"));
         if (chooseDays.exists()){
@@ -120,7 +132,6 @@ public class AddEditTest {
         /**
          * deselect wednesday
          */
-
         chooseDays = device.findObject(new UiSelector().text("W"));
         if (chooseDays.exists()){
             try{
@@ -129,6 +140,7 @@ public class AddEditTest {
                 e.printStackTrace();
             }
         }
+
         /**
          * find F button from day selector and click it
          */
@@ -151,7 +163,9 @@ public class AddEditTest {
                 e.printStackTrace();
             }
         }
-
+        /**
+         * check for new values on screen
+         */
         assertTrue(solo.waitForText("newTitle",1,10)
                 && solo.waitForText("newReason",1,10)
                 && solo.waitForText("Friday",1,10));
