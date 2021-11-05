@@ -77,6 +77,35 @@ public class AddEditTest {
 
     @Test
     public void testEdit() {
+        onView(withId(R.id.add_habit_btn)).perform(click());
+
+        onView(withId(R.id.habit_title_editText))
+                .perform(typeText("Title"), closeSoftKeyboard());
+
+        onView(withId(R.id.habit_reason_editText))
+                .perform(typeText("Reason"), closeSoftKeyboard());
+
+        UiDevice device = UiDevice.getInstance(getInstrumentation());
+        UiObject chooseDays = device.findObject(new UiSelector().text("W"));
+        if (chooseDays.exists()){
+            try{
+                chooseDays.click();
+            } catch (UiObjectNotFoundException e){
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * find add habit button and click it
+         */
+        UiObject addHabit = device.findObject(new UiSelector().text("ADD HABIT"));
+        if (addHabit.exists()){
+            try{
+                addHabit.click();
+            } catch (UiObjectNotFoundException e){
+                e.printStackTrace();
+            }
+        }
         /**
          * click habit
          */
@@ -91,6 +120,7 @@ public class AddEditTest {
         /**
          * deselect wednesday
          */
+
         chooseDays = device.findObject(new UiSelector().text("W"));
         if (chooseDays.exists()){
             try{
