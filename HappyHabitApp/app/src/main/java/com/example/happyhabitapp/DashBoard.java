@@ -39,9 +39,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
     private ArrayList<Habit> todaysHabits;
     private ArrayAdapter<Habit> habitAdapter;
 
-    private User currentUser;
-    private ArrayList<Habit> todaysHabits;
-    private ArrayAdapter<Habit> habitAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,19 +165,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
      * Connects the goToList Button with the Habits Activity
      */
     private void setButton() {
-        Button goToListBtn = (Button) findViewById(R.id.go_to_list_button);
-        goToListBtn.setOnClickListener(view ->
-        {
-            Intent habitActivity = new Intent(DashBoard.this, HabitActivity.class);
-            //habitActivity.putExtra(User currentUser);
-            startActivity(habitActivity);
-        });
-    }
-
-    /**
-     * Connects the goToList Button with the Habits Activity
-     */
-    private void setButton(){
         Button goToListBtn = (Button) findViewById(R.id.go_to_list_button);
         goToListBtn.setOnClickListener(view ->
         {

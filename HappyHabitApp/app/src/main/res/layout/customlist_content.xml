@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@color/theme_bg"
         android:paddingLeft="4dp"
         android:orientation="vertical">
 
@@ -61,7 +62,9 @@
         android:layout_height="match_parent"
         android:layout_weight="5"
         app:tint="@color/text_primary"
+        android:background="@color/theme_bg"
         android:padding="4dp"
+        android:visibility="visible"
         tools:ignore="SpeakableTextPresentCheck"
         tools:srcCompat="@drawable/ic_baseline_drag_handler" />
 
