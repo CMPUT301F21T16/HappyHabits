@@ -169,19 +169,17 @@ public class FireBase {
 
     public void setHabitEventEvent(HabitEvent event) {
 
-        List<Integer> freq = new ArrayList<Integer>();
-        for (int i = 0; i < (event.getWeek_freq().length); i++){
-            freq.add(event.getWeek_freq()[i]);
-        }
+
 
         Map<String, Object> map = new HashMap<>();
-        map.put("Title", event.getTitle());
-        map.put("Reason", event.getReason());
-        map.put("Days", freq);
-        map.put("Dates", event.getDate());
-        map.put("About", event.getAbout());
+        map.put("About", event.getHabit().getTitle());
+        map.put("Date", event.getEvent_date());
+        map.put("picPath", event.getPic_path());
+        map.put("location", event.getLocation());
+        map.put("description", event.getDescription());
+
         HabitList
-                .document(event.getAbout())
+                .document(event.getHabit().getTitle())
                 .collection("Events")
                 .document(event.getTitle())
                 .set(map)

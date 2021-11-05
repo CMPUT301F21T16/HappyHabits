@@ -53,8 +53,9 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     Habit habit = new Habit("jump", "exercise",c, week_frq,true);
     Habit habit2 = new Habit("watch", "fun", c, week_frq, true);
+    HabitEvent event = new HabitEvent(habit, c, "today's jump");
 
-    HabitEvent event = new HabitEvent("today's jump", "like", c, week_frq, habit.getTitle());
+
     FireBase fire = new FireBase();
 
 
@@ -108,8 +109,10 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fire.setUser(user);
         fire.setHabit(habit);
         fire.setFollowers(user2);
-        fire.setFollowees(user2);
+        fire.setFollowees(user);
         fire.setHabitEventEvent(event);
+
+
 
     }
 
