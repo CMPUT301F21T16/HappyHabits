@@ -20,29 +20,56 @@ import java.util.List;
 
 import ca.antonious.materialdaypicker.MaterialDayPicker;
 
-
+/**
+ * This class is used for the fragment for adding, editing and viewing {@link String}. Viewing and editing is done in the same fragment.
+ * @author Anuj, Armaan
+ * @version 1.0
+ */
 public class Add_Edit_Fragment extends DialogFragment {
 
+    /**
+     * This variable is linked to the EditText for habit title and is of type {@link EditText}
+     */
     private EditText habit_title;
+
+    /**
+     * This variable is linked to the DatePicker for the starting date of {@link Habit}. It is of type {@link DatePicker}
+     */
     private DatePicker habit_starting_date;
+    /**
+     *
+     */
     private EditText habit_reason;
+
     private List<MaterialDayPicker.Weekday> pickerSelectedDays = new ArrayList<>();
+
     private MaterialDayPicker dayPicker;
+
     private onFragmentInteractionListener listener;
+
     private View view;
 
-    static Add_Edit_Fragment newInstance(Habit habit){
-        Bundle args = new Bundle();
-        args.putSerializable("habit", habit);
+    private Habit habit;
 
-        Add_Edit_Fragment fragment = new Add_Edit_Fragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    /**
+     * This interface is linked to the interactions the fragment has, which correlate to both adding and editing {@link Habit}
+     */
     public interface onFragmentInteractionListener{
         void onAddPressed(Habit newHabit);
         void onEditPressed(Habit newHabit, Habit oldHabit);
+    }
+
+    /**
+     * Constructor of Add_Edit_Fragment that initializes the variables needed for both adding and editing
+     * @param habit - null if adding, an actual {@link Habit} if editing/viewing
+     */
+    Add_Edit_Fragment (Habit habit) {
+        this.habit = habit;
+        view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
+        habit_title = view.findViewById(R.id.habit_title_editText);
+        habit_reason = view.findViewById(R.id.habit_reason_editText);
+        habit_starting_date = view.findViewById(R.id.habit_starting_date);
+        dayPicker = view.findViewById(R.id.day_picker);
     }
 
     @Override
@@ -54,40 +81,38 @@ public class Add_Edit_Fragment extends DialogFragment {
             throw new RuntimeException(context.toString() + " must implement onFragmentInteractionListener");
         }
     }
-    private void initFragment() {
-        view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
-        habit_title = view.findViewById(R.id.habit_title_editText);
-        habit_reason = view.findViewById(R.id.habit_reason_editText);
-        habit_starting_date = view.findViewById(R.id.habit_starting_date);
-        dayPicker = view.findViewById(R.id.day_picker);
 
-    }
     /**
-     * initialize the EditTexts, DatePicker, and checkboxes. Create a Dialog Fragment from add_edit_habit_fragment_layout.xml
-     *  and on Add habit click, store all values in a new habit Object and return the Dialog Fragment instance
+     * Create a Dialog Fragment from add_edit_habit_fragment_layout.xml and checks what made the user wanted,
+     *  Adding or editing.
      *
      * @param savedInstanceState
      *
-     * @return
+     * @return {@link Dialog}
      */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        initFragment();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.Theme_AddEditFragment);
-        Habit selectedHabit = (Habit) getArguments().getSerializable("habit");
 
-        if(selectedHabit != null) { //if edit habit was clicked
+        if(habit != null) { //if wanting to edit a habit
             //editing the Habit
-            return editHabit(selectedHabit, builder);
-        } else { //if add habit was clicked
+            return editHabit(habit, builder);
+        } else { //if wanting to add a habit
             return addHabit(builder);
         }
     }
 
-    private Dialog addHabit(AlertDialog.Builder builder) {
+    /**
+     * When called, This function will build on an AlertDialog.Builder instance and on add Habit clicked in the fragment,
+     * it will store all values inputted by the user and performs checks on the validity of some, and if passes, will return the builder
+     *
+     * @param builder
+     *
+     * @return {@link AlertDialog.Builder}
+     */
+    private Dialog addHabit(@NonNull AlertDialog.Builder builder) {
         return builder
                 .setView(view)
                 .setTitle("Add Habit")
@@ -141,7 +166,17 @@ public class Add_Edit_Fragment extends DialogFragment {
                 }).create();
     }
 
-    private Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder) {
+    /**
+     * When called, This function will build on an AlertDialog.Builder instance and intilizae
+     * all widgets to be the corresponding value given by the selectedHabit
+     * On done editing clicked in the fragment, it will store all values inputted by the user and
+     * perform checks on the validity of some, and if passes, will return the builder
+     *
+     * @param builder
+     *
+     * @return {@link AlertDialog.Builder}
+     */
+    private Dialog editHabit(@NonNull Habit selectedHabit, AlertDialog.Builder builder) {
         habit_title.setText(selectedHabit.getTitle());
         habit_reason.setText(selectedHabit.getReason());
 
@@ -239,7 +274,5 @@ public class Add_Edit_Fragment extends DialogFragment {
                 }).create();
 
     }
-
-
 }
 
