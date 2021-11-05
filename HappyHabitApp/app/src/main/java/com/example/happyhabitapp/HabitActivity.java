@@ -149,6 +149,8 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
      */
     private void setListeners(){
         addButton = findViewById(R.id.add_habit_btn);
+        ImageView backButton = findViewById(R.id.logo);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,6 +158,17 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
                 newFragment.show(getSupportFragmentManager(),"ADD_HABIT");
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent previousActivity   = new Intent(HabitActivity.this, DashBoard.class);
+                startActivity(previousActivity);
+            }
+        });
+
+
+
     }
 
 
@@ -186,6 +199,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         adapter.notifyDataSetChanged(); // notifies adpater of change
 
     }
+
 
     /**
      * Edits the information of an existing Habit in the list by replacing the habit
