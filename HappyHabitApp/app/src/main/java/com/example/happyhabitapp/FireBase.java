@@ -40,7 +40,6 @@ public class FireBase {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private ArrayList<User> followerLst = new ArrayList<>();
 
     private String current_uid;
 
