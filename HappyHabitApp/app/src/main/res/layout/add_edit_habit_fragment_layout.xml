@@ -12,8 +12,8 @@
         android:switchPadding="50dp"
         android:textAlignment="viewEnd"
         android:textColor="@color/text_primary"
-        android:textOn="Private"
-        android:textOff="Public"
+        android:textOn="Public"
+        android:textOff="private"
         android:showText="true"/>
 
     <EditText
