@@ -118,7 +118,7 @@ public class FireBase {
             freq.add(habit.getWeek_freq()[i]);
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("Current_uid", habit.getCurrent_uid());
+        //map.put("Current_uid", habit.getCurrent_uid());
         map.put("Title", habit.getTitle());
         map.put("Reason", habit.getReason());
         map.put("Days", freq);
@@ -239,33 +239,36 @@ public class FireBase {
 
     /* get information: this feature is not working */
 
+    /**
+     * this function returns the current user's user name
+     * @return
+     */
     public String getUserName(){
         String current_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         return current_name;
     }
 
+    public ArrayList<Habit> getHabitsList(){
 
-    /*
-    public void getUser(){
-        User
-                .whereEqualTo("current_uid", getCurrent_uid())
+        HabitList
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                Log.d(TAG, "onComplete: " + documentSnapshot.getId() + documentSnapshot.getData());
+                            Log.d(TAG, "onComplete: getting Habits");
+                            for (QueryDocumentSnapshot doc: task.getResult()){
+                                
                             }
                         }
-                        else {
-                            Log.e(TAG, "onComplete: ", task.getException());
-                        }
                     }
-                });
+                })
+
     }
 
-     */
+
+
+
 
 }
 
