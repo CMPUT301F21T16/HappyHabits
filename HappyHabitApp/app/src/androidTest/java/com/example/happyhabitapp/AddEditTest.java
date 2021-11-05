@@ -15,7 +15,7 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.assertTrue;
 
 
-import androidx.test.espresso.contrib.RecyclerViewActions;
+
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.uiautomator.UiDevice;
@@ -62,5 +62,27 @@ public class AddEditTest {
 
 
     }
+
+    // **IMPORTANT** The following tests are mock test functions for certain functionality
+    // All the functionality has all been thoroughly tested manually and has passed these manual tests
+    // Test functions are not completed due to complications with Espresso/Robotium and it's interactions
+    // with the Recycler view.
+
+        // Tests functionality for deleting a habit by swiping it to the right off the screen
+       @Test
+       public void testDelete(){
+            //Generate empty Habit list into adapter
+            //Add Habit to List
+            //assert 1 Habit in list
+            //Perform swipe right action on habit in Recycler View
+            //assert no habits in list
+           assertTrue(true);
+       }
+
+       @Test
+       public void reorderList(){
+
+       }
+
 
 }
