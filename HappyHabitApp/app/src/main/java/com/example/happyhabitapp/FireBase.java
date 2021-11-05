@@ -40,6 +40,8 @@ public class FireBase {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    private ArrayList<User> followerLst = new ArrayList<>();
+
     private String current_uid;
 
     private CollectionReference Users = db.collection("Users");
@@ -98,7 +100,7 @@ public class FireBase {
 
         HabitList
                 .document(habit.getTitle())
-                .update(map)
+                .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -179,6 +181,8 @@ public class FireBase {
         map.put("Dates", event.getDate());
         map.put("About", event.getAbout());
         HabitList
+                .document(event.getAbout())
+                .collection("Events")
                 .document(event.getTitle())
                 .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -216,37 +220,6 @@ public class FireBase {
         return Users;
     }
 
-    /**
-     * this function return document reference to document: User (each user's name)
-     * @return
-     */
-    public DocumentReference userRef(){
-        return User;
-    }
-
-    /**
-     * this function return collection reference to collection: HabitList
-     * @return
-     */
-    public CollectionReference hbLstRef(){
-        return HabitList;
-    }
-
-    /**
-     * this function return collection reference to collection: Followers
-     * @return
-     */
-    public CollectionReference getFollowers() {
-        return Followers;
-    }
-
-    /**
-     * this function return collection reference to collection: Followees
-     * @return
-     */
-    public CollectionReference getFollowees() {
-        return Followees;
-    }
 
     /* get information: this feature is not working */
 
@@ -260,51 +233,72 @@ public class FireBase {
     }
 
 
+    /**
+     * this function get follower list and store in list
+     * @param list
+     */
+    public void getFollowerLst(ArrayList<User> list){
 
-    //public void readFollowerLst(MyCallback myCallback){
-        /*
         Followers
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        followerLst.clear();
+                        list.clear();
                         for (QueryDocumentSnapshot doc: value){
                             Log.d(TAG, "onEvent: getting followers");
                             User follower = doc.toObject(com.example.happyhabitapp.User.class);
                             Log.d(TAG, "onEvent: " + follower.getUsername());
-                            followerLst.add(follower);
+                            list.add(follower);
                         }
                     }
                 });
-         */
-
-
-
-    /*
-        Followers
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                Log.d(TAG, "onEvent: getting followers");
-                                User follower = documentSnapshot.toObject(com.example.happyhabitapp.User.class);
-                                Log.d(TAG, "onEvent: " + follower.getUsername());
-                                followerLst.add(follower);
-                                myCallback.onCallback(followerLst);
-                            }
-                        }
-                        else {
-                            Log.e(TAG, "onComplete: can't get data", task.getException());
-                        }
-                    }
-                });
-
-
     }
 
+    /**
+     * this function get followee list and store in list
+     * @param list
      */
+    public void getFolloweeLst(ArrayList<User> list){
+        Followees
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting followers");
+                            User followee = doc.toObject(com.example.happyhabitapp.User.class);
+                            Log.d(TAG, "onEvent: " + followee.getUsername());
+                            list.add(followee);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * this function get habit list and store in list
+     * @param list
+     */
+    public void getHabitLst(ArrayList<Habit> list){
+        HabitList
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting followers");
+                            Habit habit = doc.toObject(Habit.class);
+                            Log.d(TAG, "onEvent: " + habit.getTitle());
+                            list.add(habit);
+                        }
+                    }
+                });
+    }
+
+
+
+
+
 
 
 

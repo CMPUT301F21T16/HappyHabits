@@ -42,6 +42,7 @@ import java.util.Map;
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
     ArrayList<User> list = new ArrayList<>();
+    ArrayList<Habit> habits = new ArrayList<>();
 
     Calendar c = Calendar.getInstance();
     int week_frq[] = {1};
@@ -51,6 +52,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User user2 = new User("koko", "path2");
 
     Habit habit = new Habit("jump", "exercise",c, week_frq,true);
+    Habit habit2 = new Habit("watch", "fun", c, week_frq, true);
 
     HabitEvent event = new HabitEvent("today's jump", "like", c, week_frq, habit.getTitle());
     FireBase fire = new FireBase();
@@ -63,6 +65,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        fire.getHabitLst(habits);
     }
 
     private void startLogin(){
@@ -111,24 +114,15 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     public void readDocument(View view) {
-        Toast.makeText(this, "Reading a doc...", Toast.LENGTH_SHORT).show();
-        fire.getFollowers()
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        list.clear();
-                        for (QueryDocumentSnapshot doc: value){
-                            User follower = doc.toObject(User.class);
-                            list.add(follower);
-                        }
-                    }
-                });
-        Integer size = list.size();
+
+        Integer size = habits.size();
         Toast.makeText(this, size.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void updateDocument(View view) {
         Toast.makeText(this, "updateDocument", Toast.LENGTH_SHORT).show();
+        fire.setHabit(habit2);
+
 
     }
 

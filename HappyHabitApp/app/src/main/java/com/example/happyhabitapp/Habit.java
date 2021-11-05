@@ -13,6 +13,9 @@ public class Habit implements Serializable {
     private int[] week_freq;
     private boolean publicHabit;
 
+    public Habit() {
+    }
+
     public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit) {
         this.title = title;
         this.reason = reason;
@@ -36,6 +39,7 @@ public class Habit implements Serializable {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
 
     public Calendar getDate() {
         return date;
