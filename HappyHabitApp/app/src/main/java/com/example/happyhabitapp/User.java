@@ -141,6 +141,7 @@ public class User {
         this.followList.remove(follower);
     }
 
+
     public void setPicPath(String picPath) {
         this.picPath = picPath;
     }
