@@ -128,13 +128,17 @@ public class AddEditTest {
             }
         }
         /**
-         * click habit
+         * click habit, change title and reason and from private to public
          */
         onView(ViewMatchers.withId(R.id.habit_list))
             .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
 
         onView(withId(R.id.habit_title_editText))
                 .perform(clearText(),typeText("newTitle"), closeSoftKeyboard());
+
+        onView(withId(R.id.publicSwitch)).perform(click());
+
+        assertTrue(solo.waitForText("Public",1,10));
 
         onView(withId(R.id.habit_reason_editText))
                 .perform(clearText(),typeText("newReason"), closeSoftKeyboard());
