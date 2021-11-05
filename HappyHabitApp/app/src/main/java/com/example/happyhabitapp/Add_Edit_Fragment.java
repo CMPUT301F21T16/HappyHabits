@@ -6,9 +6,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,30 +20,78 @@ import java.util.List;
 
 import ca.antonious.materialdaypicker.MaterialDayPicker;
 
-
+/**
+ * This class is used for the fragment for adding, editing and viewing {@link String}. Viewing
+ * and editing is done in the same fragment.
+ * @author Anuj, Armaan
+ * @version 1.0
+ */
 public class Add_Edit_Fragment extends DialogFragment {
 
+    /**
+     * This variable is linked to the EditText for habit title and is of type {@link EditText}
+     */
     private EditText habit_title;
+
+    /**
+     * This variable is linked to the DatePicker for the starting date of {@link Habit}. It is of
+     * type {@link DatePicker}
+     */
     private DatePicker habit_starting_date;
+
+    /**
+     * This variable is linked to the EditText for habit reason and is of type {@link EditText}
+     */
     private EditText habit_reason;
-    private CheckBox sun,mon,tue,wed,thr,fri,sat;
-    private List<MaterialDayPicker.Weekday> pickerSelectedDays = new ArrayList<>();
+
+    /**
+     * The widget is used to pick the days of the week selected by the user
+     */
     private MaterialDayPicker dayPicker;
+
+    /**
+     * A List that is directly connected to the MaterialDayPicker
+     */
+    private List<MaterialDayPicker.Weekday> pickerSelectedDays;
+
+    /**
+     * This listener is linked to the activity the fragment was called in and is of type
+     * {@link onFragmentInteractionListener}
+     */
     private onFragmentInteractionListener listener;
+
+    /**
+     * This variable is linked to the View for thelayout of the fragment in res and is of
+     * type {@link View}
+     */
     private View view;
 
-    static Add_Edit_Fragment newInstance(Habit habit){
-        Bundle args = new Bundle();
-        args.putSerializable("habit", habit);
+    /**
+     * This variable is a {@link Habit} that is null if the fragment is used for adding, and is an
+     * actual habit if used for editing
+     */
+    private Habit habit;
 
-        Add_Edit_Fragment fragment = new Add_Edit_Fragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    /**
+     * This interface is linked to the interactions the fragment has, which correlate to both
+     * adding and editing {@link Habit}
+     */
     public interface onFragmentInteractionListener{
         void onAddPressed(Habit newHabit);
         void onEditPressed(Habit newHabit, Habit oldHabit);
+    }
+
+
+    /**
+     * initializes all the widgets as well as obtains the habit from the bundle
+     **/
+    public void initFragment() {
+        habit = (Habit)getArguments().getSerializable("habit");
+        view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
+        habit_title = view.findViewById(R.id.habit_title_editText);
+        habit_reason = view.findViewById(R.id.habit_reason_editText);
+        habit_starting_date = view.findViewById(R.id.habit_starting_date);
+        dayPicker = view.findViewById(R.id.day_picker);
     }
 
     @Override
@@ -55,42 +103,40 @@ public class Add_Edit_Fragment extends DialogFragment {
             throw new RuntimeException(context.toString() + " must implement onFragmentInteractionListener");
         }
     }
-    private void initFragment() {
-        //view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
-        view = getActivity().getLayoutInflater().inflate(R.layout.add_edit_habit_fragment_layout,null);
 
-        habit_title = view.findViewById(R.id.habit_title_editText);
-        habit_reason = view.findViewById(R.id.habit_reason_editText);
-        habit_starting_date = view.findViewById(R.id.habit_starting_date);
-        dayPicker = view.findViewById(R.id.day_picker);
-
-    }
     /**
-     * initialize the EditTexts, DatePicker, and checkboxes. Create a Dialog Fragment from add_edit_habit_fragment_layout.xml
-     *  and on Add habit click, store all values in a new habit Object and return the Dialog Fragment instance
+     * Create a Dialog Fragment from add_edit_habit_fragment_layout.xml and checks what made the
+     * user wanted, Adding or editing.
      *
      * @param savedInstanceState
      *
-     * @return
+     * @return {@link Dialog}
      */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         initFragment();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.Theme_AddEditFragment);
-        Habit selectedHabit = (Habit) getArguments().getSerializable("habit");
 
-        if(selectedHabit != null) { //if edit habit was clicked
+        if(habit != null) { //if wanting to edit a habit
             //editing the Habit
-            return editHabit(selectedHabit, builder);
-        } else { //if add habit was clicked
+            return editHabit(habit, builder);
+        } else { //if wanting to add a habit
             return addHabit(builder);
         }
     }
 
-    private Dialog addHabit(AlertDialog.Builder builder) {
+    /**
+     * When called, This function will build on an AlertDialog.Builder instance and on add Habit
+     * clicked in the fragment, it will store all values inputted by the user and performs checks
+     * on the validity of some, and if passes, will return the builder
+     *
+     * @param builder
+     *
+     * @return {@link AlertDialog.Builder}
+     */
+    private Dialog addHabit(@NonNull AlertDialog.Builder builder) {
         return builder
                 .setView(view)
                 .setTitle("Add Habit")
@@ -105,8 +151,8 @@ public class Add_Edit_Fragment extends DialogFragment {
                     String reason = habit_reason.getText().toString();
 
                     int[] week_freq = {0,0,0,0,0,0,0};
-                    pickerSelectedDays = dayPicker.getSelectedDays();
 
+                    pickerSelectedDays = dayPicker.getSelectedDays();
                     if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SUNDAY)){
                         week_freq[0] = 1;
                     }
@@ -129,14 +175,32 @@ public class Add_Edit_Fragment extends DialogFragment {
                         week_freq[6] = 1;
                     }
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
-                    if(title.compareTo("") != 0 && reason.compareTo("") != 0){
+                    if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
                         Habit newHabit = new Habit(title, reason, date, week_freq);
                         listener.onAddPressed(newHabit);
+                    }
+                    else{
+                        Context context = getContext();
+                        CharSequence text = "Invalid Entry, Try again";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     }
                 }).create();
     }
 
-    private Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder) {
+    /**
+     * When called, This function will build on an AlertDialog.Builder instance and initialize
+     * all widgets necessary for editing to be the corresponding value given by the selectedHabit
+     * On done editing clicked in the fragment, it will store all values inputted by the user and
+     * perform checks on the validity of some, and if passes, will return the builder
+     *
+     * @param builder
+     *
+     * @return {@link AlertDialog.Builder}
+     */
+    private Dialog editHabit(@NonNull Habit selectedHabit, AlertDialog.Builder builder) {
         habit_title.setText(selectedHabit.getTitle());
         habit_reason.setText(selectedHabit.getReason());
 
@@ -155,10 +219,8 @@ public class Add_Edit_Fragment extends DialogFragment {
 
         int[] week_freq = selectedHabit.getWeek_freq();
         /**
-         * setting checkboxes from weekly frequency
-         */
-
-
+         * setting picker from weekly frequency
+         **/
 
         if(week_freq[0] == 1){
             pickerSelectedDays.add(MaterialDayPicker.Weekday.SUNDAY);
@@ -222,13 +284,18 @@ public class Add_Edit_Fragment extends DialogFragment {
                     }
 
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
-                    if(title.compareTo("") != 0 && reason.compareTo("") != 0){
+                    if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
                         Habit newHabit = new Habit(title,reason,date,freq);
                         listener.onEditPressed(newHabit, selectedHabit);
                     }
+                    else{
+                        Context context = getContext();
+                        CharSequence text = "Invalid Edit, Try again";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
                 }).create();
-
     }
-
-
 }
+
