@@ -11,7 +11,6 @@ public class Habit implements Serializable {
     private String reason;
     private Calendar date;
     private int[] week_freq;
-    private String current_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public Habit(String title, String reason, Calendar date, int[] week_freq) {
         this.title = title;
@@ -20,9 +19,7 @@ public class Habit implements Serializable {
         this.week_freq = week_freq;
     }
 
-    public String getCurrent_uid() {
-        return current_uid;
-    }
+
 
     public String getTitle() {
         return title;

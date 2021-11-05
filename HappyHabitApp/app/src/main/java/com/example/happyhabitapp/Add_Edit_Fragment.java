@@ -81,14 +81,12 @@ public class Add_Edit_Fragment extends DialogFragment {
         void onEditPressed(Habit newHabit, Habit oldHabit);
     }
 
+
     /**
-     * Constructor of Add_Edit_Fragment that initializes the variables needed for both adding and
-     * editing
-     * @param habit - null if adding, an actual {@link Habit} if editing/viewing
-     */
-    Add_Edit_Fragment (Habit habit) {
-        this.habit = habit;
-        pickerSelectedDays = new ArrayList<>();
+     * initializes all the widgets as well as obtains the habit from the bundle
+     **/
+    public void initFragment() {
+        habit = (Habit)getArguments().getSerializable("habit");
         view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
         habit_title = view.findViewById(R.id.habit_title_editText);
         habit_reason = view.findViewById(R.id.habit_reason_editText);
@@ -118,6 +116,7 @@ public class Add_Edit_Fragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
+        initFragment();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.Theme_AddEditFragment);
 
         if(habit != null) { //if wanting to edit a habit

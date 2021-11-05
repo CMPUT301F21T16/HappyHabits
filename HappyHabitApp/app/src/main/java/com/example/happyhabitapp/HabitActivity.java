@@ -154,7 +154,12 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Add_Edit_Fragment newFragment = new Add_Edit_Fragment(null);
+
+                DialogFragment newFragment = new Add_Edit_Fragment();
+                Bundle args = new Bundle();
+                args.putSerializable("habit", null);
+                newFragment.setArguments(args);
+
                 newFragment.show(getSupportFragmentManager(),"ADD_HABIT");
             }
         });
@@ -180,7 +185,12 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     public void onHabitClick(int position){
         Habit selectedHabit = currentUser.getHabitList().get(position);
         //Go to new add/edit fragment
-        Add_Edit_Fragment newFragment = new Add_Edit_Fragment(selectedHabit);
+
+        DialogFragment newFragment = new Add_Edit_Fragment();
+        Bundle args = new Bundle();
+        args.putSerializable("habit", selectedHabit);
+        newFragment.setArguments(args);
+
         newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
     }
 
