@@ -106,6 +106,7 @@ public class FireBase {
             freq.add(habit.getWeek_freq()[i]);
         }
         Map<String, Object> map = new HashMap<>();
+
         map.put("Title", habit.getTitle());
         map.put("Reason", habit.getReason());
         map.put("Days", freq);
@@ -234,6 +235,7 @@ public class FireBase {
         return current_name;
     }
 
+
     /**
      * this function returns follower list
      * @return
@@ -253,6 +255,9 @@ public class FireBase {
                 });
         return followerLst;
     }
+
+
+
 
 }
 
