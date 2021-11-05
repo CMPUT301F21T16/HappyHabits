@@ -7,6 +7,7 @@
 package com.example.happyhabitapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -26,7 +27,11 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -105,8 +110,17 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void readDocument(View view) {
         Toast.makeText(this, "Reading a doc...", Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, fire.getFollowerLst().get(0).getUsername(), Toast.LENGTH_SHORT).show();
-        list = fire.getFollowerLst();
+        fire.getFollowers()
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            User follower = doc.toObject(User.class);
+                            list.add(follower);
+                        }
+                    }
+                });
         Integer size = list.size();
         Toast.makeText(this, size.toString(), Toast.LENGTH_SHORT).show();
     }

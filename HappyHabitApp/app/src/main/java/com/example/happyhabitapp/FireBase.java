@@ -38,31 +38,21 @@ public class FireBase {
 
     private static final String TAG = "FireBase"; // for the logd and loge will be deleted after finishing the implementation
 
-    private ArrayList<Habit> habitList;
-    private ArrayList<User> followerLst = new ArrayList<>();
-    private ArrayList<User> followeeLst;
-    private ArrayList<HabitEvent> eventLst;
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     private String current_uid;
 
-    CollectionReference Users = db.collection("Users");
-    DocumentReference User = Users.document(getUserName());
-    CollectionReference HabitList = User.collection("HabitList");
-    CollectionReference Followers = User.collection("Followers");
-    CollectionReference Followees = User.collection("Followees");
-    final Semaphore semaphore = new Semaphore(0);
-
-    public interface MyCallback{
-        void onCallback(ArrayList<User> uu);
-    }
-
+    private CollectionReference Users = db.collection("Users");
+    private DocumentReference User = Users.document(getUserName());
+    private CollectionReference HabitList = User.collection("HabitList");
+    private CollectionReference Followers = User.collection("Followers");
+    private CollectionReference Followees = User.collection("Followees");
 
 
     /* Constructors */
     public FireBase() {}
 
-    /* setters */
+    /* Functions to upload to database */
 
     /**
      * this function upload user's information to firebase
@@ -70,16 +60,6 @@ public class FireBase {
      */
 
     public void setUser(User user) {
-        /*
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("Current_uid", user.getCurrent_uid());
-        map.put("Name", user.getUsername());
-        map.put("Pic_path", user.getPicPath());
-        map.put("habits", user.getHabitList());
-        map.put("followers", user.getFollowList());
-
-         */
 
         User
                 .set(user)
@@ -95,10 +75,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add user", e);
                     }
                 });
-                //.add(user)
-                //.add(map)
-
-
 
     }
 
@@ -231,6 +207,47 @@ public class FireBase {
         return current_uid;
     }
 
+
+    /**
+     * this function return the collection reference to collection: Users
+     * @return
+     */
+    public CollectionReference usersRef(){
+        return Users;
+    }
+
+    /**
+     * this function return document reference to document: User (each user's name)
+     * @return
+     */
+    public DocumentReference userRef(){
+        return User;
+    }
+
+    /**
+     * this function return collection reference to collection: HabitList
+     * @return
+     */
+    public CollectionReference hbLstRef(){
+        return HabitList;
+    }
+
+    /**
+     * this function return collection reference to collection: Followers
+     * @return
+     */
+    public CollectionReference getFollowers() {
+        return Followers;
+    }
+
+    /**
+     * this function return collection reference to collection: Followees
+     * @return
+     */
+    public CollectionReference getFollowees() {
+        return Followees;
+    }
+
     /* get information: this feature is not working */
 
     /**
@@ -243,11 +260,8 @@ public class FireBase {
     }
 
 
-    /**
-     * this function returns follower list
-     * @return
-     */
-    public void readFollowerLst(MyCallback myCallback){
+
+    //public void readFollowerLst(MyCallback myCallback){
         /*
         Followers
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -264,6 +278,9 @@ public class FireBase {
                 });
          */
 
+
+
+    /*
         Followers
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -287,17 +304,10 @@ public class FireBase {
 
     }
 
-    public ArrayList<User> getFollowerLst(){
-        readFollowerLst(new MyCallback() {
-            @Override
-            public void onCallback(ArrayList<com.example.happyhabitapp.User> uu) {
-                followerLst = uu;
-                Integer size = uu.size();
-                Log.d(TAG, "onCallback: " + size.toString());
-            }
-        });
-        return followerLst; // this is still size 0 because the call back is finished after the method itself.
-    }
+     */
+
+
+
 
 
 }
