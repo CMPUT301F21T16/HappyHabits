@@ -30,7 +30,6 @@ public class DashboardAdapter extends ArrayAdapter<Habit> {
 
     /**
      * Inflates the view of each element in the file.
-     *
      */
 
     public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {

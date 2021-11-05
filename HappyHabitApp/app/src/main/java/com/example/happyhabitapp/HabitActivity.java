@@ -169,7 +169,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
 
 
     /**
-     * Launches a new instance of
+     * Launches a new instance of {@link Add_Edit_Fragment}
      * @param position an int representing position of a selected habit in the data list of Habits
      */
     public void onHabitClick(int position){

@@ -40,7 +40,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
     private ArrayAdapter<Habit> habitAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

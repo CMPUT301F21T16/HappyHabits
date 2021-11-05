@@ -31,6 +31,12 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
     private ItemTouchHelper touchHelper;
     private HabitListener viewListener;
 
+    /**
+     * Gets all relevant data fields and initializes a {@link GestureDetector} to set to the View.
+     * @param habitView a {@link View}
+     * @param helper an {@link ItemTouchHelper}
+     * @param habitListener an instance of {@link HabitListener}
+     */
     public HabitViewHolder(View habitView, ItemTouchHelper helper, HabitListener habitListener) {
         super(habitView);
 
@@ -46,6 +52,10 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         habitView.setOnTouchListener(this);
     }
 
+    /**
+     * Sets the data in the view model according to {@link Habit} instance.
+     * @param habit
+     */
     public void attachData(Habit habit) {
         titleTextView.setText(habit.getTitle());
         reasonTextView.setText(habit.getReason());
