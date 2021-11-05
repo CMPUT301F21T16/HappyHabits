@@ -39,6 +39,10 @@ public class AddEditTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
 
+    /**
+     * Testing Add functionality
+     * Assumes Already Logged into app on emulator
+     */
     @Test
     public void testAdd(){
         /**
@@ -82,7 +86,10 @@ public class AddEditTest {
                 && solo.waitForText("Reason",1,10)
                 && solo.waitForText("Wednesday",1,10));
     }
-
+    /**
+     * Testing Edit functionality
+     * Assumes Already Logged into app on emulator
+     */
     @Test
     public void testEdit() {
         /**
