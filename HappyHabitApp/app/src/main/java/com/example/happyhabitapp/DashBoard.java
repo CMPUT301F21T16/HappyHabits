@@ -33,7 +33,7 @@ import com.google.firebase.auth.GetTokenResult;
 
 public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthStateListener{
 
-    private static final String TAG = "";
+    private final String TAG = "";
 
     private User currentUser;
     private ArrayList<Habit> todaysHabits;

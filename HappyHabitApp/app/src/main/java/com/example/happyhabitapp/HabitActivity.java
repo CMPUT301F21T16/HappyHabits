@@ -39,7 +39,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     private RecyclerView habitViewList;
     private ImageButton addButton; // button to add habits to list
     private HabitsAdapter adapter;
-    private static final String TAG = "";
+    private final String TAG = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
