@@ -105,7 +105,10 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void readDocument(View view) {
         Toast.makeText(this, "Reading a doc...", Toast.LENGTH_SHORT).show();
-        fire.getFollowerLst();
+        //Toast.makeText(this, fire.getFollowerLst().get(0).getUsername(), Toast.LENGTH_SHORT).show();
+        list = fire.getFollowerLst();
+        Integer size = list.size();
+        Toast.makeText(this, size.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void updateDocument(View view) {

@@ -32,9 +32,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 public class FireBase {
-    private static final String TAG = "FireBase";
+
+    private static final String TAG = "FireBase"; // for the logd and loge will be deleted after finishing the implementation
 
     private ArrayList<Habit> habitList;
     private ArrayList<User> followerLst = new ArrayList<>();
@@ -49,6 +51,11 @@ public class FireBase {
     CollectionReference HabitList = User.collection("HabitList");
     CollectionReference Followers = User.collection("Followers");
     CollectionReference Followees = User.collection("Followees");
+    final Semaphore semaphore = new Semaphore(0);
+
+    public interface MyCallback{
+        void onCallback(ArrayList<User> uu);
+    }
 
 
 
@@ -240,7 +247,8 @@ public class FireBase {
      * this function returns follower list
      * @return
      */
-    public ArrayList<User> getFollowerLst(){
+    public void readFollowerLst(MyCallback myCallback){
+        /*
         Followers
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -249,14 +257,47 @@ public class FireBase {
                         for (QueryDocumentSnapshot doc: value){
                             Log.d(TAG, "onEvent: getting followers");
                             User follower = doc.toObject(com.example.happyhabitapp.User.class);
+                            Log.d(TAG, "onEvent: " + follower.getUsername());
                             followerLst.add(follower);
                         }
                     }
                 });
-        return followerLst;
+         */
+
+        Followers
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                Log.d(TAG, "onEvent: getting followers");
+                                User follower = documentSnapshot.toObject(com.example.happyhabitapp.User.class);
+                                Log.d(TAG, "onEvent: " + follower.getUsername());
+                                followerLst.add(follower);
+                                myCallback.onCallback(followerLst);
+                            }
+                        }
+                        else {
+                            Log.e(TAG, "onComplete: can't get data", task.getException());
+                        }
+                    }
+                });
+
+
     }
 
-
+    public ArrayList<User> getFollowerLst(){
+        readFollowerLst(new MyCallback() {
+            @Override
+            public void onCallback(ArrayList<com.example.happyhabitapp.User> uu) {
+                followerLst = uu;
+                Integer size = uu.size();
+                Log.d(TAG, "onCallback: " + size.toString());
+            }
+        });
+        return followerLst; // this is still size 0 because the call back is finished after the method itself.
+    }
 
 
 }
