@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -129,9 +130,17 @@ public class Add_Edit_Fragment extends DialogFragment {
                         week_freq[6] = 1;
                     }
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
-                    if(title.compareTo("") != 0 && reason.compareTo("") != 0){
+                    if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
                         Habit newHabit = new Habit(title, reason, date, week_freq);
                         listener.onAddPressed(newHabit);
+                    }
+                    else{
+                        Context context = getContext();
+                        CharSequence text = "Invalid Entry, Try again";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     }
                 }).create();
     }
@@ -222,9 +231,16 @@ public class Add_Edit_Fragment extends DialogFragment {
                     }
 
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
-                    if(title.compareTo("") != 0 && reason.compareTo("") != 0){
+                    if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
                         Habit newHabit = new Habit(title,reason,date,freq);
                         listener.onEditPressed(newHabit, selectedHabit);
+                    }
+                    else{
+                        Context context = getContext();
+                        CharSequence text = "Invalid Edit, Try again";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     }
                 }).create();
 
@@ -232,3 +248,4 @@ public class Add_Edit_Fragment extends DialogFragment {
 
 
 }
+
