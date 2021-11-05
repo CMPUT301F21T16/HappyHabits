@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,7 +26,6 @@ public class Add_Edit_Fragment extends DialogFragment {
     private EditText habit_title;
     private DatePicker habit_starting_date;
     private EditText habit_reason;
-    private CheckBox sun,mon,tue,wed,thr,fri,sat;
     private List<MaterialDayPicker.Weekday> pickerSelectedDays = new ArrayList<>();
     private MaterialDayPicker dayPicker;
     private onFragmentInteractionListener listener;
@@ -57,9 +55,7 @@ public class Add_Edit_Fragment extends DialogFragment {
         }
     }
     private void initFragment() {
-        //view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
-        view = getActivity().getLayoutInflater().inflate(R.layout.add_edit_habit_fragment_layout,null);
-
+        view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
         habit_title = view.findViewById(R.id.habit_title_editText);
         habit_reason = view.findViewById(R.id.habit_reason_editText);
         habit_starting_date = view.findViewById(R.id.habit_starting_date);
@@ -164,10 +160,8 @@ public class Add_Edit_Fragment extends DialogFragment {
 
         int[] week_freq = selectedHabit.getWeek_freq();
         /**
-         * setting checkboxes from weekly frequency
-         */
-
-
+         * setting picker from weekly frequency
+         **/
 
         if(week_freq[0] == 1){
             pickerSelectedDays.add(MaterialDayPicker.Weekday.SUNDAY);
