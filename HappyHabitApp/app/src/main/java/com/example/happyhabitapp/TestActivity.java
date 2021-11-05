@@ -46,7 +46,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User user2 = new User("koko", "path2");
     Habit habit = new Habit("jump", "exercise",c, week_frq);
     HabitEvent event = new HabitEvent("today's jump", "like", c, week_frq, habit.getTitle());
-    FireBase fire = new FireBase(user, habit, user, user, event);
+    FireBase fire = new FireBase();
 
 
 
@@ -95,16 +95,17 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void createDocument(View view) {
         Toast.makeText(this, "createDocument", Toast.LENGTH_SHORT).show();
-        fire.setHabitEventEvent(event);
-        fire.setFollowees(user);
-        fire.setFollowers(user);
+        fire.setUser(user);
         fire.setHabit(habit);
-        fire.setUser(user2);
+        fire.setFollowers(user2);
+        fire.setFollowees(user2);
+        fire.setHabitEventEvent(event);
 
     }
 
     public void readDocument(View view) {
         Toast.makeText(this, "Reading a doc...", Toast.LENGTH_SHORT).show();
+        fire.getFollowerLst();
     }
 
     public void updateDocument(View view) {
