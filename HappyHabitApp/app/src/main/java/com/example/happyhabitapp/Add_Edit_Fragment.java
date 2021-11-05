@@ -67,12 +67,6 @@ public class Add_Edit_Fragment extends DialogFragment {
     private View view;
 
     /**
-     * This variable is a {@link Habit} that is null if the fragment is used for adding, and is an
-     * actual habit if used for editing
-     */
-    private Habit habit;
-
-    /**
      * This interface is linked to the interactions the fragment has, which correlate to both
      * adding and editing {@link Habit}
      */
@@ -86,12 +80,12 @@ public class Add_Edit_Fragment extends DialogFragment {
      * initializes all the widgets as well as obtains the habit from the bundle
      **/
     public void initFragment() {
-        habit = (Habit)getArguments().getSerializable("habit");
         view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
         habit_title = view.findViewById(R.id.habit_title_editText);
         habit_reason = view.findViewById(R.id.habit_reason_editText);
         habit_starting_date = view.findViewById(R.id.habit_starting_date);
         dayPicker = view.findViewById(R.id.day_picker);
+        pickerSelectedDays = new ArrayList<>();
     }
 
     @Override
@@ -115,7 +109,8 @@ public class Add_Edit_Fragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
+        assert getArguments() != null;
+        Habit habit = (Habit)getArguments().getSerializable("habit");
         initFragment();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.Theme_AddEditFragment);
 
@@ -136,7 +131,7 @@ public class Add_Edit_Fragment extends DialogFragment {
      *
      * @return {@link AlertDialog.Builder}
      */
-    private Dialog addHabit(@NonNull AlertDialog.Builder builder) {
+    private Dialog addHabit(AlertDialog.Builder builder) {
         return builder
                 .setView(view)
                 .setTitle("Add Habit")
@@ -200,7 +195,7 @@ public class Add_Edit_Fragment extends DialogFragment {
      *
      * @return {@link AlertDialog.Builder}
      */
-    private Dialog editHabit(@NonNull Habit selectedHabit, AlertDialog.Builder builder) {
+    private Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder) {
         habit_title.setText(selectedHabit.getTitle());
         habit_reason.setText(selectedHabit.getReason());
 
