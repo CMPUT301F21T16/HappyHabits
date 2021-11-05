@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashBoard"
+    android:orientation="vertical"
+    android:background="@color/theme_bg">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <!--
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HH"
+            android:textSize="60dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp">
+        </TextView>
+        -->
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            tools:srcCompat="@drawable/hhicon2"
+            android:scaleType="fitXY">
+        </ImageView>
+
+
+        <TextView
+            android:id="@+id/user_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User-01"
+            android:textSize="25dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/text_primary">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/user_profile_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            tools:srcCompat="@drawable/lol"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/circleshape">
+
+        </ImageView>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:text="yes"
+        android:background="@drawable/textlines">
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DashBoard"
+        android:layout_gravity="center"
+        android:textSize="45dp"
+        android:textColor="@color/text_primary">
+
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:text="yes"
+        android:background="@drawable/textlines">
+    </TextView>
+
+    <TextView
+        android:id="@+id/today_habit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today's Habit(Thursday)"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/text_primary">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/today_habit_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/text_primary"
+            android:layout_weight="1"></ListView>
+
+            <Button
+                android:id="@+id/go_to_list_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Habits List"
+
+                app:backgroundTint="@color/theme_primary"
+                android:textColor="@color/button_text"></Button>
+    </LinearLayout>
+</LinearLayout>
