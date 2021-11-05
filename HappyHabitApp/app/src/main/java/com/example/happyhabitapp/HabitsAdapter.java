@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * Renders a RecyclerView of {@link HabitViewHolder} instances with data passed from {@link User}'s habit list.
+ * @author Jonathan, Anthony
+ */
 public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
 
     private List<Habit> habitList;

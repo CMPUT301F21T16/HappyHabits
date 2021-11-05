@@ -30,7 +30,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Create Brand new RecycleView Adapter, Implement HelperAdapter Interface, habitTouchHelper class, and make sure all elements are changeable.
+/**
+ * A class representing the habit activity of the app
+ * @author: Anthony, Jonathan
+ */
 
 public class HabitActivity extends AppCompatActivity implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener {
 
@@ -58,7 +61,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     }
 
     /**
-     * this function will start login activity
+     * Starts login activity
      */
     private void startLogin(){
         startActivity(new Intent(HabitActivity.this, MainActivity.class));
@@ -90,7 +93,6 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
                         }
                     });
         }
-
         return true;
     }
 
@@ -119,10 +121,9 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     //}
 
     /**
-     * Sets up the list and all relevant listeners.
+     * Sets up the list by instantiating {@link HabitsAdapter} and attaching a {@link ItemTouchHelper}
+     * before setting the adapter to {@link RecyclerView}
      */
-
-    //TODO: have to set up an item touch helper to assist in re-ordering, and swipe
     private void setList() {
         //Connect the adapter to the recyclerView
         adapter = new HabitsAdapter(currentUser.getHabitList(), this);      //Connect list to our own custom adapter
@@ -171,16 +172,12 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
                 startActivity(previousActivity);
             }
         });
-
-
-
     }
 
 
     /**
-     * Launches a new instance of
-     * @param position
-     *       the position of a selected habit in the data list of Habits
+     * Launches a new instance of {@link Add_Edit_Fragment}
+     * @param position an int representing position of a selected habit in the data list of Habits
      */
     public void onHabitClick(int position){
         Habit selectedHabit = currentUser.getHabitList().get(position);
@@ -197,8 +194,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     /**
      * Adds a new Habit to the list when the ADD button is pressed on
      * the Add_Edit_fragment
-     * @param newHabit
-     *      a Habit to add to the list
+     * @param newHabit a {@link Habit} to add to the list
      */
     @Override
     public void onAddPressed(Habit newHabit){
@@ -210,14 +206,13 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
 
     }
 
-
     /**
      * Edits the information of an existing Habit in the list by replacing the habit
      * with a new one with updated information
      * @param newHabit
-     *      The new Habit that to add to the list
+     *      The new {@link Habit} that to add to the list
      * @param oldHabit
-     *      The old Habit to be swapped with the new Habit
+     *      The old {@link Habit} to be swapped with the new Habit
      */
     @Override
     public void onEditPressed(Habit newHabit, Habit oldHabit){
