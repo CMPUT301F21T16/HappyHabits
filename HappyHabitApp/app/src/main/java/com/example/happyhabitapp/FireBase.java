@@ -367,6 +367,74 @@ public class FireBase {
                 });
     }
 
+    /**
+     * this function delete follower from Followers
+     * @param follower
+     */
+    public void delFollower(User follower){
+        Followers.document(follower.getUsername())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted follower");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete follower", e);
+                    }
+                });
+    }
+
+
+    /**
+     * this function delete followee from Followees
+     * @param followee
+     */
+    public void delFollowee(User followee){
+        Followees.document(followee.getUsername())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted followee");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete followee", e);
+                    }
+                });
+    }
+
+    /**
+     * this function delete havit event from Events
+     * @param habit
+     * @param event
+     */
+    public void delEvent(Habit habit,HabitEvent event){
+        HabitList
+                .document(habit.getTitle())
+                .collection("Events")
+                .document(event.getTitle())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted event");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete event", e);
+                    }
+                });
+    }
+
 
 
 
