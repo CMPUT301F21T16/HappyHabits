@@ -12,6 +12,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Represents the view model for each {@link Habit}.
+ * Used with {@link HabitsAdapter}.
+ */
+
 public class HabitViewHolder extends RecyclerView.ViewHolder implements
     View.OnTouchListener, GestureDetector.OnGestureListener
 {
