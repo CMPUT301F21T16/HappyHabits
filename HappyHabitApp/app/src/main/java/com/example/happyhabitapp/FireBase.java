@@ -50,11 +50,12 @@ public class FireBase {
     private ArrayList<HabitEvent> eventList;
 
 
-    CollectionReference Habit = db.collection("Habits");
-    CollectionReference Followers = db.collection("Followers");
-    CollectionReference Followees = db.collection("Followees");
-    CollectionReference User = db.collection("User");
-    CollectionReference habitEvent = db.collection("Events");
+    CollectionReference Users = db.collection("Users");
+    DocumentReference User = Users.document(getUserName());
+    CollectionReference HabitList = User.collection("HabitList");
+    CollectionReference Followers = User.collection("Followers");
+    CollectionReference Followees = User.collection("Followees");
+
 
 
     /* Constructors */
@@ -86,7 +87,6 @@ public class FireBase {
          */
 
         User
-                .document(user.getUsername())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -125,7 +125,7 @@ public class FireBase {
         map.put("Dates", habit.getDate());
 
 
-        Habit
+        HabitList
                 .document(habit.getTitle())
                 .update(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -208,7 +208,7 @@ public class FireBase {
         map.put("Days", freq);
         map.put("Dates", event.getDate());
         map.put("About", event.getAbout());
-        habitEvent
+        HabitList
                 .document(event.getTitle())
                 .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -238,6 +238,11 @@ public class FireBase {
     }
 
     /* get information: this feature is not working */
+
+    public String getUserName(){
+        String current_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        return current_name;
+    }
 
 
     /*
