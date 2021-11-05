@@ -43,6 +43,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     ArrayList<User> list = new ArrayList<>();
     ArrayList<Habit> habits = new ArrayList<>();
+    ArrayList<HabitEvent> events = new ArrayList<>();
 
     Calendar c = Calendar.getInstance();
     int week_frq[] = {1};
@@ -66,7 +67,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        fire.getHabitLst(habits);
+        fire.getEventLst(events, habit);
     }
 
     private void startLogin(){
@@ -118,7 +119,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void readDocument(View view) {
 
-        Integer size = habits.size();
+        Integer size = events.size();
         Toast.makeText(this, size.toString(), Toast.LENGTH_SHORT).show();
     }
 

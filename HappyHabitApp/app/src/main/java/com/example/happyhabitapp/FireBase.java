@@ -293,6 +293,24 @@ public class FireBase {
                 });
     }
 
+    public void getEventLst(ArrayList<HabitEvent> list, Habit habit){
+        HabitList
+                .document(habit.getTitle())
+                .collection("Events")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting followers");
+                            HabitEvent event = doc.toObject(HabitEvent.class);
+                            Log.d(TAG, "onEvent: " + event.getTitle());
+                            list.add(event);
+                        }
+                    }
+                });
+    }
+
 
 
 
