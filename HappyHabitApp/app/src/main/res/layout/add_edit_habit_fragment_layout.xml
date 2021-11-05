@@ -12,7 +12,8 @@
         android:ems="10"
         android:hint="Habit Title"
         android:maxLength= "20"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="@color/text_primary"/>
 
     <EditText
         android:id="@+id/habit_reason_editText"
@@ -21,103 +22,30 @@
         android:ems="10"
         android:hint="Habit Reason"
         android:maxLength = "30"
-        android:inputType = "textPersonName" />
+        android:inputType = "textPersonName"
+        android:textColor="@color/text_primary"/>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="fill_parent"
+    <ca.antonious.materialdaypicker.MaterialDayPicker
+        android:id="@+id/day_picker"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#e0e0e0"
-        android:orientation="horizontal">
+        android:layout_margin="10dp" />
 
-        <CheckBox
-            android:id="@+id/SunCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="true"
-            android:text="Sun"
-            android:textSize="15sp"
-            android:textStyle="italic"
-             />
-
-        <CheckBox
-            android:id="@+id/MonCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="false"
-
-            android:text="Mon"
-            android:textSize="15sp"
-            android:textStyle="italic"
-            />
-
-        <CheckBox
-            android:id="@+id/TueCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="false"
-
-            android:text="Tue"
-
-            android:textSize="15sp"
-            android:textStyle="italic"
-            />
-
-        <CheckBox
-            android:id="@+id/WedCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="false"
-
-            android:text="Wed"
-            android:textSize="15sp"
-            android:textStyle="italic"
-            />
-
-        <CheckBox
-            android:id="@+id/ThrCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="false"
-
-            android:text="Thr"
-            android:textSize="15sp"
-            android:textStyle="italic"
-            />
-        <CheckBox
-            android:id="@+id/FriCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="false"
-
-            android:text="Fri"
-            android:textSize="15sp"
-            android:textStyle="italic"
-            />
-
-        <CheckBox
-            android:id="@+id/SatCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:checked="false"
-            android:text="Sat"
-            android:textSize="15sp"
-            android:textStyle="italic"
-            />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:text="Starting Date for The Habit" />
 
     <DatePicker
         android:id="@+id/habit_starting_date"
-        android:layout_width="339dp"
-        android:layout_height="561dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:datePickerMode="calendar" />
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"/>
 
 </LinearLayout>

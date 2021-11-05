@@ -13,7 +13,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import ca.antonious.materialdaypicker.MaterialDayPicker;
 
 
 public class Add_Edit_Fragment extends DialogFragment {
@@ -22,7 +27,10 @@ public class Add_Edit_Fragment extends DialogFragment {
     private DatePicker habit_starting_date;
     private EditText habit_reason;
     private CheckBox sun,mon,tue,wed,thr,fri,sat;
+    private List<MaterialDayPicker.Weekday> pickerSelectedDays = new ArrayList<>();
+    private MaterialDayPicker dayPicker;
     private onFragmentInteractionListener listener;
+    private View view;
 
     static Add_Edit_Fragment newInstance(Habit habit){
         Bundle args = new Bundle();
@@ -47,7 +55,16 @@ public class Add_Edit_Fragment extends DialogFragment {
             throw new RuntimeException(context.toString() + " must implement onFragmentInteractionListener");
         }
     }
+    private void initFragment() {
+        //view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
+        view = getActivity().getLayoutInflater().inflate(R.layout.add_edit_habit_fragment_layout,null);
 
+        habit_title = view.findViewById(R.id.habit_title_editText);
+        habit_reason = view.findViewById(R.id.habit_reason_editText);
+        habit_starting_date = view.findViewById(R.id.habit_starting_date);
+        dayPicker = view.findViewById(R.id.day_picker);
+
+    }
     /**
      * initialize the EditTexts, DatePicker, and checkboxes. Create a Dialog Fragment from add_edit_habit_fragment_layout.xml
      *  and on Add habit click, store all values in a new habit Object and return the Dialog Fragment instance
@@ -59,111 +76,21 @@ public class Add_Edit_Fragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_edit_habit_fragment_layout, null);
-        habit_title = view.findViewById(R.id.habit_title_editText);
-        habit_reason = view.findViewById(R.id.habit_reason_editText);
-        habit_starting_date = view.findViewById(R.id.habit_starting_date);
-        sun = view.findViewById(R.id.SunCheckBox);
-        mon = view.findViewById(R.id.MonCheckBox);
-        tue = view.findViewById(R.id.TueCheckBox);
-        wed = view.findViewById(R.id.WedCheckBox);
-        thr = view.findViewById(R.id.ThrCheckBox);
-        fri = view.findViewById(R.id.FriCheckBox);
-        sat = view.findViewById(R.id.SatCheckBox);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        initFragment();
 
-        if(getArguments().getSerializable("habit") != null) { //if edit habit was clicked
-            Habit habit = (Habit) getArguments().getSerializable("habit");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.Theme_AddEditFragment);
+        Habit selectedHabit = (Habit) getArguments().getSerializable("habit");
 
-            habit_title.setText(habit.getTitle());
-            habit_reason.setText(habit.getReason());
-
-            Calendar selectedDate = habit.getDate();
-
-            int year = selectedDate.get(Calendar.YEAR);
-            int month = selectedDate.get(Calendar.MONTH);
-            int day = selectedDate.get(Calendar.DATE);
-
-            habit_starting_date.updateDate(year,month,day);
-
-
-            habit_starting_date.setMinDate(selectedDate.getTimeInMillis());
-            habit_starting_date.setMaxDate(selectedDate.getTimeInMillis());
-
-            int[] week_freq = habit.getWeek_freq();
-/**
- * setting checkboxes from weekly frequency
- */
-            if(week_freq[0] == 1){
-                sun.setChecked(true);
-            }
-            if(week_freq[1] == 1){
-                mon.setChecked(true);
-            }
-            if(week_freq[2] == 1){
-                tue.setChecked(true);
-            }
-            if(week_freq[3] == 1){
-                wed.setChecked(true);
-            }
-            if(week_freq[4] == 1){
-                thr.setChecked(true);
-            }
-            if(week_freq[5] == 1){
-                fri.setChecked(true);
-            }
-            if(week_freq[6] == 1){
-                sat.setChecked(true);
-            }
-
+        if(selectedHabit != null) { //if edit habit was clicked
             //editing the Habit
-            return builder
-                    .setView(view)
-                    .setTitle("View/ Edit Habit")
-                    .setNegativeButton("Done viewing", null)
-                    .setPositiveButton("Edit habit", (dialogInterface, i) -> {
-
-                        String title = habit_title.getText().toString();
-
-                        String reason = habit_reason.getText().toString();
-                        Calendar date = Calendar.getInstance();
-                        date.set(habit_starting_date.getYear(), habit_starting_date.getMonth(), habit_starting_date.getDayOfMonth());
-
-                        int[] freq = {0,0,0,0,0,0,0};
-
-                        if(sun.isChecked()){
-                            freq[0] = 1;
-                        }
-                        if(mon.isChecked()){
-                            freq[1] = 1;
-                        }
-                        if(tue.isChecked()){
-                            freq[2] = 1;
-                        }
-                        if(wed.isChecked()){
-                            freq[3] = 1;
-                        }
-                        if(thr.isChecked()){
-                            freq[4] = 1;
-                        }
-                        if(fri.isChecked()){
-                            freq[5] = 1;
-                        }
-                        if(sat.isChecked()){
-                            freq[6] = 1;
-                        }
-
-                        // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
-                        if(title.compareTo("") != 0 && reason.compareTo("") != 0){
-                            Habit newHabit = new Habit(title,reason,date,freq);
-                            listener.onEditPressed(newHabit, habit);
-                        }
-                    }).create();
+            return editHabit(selectedHabit, builder);
+        } else { //if add habit was clicked
+            return addHabit(builder);
         }
+    }
 
-
-        //if add habit was clicked
+    private Dialog addHabit(AlertDialog.Builder builder) {
         return builder
                 .setView(view)
                 .setTitle("Add Habit")
@@ -177,27 +104,28 @@ public class Add_Edit_Fragment extends DialogFragment {
 
                     String reason = habit_reason.getText().toString();
 
-                    int[] week_freq = {1,0,0,0,0,0,0};
+                    int[] week_freq = {0,0,0,0,0,0,0};
+                    pickerSelectedDays = dayPicker.getSelectedDays();
 
-                    if(sun.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SUNDAY)){
                         week_freq[0] = 1;
                     }
-                    if(mon.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.MONDAY)){
                         week_freq[1] = 1;
                     }
-                    if(tue.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.TUESDAY)){
                         week_freq[2] = 1;
                     }
-                    if(wed.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.WEDNESDAY)){
                         week_freq[3] = 1;
                     }
-                    if(thr.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.THURSDAY)){
                         week_freq[4] = 1;
                     }
-                    if(fri.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.FRIDAY)){
                         week_freq[5] = 1;
                     }
-                    if(sat.isChecked()){
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SATURDAY)){
                         week_freq[6] = 1;
                     }
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
@@ -207,4 +135,100 @@ public class Add_Edit_Fragment extends DialogFragment {
                     }
                 }).create();
     }
+
+    private Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder) {
+        habit_title.setText(selectedHabit.getTitle());
+        habit_reason.setText(selectedHabit.getReason());
+
+        Calendar selectedDate = selectedHabit.getDate();
+
+        int year = selectedDate.get(Calendar.YEAR);
+        int month = selectedDate.get(Calendar.MONTH);
+        int day = selectedDate.get(Calendar.DATE);
+
+
+        habit_starting_date.updateDate(year,month,day);
+
+
+        habit_starting_date.setMinDate(selectedDate.getTimeInMillis() - 1000);
+        habit_starting_date.setMaxDate(selectedDate.getTimeInMillis());
+
+        int[] week_freq = selectedHabit.getWeek_freq();
+        /**
+         * setting checkboxes from weekly frequency
+         */
+
+
+
+        if(week_freq[0] == 1){
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.SUNDAY);
+        }
+        if(week_freq[1] == 1){
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.MONDAY);
+        }
+        if(week_freq[2] == 1){
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.TUESDAY);
+        }
+        if(week_freq[3] == 1){
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.WEDNESDAY);
+        }
+        if(week_freq[4] == 1){
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.THURSDAY);
+        }
+        if(week_freq[5] == 1){
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.FRIDAY);
+        }
+        if(week_freq[6] == 1){
+            pickerSelectedDays.add(MaterialDayPicker.Weekday.SATURDAY);
+        }
+
+        dayPicker.setSelectedDays(pickerSelectedDays);
+        return builder
+                .setView(view)
+                .setTitle("View and Edit Habit")
+                .setNegativeButton("Done viewing", null)
+                .setPositiveButton("Done Editing", (dialogInterface, i) -> {
+
+                    String title = habit_title.getText().toString();
+
+                    String reason = habit_reason.getText().toString();
+                    Calendar date = Calendar.getInstance();
+                    date.set(habit_starting_date.getYear(), habit_starting_date.getMonth(), habit_starting_date.getDayOfMonth());
+
+                    int[] freq = {0,0,0,0,0,0,0};
+
+                    pickerSelectedDays = dayPicker.getSelectedDays();
+
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SUNDAY)){
+                        freq[0] = 1;
+                    }
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.MONDAY)){
+                        freq[1] = 1;
+                    }
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.TUESDAY)){
+                        freq[2] = 1;
+                    }
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.WEDNESDAY)){
+                        freq[3] = 1;
+                    }
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.THURSDAY)){
+                        freq[4] = 1;
+                    }
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.FRIDAY)){
+                        freq[5] = 1;
+                    }
+                    if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SATURDAY)){
+                        freq[6] = 1;
+                    }
+
+                    // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
+                    if(title.compareTo("") != 0 && reason.compareTo("") != 0){
+                        Habit newHabit = new Habit(title,reason,date,freq);
+                        listener.onEditPressed(newHabit, selectedHabit);
+                    }
+                }).create();
+
+    }
+
+
 }

@@ -18,7 +18,7 @@ public class User {
     private String picPath;  //Represents the path of the profilePicture (Not mandatory?)
     private String username;
 
-    private Date dateToday;
+    private Calendar dateToday;
     private ArrayList<Habit> habitList;
     private ArrayList<User> followList;
     private String current_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -89,12 +89,12 @@ public class User {
     }
 
     /**
-     * Get today's date  using Calendar library.
+     * Get the day of the week from the Calendar class.
      * Used internally as constructors and updating the date in case of day-rollover.
-     * @return Date.
+     * @return int that represents a day of the week
      */
-    public Date getDateToday(){
-        return Calendar.getInstance().getTime();
+    public Calendar getDateToday(){
+        return Calendar.getInstance();
     }
 
     public ArrayList<Habit> getHabitList(){
