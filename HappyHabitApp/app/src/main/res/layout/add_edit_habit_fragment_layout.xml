@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Switch
+        android:id="@+id/publicSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:switchPadding="50dp"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/text_primary"
+        android:textOn="Private"
+        android:textOff="Public"
+        android:showText="true"/>
+
     <EditText
         android:id="@+id/habit_title_editText"
         android:layout_width="match_parent"
