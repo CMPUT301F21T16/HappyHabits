@@ -11,15 +11,15 @@ public class Habit implements Serializable {
     private String reason;
     private Calendar date;
     private int[] week_freq;
+    private boolean publicHabit;
 
-    public Habit(String title, String reason, Calendar date, int[] week_freq) {
+    public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit) {
         this.title = title;
         this.reason = reason;
         this.date = date;
         this.week_freq = week_freq;
+        this.publicHabit = publicHabit;
     }
-
-
 
     public String getTitle() {
         return title;
@@ -49,6 +49,17 @@ public class Habit implements Serializable {
         return week_freq;
     }
 
+    public void setWeek_freq(int[] week_freq) {
+        this.week_freq = week_freq;
+    }
+
+    public boolean getPublicHabit() {
+        return publicHabit;
+    }
+
+    public void setPublicHabit(boolean publicHabit) {
+        this.publicHabit = publicHabit;
+    }
 
     //Returns days selected in human readable format
     public String getWeekAsStr(){
@@ -69,11 +80,4 @@ public class Habit implements Serializable {
         }
         return weekDaysSelected;
     }
-
-
-    public void setWeek_freq(int[] week_freq) {
-        this.week_freq = week_freq;
-    }
-
-
 }

@@ -4,6 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+    <Switch
+        android:id="@+id/publicSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:switchPadding="50dp"
+        android:textColor="@color/text_primary"
+        ></Switch>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publicSwitchText"
+            android:text="Private"></TextView>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/habit_title_editText"
