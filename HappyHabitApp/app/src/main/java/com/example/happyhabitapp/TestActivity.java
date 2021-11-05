@@ -131,6 +131,8 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     public void deleteDocument(View view) {
+        Toast.makeText(this,"Deleteing...", Toast.LENGTH_SHORT).show();
+        fire.delUser();
     }
 
     public void getAllDocuments(View view) {

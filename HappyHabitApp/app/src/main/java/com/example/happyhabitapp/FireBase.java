@@ -211,23 +211,31 @@ public class FireBase {
 
 
     /**
-     * this function return the collection reference to collection: Users
-     * @return
-     */
-    public CollectionReference usersRef(){
-        return Users;
-    }
-
-
-    /* get information: this feature is not working */
-
-    /**
      * this function return current user's user name as string
      * @return
      */
     public String getUserName(){
         String current_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         return current_name;
+    }
+
+
+    /* get information */
+
+    public void getUserLst(ArrayList<User> list){
+        Users
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting Users");
+                            User user = doc.toObject(com.example.happyhabitapp.User.class);
+                            Log.d(TAG, "onEvent: " + user.getUsername());
+                            list.add(user);
+                        }
+                    }
+                });
     }
 
 
@@ -263,7 +271,7 @@ public class FireBase {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
                         for (QueryDocumentSnapshot doc: value){
-                            Log.d(TAG, "onEvent: getting followers");
+                            Log.d(TAG, "onEvent: getting followees");
                             User followee = doc.toObject(com.example.happyhabitapp.User.class);
                             Log.d(TAG, "onEvent: " + followee.getUsername());
                             list.add(followee);
@@ -284,7 +292,7 @@ public class FireBase {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
                         for (QueryDocumentSnapshot doc: value){
-                            Log.d(TAG, "onEvent: getting followers");
+                            Log.d(TAG, "onEvent: getting Habits");
                             Habit habit = doc.toObject(Habit.class);
                             Log.d(TAG, "onEvent: " + habit.getTitle());
                             list.add(habit);
@@ -293,6 +301,10 @@ public class FireBase {
                 });
     }
 
+    /**
+     * this function get habit event list and store in list
+     * @param list
+     */
     public void getEventLst(ArrayList<HabitEvent> list, Habit habit){
         HabitList
                 .document(habit.getTitle())
@@ -302,7 +314,7 @@ public class FireBase {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
                         for (QueryDocumentSnapshot doc: value){
-                            Log.d(TAG, "onEvent: getting followers");
+                            Log.d(TAG, "onEvent: getting Habit events");
                             HabitEvent event = doc.toObject(HabitEvent.class);
                             Log.d(TAG, "onEvent: " + event.getTitle());
                             list.add(event);
@@ -310,6 +322,52 @@ public class FireBase {
                     }
                 });
     }
+
+
+    /* delete data from firebase */
+
+    /**
+     * this function delete user from users
+     */
+    public void delUser(){
+        User.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted user");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete user", e);
+                    }
+                });
+    }
+
+    /**
+     * this fucntion delete certain habit from HabitList
+     * @param habit
+     */
+    public void delHabit(Habit habit){
+        HabitList
+                .document(habit.getTitle())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted haibt");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete habit", e);
+                    }
+                });
+    }
+
+    
 
 
 
