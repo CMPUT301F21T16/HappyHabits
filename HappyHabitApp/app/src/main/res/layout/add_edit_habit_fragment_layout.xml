@@ -4,17 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
     <Switch
         android:id="@+id/publicSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:switchPadding="50dp"
-        android:textAlignment="viewEnd"
         android:textColor="@color/text_primary"
-        android:textOn="Private"
-        android:textOff="Public"
-        android:showText="true"/>
+        ></Switch>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publicSwitchText"></TextView>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/habit_title_editText"

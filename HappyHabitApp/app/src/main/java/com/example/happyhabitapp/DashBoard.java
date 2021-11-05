@@ -127,9 +127,9 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
         //-------TEST INFO - REMOVE LATER -------
         int[] selectedDates = {1,0,0,1,0,0,0};
         int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates);
+        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);

@@ -7,7 +7,7 @@ public class HabitEvent extends Habit{
     private String about;
 
     public HabitEvent(String title, String reason, Calendar date, int[] week_freq, String about) {
-        super(title, reason, date, week_freq);
+        super(title, reason, date, week_freq,true);
         this.about = about;
     }
 

@@ -171,7 +171,7 @@ public class Add_Edit_Fragment extends DialogFragment {
                     }
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
-                        Habit newHabit = new Habit(title, reason, date, week_freq);
+                        Habit newHabit = new Habit(title, reason, date, week_freq,true);
                         listener.onAddPressed(newHabit);
                     }
                     else{
@@ -280,7 +280,7 @@ public class Add_Edit_Fragment extends DialogFragment {
 
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
-                        Habit newHabit = new Habit(title,reason,date,freq);
+                        Habit newHabit = new Habit(title,reason,date,freq,true);
                         listener.onEditPressed(newHabit, selectedHabit);
                     }
                     else{
