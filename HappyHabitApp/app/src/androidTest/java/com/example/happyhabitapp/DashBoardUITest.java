@@ -48,7 +48,8 @@ public class DashBoardUITest {
 
     public void authenticate(){
         //**IMPORTANT** before proper tests are run authentication is required
-        // This section simulates authentications which may be altered as the accounts are changed
+        // This section simulates authentications which may be altered as the accounts are changed or
+        // the state of the app changes
         solo.clickOnButton("Login/Register");
         solo.clickOnButton("Sign in with email");
         solo.enterText((EditText) solo.getView(R.id.email), "anthony@test.com");
