@@ -30,6 +30,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class representing the habit activity of the app
+ * @author: Anthony, Jonathan
+ */
+
 public class HabitActivity extends AppCompatActivity implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener {
 
     //Private variables

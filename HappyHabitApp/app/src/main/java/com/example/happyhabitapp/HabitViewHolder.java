@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Represents the view model for each {@link Habit}.
  * Used with {@link HabitsAdapter}.
+ * @author Jonathan, Anthony
  */
 
 public class HabitViewHolder extends RecyclerView.ViewHolder implements

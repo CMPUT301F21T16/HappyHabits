@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * An adapter for the non-interactable listview of today's habits in the dashboard activity
+ * @author Jonathan
  */
 public class DashboardAdapter extends ArrayAdapter<Habit> {
 

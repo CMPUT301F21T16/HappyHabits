@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 /**
  * This class represents a habit of a {@link User}
+ * @author Anuj, Armaan
  */
 public class Habit implements Serializable {
     private String title;
