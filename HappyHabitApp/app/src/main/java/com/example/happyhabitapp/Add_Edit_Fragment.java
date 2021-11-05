@@ -6,8 +6,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,6 +69,9 @@ public class Add_Edit_Fragment extends DialogFragment {
      */
     private View view;
 
+    private Switch publicSwitch;
+
+    private TextView switchBtn_txtView;
     /**
      * This interface is linked to the interactions the fragment has, which correlate to both
      * adding and editing {@link Habit}
@@ -85,6 +91,8 @@ public class Add_Edit_Fragment extends DialogFragment {
         habit_reason = view.findViewById(R.id.habit_reason_editText);
         habit_starting_date = view.findViewById(R.id.habit_starting_date);
         dayPicker = view.findViewById(R.id.day_picker);
+        publicSwitch = view.findViewById(R.id.publicSwitch);
+        switchBtn_txtView = view.findViewById(R.id.publicSwitchText);
         pickerSelectedDays = new ArrayList<>();
     }
 
@@ -132,6 +140,14 @@ public class Add_Edit_Fragment extends DialogFragment {
      * @return {@link AlertDialog.Builder}
      */
     private Dialog addHabit(AlertDialog.Builder builder) {
+        publicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                switchBtn_txtView.setText("Public");
+            }
+            else {
+                switchBtn_txtView.setText("Private");
+            }
+        });
         return builder
                 .setView(view)
                 .setTitle("Add Habit")
@@ -169,9 +185,11 @@ public class Add_Edit_Fragment extends DialogFragment {
                     if(pickerSelectedDays.contains(MaterialDayPicker.Weekday.SATURDAY)){
                         week_freq[6] = 1;
                     }
+
+                    Boolean switchState = publicSwitch.isChecked();
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
-                        Habit newHabit = new Habit(title, reason, date, week_freq);
+                        Habit newHabit = new Habit(title, reason, date, week_freq,switchState);
                         listener.onAddPressed(newHabit);
                     }
                     else{
@@ -196,6 +214,14 @@ public class Add_Edit_Fragment extends DialogFragment {
      * @return {@link AlertDialog.Builder}
      */
     private Dialog editHabit(Habit selectedHabit, AlertDialog.Builder builder) {
+        publicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                switchBtn_txtView.setText("Public");
+            }
+            else {
+                switchBtn_txtView.setText("Private");
+            }
+        });
         habit_title.setText(selectedHabit.getTitle());
         habit_reason.setText(selectedHabit.getReason());
 
@@ -240,6 +266,8 @@ public class Add_Edit_Fragment extends DialogFragment {
         }
 
         dayPicker.setSelectedDays(pickerSelectedDays);
+
+        publicSwitch.setChecked(selectedHabit.getPublicHabit()); //will check the switch if the boolean value is true or false
         return builder
                 .setView(view)
                 .setTitle("View and Edit Habit")
@@ -278,9 +306,12 @@ public class Add_Edit_Fragment extends DialogFragment {
                         freq[6] = 1;
                     }
 
+                    Boolean switchState = publicSwitch.isChecked();
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
-                        Habit newHabit = new Habit(title,reason,date,freq);
+
+                        Habit newHabit = new Habit(title,reason,date,freq,switchState);
+
                         listener.onEditPressed(newHabit, selectedHabit);
                     }
                     else{

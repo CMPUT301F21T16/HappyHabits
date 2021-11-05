@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FireBase {
-    private static final String TAG = "FireBase";
+    private final String TAG = "FireBase";
 
     private ArrayList<Habit> habitList;
     private ArrayList<User> followerLst = new ArrayList<>();
