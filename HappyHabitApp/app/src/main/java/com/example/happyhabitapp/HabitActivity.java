@@ -149,13 +149,29 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
      */
     private void setListeners(){
         addButton = findViewById(R.id.add_habit_btn);
+        ImageView backButton = findViewById(R.id.logo);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = Add_Edit_Fragment.newInstance(null);
+                DialogFragment newFragment = new Add_Edit_Fragment();
+                Bundle args = new Bundle();
+                args.putSerializable("habit", null);
+                newFragment.setArguments(args);
                 newFragment.show(getSupportFragmentManager(),"ADD_HABIT");
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent previousActivity   = new Intent(HabitActivity.this, DashBoard.class);
+                startActivity(previousActivity);
+            }
+        });
+
+
+
     }
 
 
@@ -167,7 +183,10 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     public void onHabitClick(int position){
         Habit selectedHabit = currentUser.getHabitList().get(position);
         //Go to new add/edit fragment
-        DialogFragment newFragment = Add_Edit_Fragment.newInstance(selectedHabit);
+        DialogFragment newFragment = new Add_Edit_Fragment();
+        Bundle args = new Bundle();
+        args.putSerializable("habit", selectedHabit);
+        newFragment.setArguments(args);
         newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
     }
 
@@ -186,6 +205,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         adapter.notifyDataSetChanged(); // notifies adpater of change
 
     }
+
 
     /**
      * Edits the information of an existing Habit in the list by replacing the habit
