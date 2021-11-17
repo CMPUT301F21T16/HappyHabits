@@ -38,12 +38,13 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
     private User currentUser;
     private ArrayList<Habit> todaysHabits;
     private ArrayAdapter<Habit> habitAdapter;
-
+    private FireBase data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+        data = new FireBase();
 
         this.currentUser = getUser();
         todaysHabits = getTodaysHabits();
@@ -130,10 +131,12 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
         Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2);
         Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates);
 
-        ArrayList<Habit> testList = new ArrayList<Habit>();
-        testList.add(habit1); testList.add(habit2); testList.add(habit3);
+        ArrayList<Habit> habitList = new ArrayList<Habit>();
+        //testList.add(habit1); testList.add(habit2); testList.add(habit3);
+        data.getHabitLst(habitList);
         //-----------------------------------
-        currentUser = new User("TestUser", "somePath", testList, null);
+        // Getting current User is not implemented properly in the FireBase code
+        currentUser = new User("TestUser", "somePath", habitList, null);
         return currentUser;
     }
 

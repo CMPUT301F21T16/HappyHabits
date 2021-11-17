@@ -39,16 +39,20 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     private RecyclerView habitViewList;
     private ImageButton addButton; // button to add habits to list
     private HabitsAdapter adapter;
-    private static final String TAG = "";
+    FireBase data;
+    private final String TAG = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit);
+        data = new FireBase();
 
-        ArrayList<Habit> testList = new ArrayList<Habit>();
+        ArrayList<Habit> habitList = new ArrayList<Habit>();
+        data.getHabitLst(habitList);
 
-        currentUser = new User("TestUser", "somePath", testList, null);
+        // FireBase is not implemented properly so we can not get the current user
+        currentUser = new User("TestUser", "somePath", habitList, null);
         initActivity();
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null){
@@ -203,7 +207,8 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         adapter.getHabitList().add(newHabit); // adds habit to data list
         adapter.notifyItemInserted(adapter.getItemCount() - 1); // notifies item at last position has been added
         adapter.notifyDataSetChanged(); // notifies adpater of change
-
+        data.setHabit(newHabit);
+        Toast.makeText(this, "Added Habit", Toast.LENGTH_SHORT).show();
     }
 
 

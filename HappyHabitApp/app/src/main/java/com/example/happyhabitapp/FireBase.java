@@ -32,41 +32,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 public class FireBase {
-    private static final String TAG = "FireBase";
-    private User user;
-    private Habit habit;
-    private User followers;
-    private User followees;
-    private HabitEvent event;
+
+    private final String TAG = "FireBase";
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
     private String current_uid;
 
-
-    private ArrayList<User> followerList;
-    private ArrayList<User> followeeList;
-    private ArrayList<Habit> habitsList;
-    private ArrayList<HabitEvent> eventList;
-
-
-    CollectionReference Habit = db.collection("Habits");
-    CollectionReference Followers = db.collection("Followers");
-    CollectionReference Followees = db.collection("Followees");
-    CollectionReference User = db.collection("User");
-    CollectionReference habitEvent = db.collection("Events");
+    private CollectionReference Users = db.collection("Users");
+    private DocumentReference User = Users.document(getUserName());
+    private CollectionReference HabitList = User.collection("HabitList");
+    private CollectionReference Followers = User.collection("Followers");
+    private CollectionReference Followees = User.collection("Followees");
 
 
     /* Constructors */
-    public FireBase(User user, Habit habit, User followers, User followees, HabitEvent event) {
-        this.user = user;
-        this.habit = habit;
-        this.followers = followers;
-        this.followees = followees;
-        this.event = event;
-    }
+    public FireBase() {}
 
-    /* setters */
+    /* Functions to upload to database */
 
     /**
      * this function upload user's information to firebase
@@ -74,19 +61,8 @@ public class FireBase {
      */
 
     public void setUser(User user) {
-        /*
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("Current_uid", user.getCurrent_uid());
-        map.put("Name", user.getUsername());
-        map.put("Pic_path", user.getPicPath());
-        map.put("habits", user.getHabitList());
-        map.put("followers", user.getFollowList());
-
-         */
 
         User
-                .document(user.getUsername())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -100,10 +76,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add user", e);
                     }
                 });
-                //.add(user)
-                //.add(map)
-
-
 
     }
 
@@ -118,16 +90,17 @@ public class FireBase {
             freq.add(habit.getWeek_freq()[i]);
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("Current_uid", habit.getCurrent_uid());
+
         map.put("Title", habit.getTitle());
         map.put("Reason", habit.getReason());
         map.put("Days", freq);
         map.put("Dates", habit.getDate());
+        map.put("public", habit.getPublicHabit());
 
 
-        Habit
+        HabitList
                 .document(habit.getTitle())
-                .update(map)
+                .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -196,19 +169,18 @@ public class FireBase {
 
     public void setHabitEventEvent(HabitEvent event) {
 
-        List<Integer> freq = new ArrayList<Integer>();
-        for (int i = 0; i < (habit.getWeek_freq().length); i++){
-            freq.add(habit.getWeek_freq()[i]);
-        }
+
 
         Map<String, Object> map = new HashMap<>();
-        map.put("Current_uid", event.getCurrent_uid());
-        map.put("Title", event.getTitle());
-        map.put("Reason", event.getReason());
-        map.put("Days", freq);
-        map.put("Dates", event.getDate());
-        map.put("About", event.getAbout());
-        habitEvent
+        map.put("About", event.getHabit().getTitle());
+        map.put("Date", event.getEvent_date());
+        map.put("picPath", event.getPic_path());
+        map.put("location", event.getLocation());
+        map.put("description", event.getDescription());
+
+        HabitList
+                .document(event.getHabit().getTitle())
+                .collection("Events")
                 .document(event.getTitle())
                 .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -237,29 +209,242 @@ public class FireBase {
         return current_uid;
     }
 
-    /* get information: this feature is not working */
+
+    /**
+     * this function return current user's user name as string
+     * @return
+     */
+    public String getUserName(){
+        String current_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        return current_name;
+    }
 
 
-    /*
-    public void getUser(){
-        User
-                .whereEqualTo("current_uid", getCurrent_uid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    /* get information */
+
+    public void getUserLst(ArrayList<User> list){
+        Users
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                Log.d(TAG, "onComplete: " + documentSnapshot.getId() + documentSnapshot.getData());
-                            }
-                        }
-                        else {
-                            Log.e(TAG, "onComplete: ", task.getException());
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting Users");
+                            User user = doc.toObject(com.example.happyhabitapp.User.class);
+                            Log.d(TAG, "onEvent: " + user.getUsername());
+                            list.add(user);
                         }
                     }
                 });
     }
 
+
+    /**
+     * this function get follower list and store in list
+     * @param list
      */
+    public void getFollowerLst(ArrayList<User> list){
+
+        Followers
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting followers");
+                            User follower = doc.toObject(com.example.happyhabitapp.User.class);
+                            Log.d(TAG, "onEvent: " + follower.getUsername());
+                            list.add(follower);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * this function get followee list and store in list
+     * @param list
+     */
+    public void getFolloweeLst(ArrayList<User> list){
+        Followees
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting followees");
+                            User followee = doc.toObject(com.example.happyhabitapp.User.class);
+                            Log.d(TAG, "onEvent: " + followee.getUsername());
+                            list.add(followee);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * this function get habit list and store in list
+     * @param list
+     */
+    public void getHabitLst(ArrayList<Habit> list){
+        HabitList
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting Habits");
+                            Habit habit = doc.toObject(Habit.class);
+                            Log.d(TAG, "onEvent: " + habit.getTitle());
+                            list.add(habit);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * this function get habit event list and store in list
+     * @param list
+     */
+    public void getEventLst(ArrayList<HabitEvent> list, Habit habit){
+        HabitList
+                .document(habit.getTitle())
+                .collection("Events")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            Log.d(TAG, "onEvent: getting Habit events");
+                            HabitEvent event = doc.toObject(HabitEvent.class);
+                            Log.d(TAG, "onEvent: " + event.getTitle());
+                            list.add(event);
+                        }
+                    }
+                });
+    }
+
+
+    /* delete data from firebase */
+
+    /**
+     * this function delete user from users
+     */
+    public void delUser(){
+        User.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted user");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete user", e);
+                    }
+                });
+    }
+
+    /**
+     * this fucntion delete certain habit from HabitList
+     * @param habit
+     */
+    public void delHabit(Habit habit){
+        HabitList
+                .document(habit.getTitle())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted haibt");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete habit", e);
+                    }
+                });
+    }
+
+    /**
+     * this function delete follower from Followers
+     * @param follower
+     */
+    public void delFollower(User follower){
+        Followers.document(follower.getUsername())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted follower");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete follower", e);
+                    }
+                });
+    }
+
+
+    /**
+     * this function delete followee from Followees
+     * @param followee
+     */
+    public void delFollowee(User followee){
+        Followees.document(followee.getUsername())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted followee");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete followee", e);
+                    }
+                });
+    }
+
+    /**
+     * this function delete havit event from Events
+     * @param habit
+     * @param event
+     */
+    public void delEvent(Habit habit,HabitEvent event){
+        HabitList
+                .document(habit.getTitle())
+                .collection("Events")
+                .document(event.getTitle())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted event");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: couldn't delete event", e);
+                    }
+                });
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }
+
