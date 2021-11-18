@@ -1,3 +1,4 @@
+
 /**
  * This class is able to upload desired data to the firebase, and get the current user uid
  * Author: Katia Zhang, Frank Li
@@ -40,7 +41,6 @@ public class FireBase {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private ArrayList<User> followerLst = new ArrayList<>();
 
     private String current_uid;
 
@@ -96,6 +96,7 @@ public class FireBase {
         map.put("Reason", habit.getReason());
         map.put("Days", freq);
         map.put("Dates", habit.getDate());
+        //map.put("public", habit.getPublicHabit());
 
 
         HabitList
@@ -172,11 +173,11 @@ public class FireBase {
 
 
         Map<String, Object> map = new HashMap<>();
-        map.put("About", event.getHabit().getTitle());
-        map.put("Date", event.getEvent_date());
-        map.put("picPath", event.getPic_path());
-        map.put("location", event.getLocation());
-        map.put("description", event.getDescription());
+        //map.put("About", event.getHabit().getTitle());
+        //map.put("Date", event.getEvent_date());
+        //map.put("picPath", event.getPic_path());
+        //map.put("location", event.getLocation());
+        //map.put("description", event.getDescription());
 
         HabitList
                 .document(event.getHabit().getTitle())

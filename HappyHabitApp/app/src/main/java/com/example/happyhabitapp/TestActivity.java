@@ -51,13 +51,12 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     User user = new User("lichild", "path");
     User user2 = new User("koko", "path2");
-
     Habit habit = new Habit("jump", "exercise",c, week_frq,true);
     Habit habit2 = new Habit("watch", "fun", c, week_frq, true);
     HabitEvent event = new HabitEvent(habit, c, "today's jump");
 
-
     FireBase fire = new FireBase();
+
 
 
 
@@ -107,11 +106,6 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void createDocument(View view) {
         Toast.makeText(this, "createDocument", Toast.LENGTH_SHORT).show();
-        fire.setUser(user);
-        fire.setHabit(habit);
-        fire.setFollowers(user2);
-        fire.setFollowees(user);
-        fire.setHabitEventEvent(event);
 
 
 
@@ -125,14 +119,14 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void updateDocument(View view) {
         Toast.makeText(this, "updateDocument", Toast.LENGTH_SHORT).show();
-        fire.setHabit(habit2);
+
 
 
     }
 
     public void deleteDocument(View view) {
         Toast.makeText(this,"Deleteing...", Toast.LENGTH_SHORT).show();
-        fire.delUser();
+
     }
 
     public void getAllDocuments(View view) {
