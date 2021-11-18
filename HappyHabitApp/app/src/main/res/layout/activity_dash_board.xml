@@ -87,7 +87,7 @@
         android:id="@+id/today_habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Today's Habit(Thursday)"
+        android:text="Today's Habit(Sunday)"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
         android:textColor="@color/text_primary">
