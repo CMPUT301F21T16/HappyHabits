@@ -7,6 +7,7 @@
 package com.example.happyhabitapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -26,7 +27,11 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +42,8 @@ import java.util.Map;
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
     ArrayList<User> list = new ArrayList<>();
+    ArrayList<Habit> habits = new ArrayList<>();
+    ArrayList<HabitEvent> events = new ArrayList<>();
 
     Calendar c = Calendar.getInstance();
     int week_frq[] = {1};
@@ -44,18 +51,23 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     User user = new User("lichild", "path");
     User user2 = new User("koko", "path2");
-    Habit habit = new Habit("jump", "exercise",c, week_frq);
-    HabitEvent event = new HabitEvent("today's jump", "like", c, week_frq, habit.getTitle());
-    FireBase fire = new FireBase(user, habit, user, user, event);
+
+    Habit habit = new Habit("jump", "exercise",c, week_frq,true);
+    Habit habit2 = new Habit("watch", "fun", c, week_frq, true);
+    HabitEvent event = new HabitEvent(habit, c, "today's jump");
+
+
+    FireBase fire = new FireBase();
 
 
 
-    private static final String TAG = "TestActivity";
+    private final String TAG = "TestActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        fire.getEventLst(events, habit);
     }
 
     private void startLogin(){
@@ -95,24 +107,32 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public void createDocument(View view) {
         Toast.makeText(this, "createDocument", Toast.LENGTH_SHORT).show();
-        fire.setHabitEventEvent(event);
-        fire.setFollowees(user);
-        fire.setFollowers(user);
+        fire.setUser(user);
         fire.setHabit(habit);
-        fire.setUser(user2);
+        fire.setFollowers(user2);
+        fire.setFollowees(user);
+        fire.setHabitEventEvent(event);
+
+
 
     }
 
     public void readDocument(View view) {
-        Toast.makeText(this, "Reading a doc...", Toast.LENGTH_SHORT).show();
+
+        Integer size = events.size();
+        Toast.makeText(this, size.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void updateDocument(View view) {
         Toast.makeText(this, "updateDocument", Toast.LENGTH_SHORT).show();
+        fire.setHabit(habit2);
+
 
     }
 
     public void deleteDocument(View view) {
+        Toast.makeText(this,"Deleteing...", Toast.LENGTH_SHORT).show();
+        fire.delUser();
     }
 
     public void getAllDocuments(View view) {

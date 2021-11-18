@@ -23,10 +23,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "";
+    private final String TAG = "";
     int AUTHUI_REQUEST_CODE = 10001;
 
 

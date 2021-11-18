@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class HabitStringTest {
+
     //Making sure the getWeekAsStr() method works as intended
 
     Habit sampleHabit = new Habit("A", "B", null, null);
@@ -20,7 +21,6 @@ public class HabitStringTest {
     @Test
     public void TestNoDays(){
         int[] nodays =  {0,0,0,0,0,0,0};
-
         sampleHabit.setWeek_freq(nodays);
         Assert.assertEquals("", sampleHabit.getWeekAsStr());
     }
@@ -31,4 +31,8 @@ public class HabitStringTest {
         sampleHabit.setWeek_freq(alldays);
         Assert.assertEquals("Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday", sampleHabit.getWeekAsStr());
     }
+
+
+
+
 }

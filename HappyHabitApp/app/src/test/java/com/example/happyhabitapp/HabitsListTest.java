@@ -32,9 +32,10 @@ public class HabitsListTest {
     }
 
     @Test
-    public void isAdapted(){
+    public void isAdapted() {
         HabitsAdapter testAdapter = new HabitsAdapter(sampleUser.getHabitList(), null);
         Assert.assertEquals(3, testAdapter.getItemCount());
+
     }
 
 

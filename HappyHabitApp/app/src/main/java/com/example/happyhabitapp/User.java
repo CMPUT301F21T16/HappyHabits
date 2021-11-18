@@ -17,15 +17,11 @@ public class User {
 
     private String picPath;  //Represents the path of the profilePicture (Not mandatory?)
     private String username;
-
-    private Calendar dateToday;
     private ArrayList<Habit> habitList;
     private ArrayList<User> followList;
-    private String current_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
     //Constructors
-
     public User() {
     }
 
@@ -36,7 +32,6 @@ public class User {
     public User(String username) {
         this.username = username;
         //this.picPath = someDefaultPath; //Where we will put the default profile image
-        this.dateToday = getDateToday();
         this.habitList = new ArrayList<Habit>();
     }
 
@@ -48,7 +43,6 @@ public class User {
     public User(String username, String path) {
         this.username = username;
         this.picPath = path;
-        this.dateToday = getDateToday();
         this.habitList = new ArrayList<Habit>();
     }
     /**
@@ -63,7 +57,6 @@ public class User {
         this.picPath = path;
         this.habitList = habitList;
         this.followList = followList;
-        this.dateToday = getDateToday();
     }
 
     //Getters
@@ -93,9 +86,7 @@ public class User {
      * Used internally as constructors and updating the date in case of day-rollover.
      * @return int that represents a day of the week
      */
-    public Calendar getDateToday(){
-        return Calendar.getInstance();
-    }
+
 
     public ArrayList<Habit> getHabitList(){
         return this.habitList;
@@ -109,12 +100,9 @@ public class User {
         return picPath;
     }
 
-    public String getCurrent_uid() {
-        return current_uid;
-    }
+
 
     //Setters
-
     /**
      * Add habit to the list of habits.
      * @param userHabit a Habit to be appended to the user-kept ArrayList.
@@ -132,12 +120,10 @@ public class User {
      * @param oldHabit the old habit to be replaced.
      * @param newHabit the new habit to put in place of the old.
      */
-
    public void editHabit(Habit oldHabit, Habit newHabit) {
         int position = this.habitList.indexOf(oldHabit);    //Put at the same position in array
         this.habitList.set(position, newHabit);
    }
-
 
     /**
      * Add User to the list of followers.
@@ -146,6 +132,15 @@ public class User {
     public void follow(User follower) {
         this.followList.add(follower);
     }
+
+    /**
+     * Remove user from list of followers.
+     * @param follower the User to be removed from the follow list.
+     */
+    public void unfollow(User follower) {
+        this.followList.remove(follower);
+    }
+
 
     public void setPicPath(String picPath) {
         this.picPath = picPath;

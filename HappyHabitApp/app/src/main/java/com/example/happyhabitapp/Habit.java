@@ -5,23 +5,26 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.Serializable;
 import java.util.Calendar;
 
-
+/**
+ * This class represents a habit of a {@link User}
+ * @author Anuj, Armaan
+ */
 public class Habit implements Serializable {
     private String title;
     private String reason;
     private Calendar date;
     private int[] week_freq;
-    private String current_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private boolean publicHabit;
 
-    public Habit(String title, String reason, Calendar date, int[] week_freq) {
+    public Habit() {
+    }
+
+    public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit) {
         this.title = title;
         this.reason = reason;
         this.date = date;
         this.week_freq = week_freq;
-    }
-
-    public String getCurrent_uid() {
-        return current_uid;
+        this.publicHabit = publicHabit;
     }
 
     public String getTitle() {
@@ -40,6 +43,7 @@ public class Habit implements Serializable {
         this.reason = reason;
     }
 
+
     public Calendar getDate() {
         return date;
     }
@@ -52,8 +56,22 @@ public class Habit implements Serializable {
         return week_freq;
     }
 
+    public void setWeek_freq(int[] week_freq) {
+        this.week_freq = week_freq;
+    }
 
-    //Returns days selected in human readable format
+    public boolean getPublicHabit() {
+        return publicHabit;
+    }
+
+    public void setPublicHabit(boolean publicHabit) {
+        this.publicHabit = publicHabit;
+    }
+
+    /**
+     * Reformats days selected in human readable format
+     * @return String
+     */
     public String getWeekAsStr(){
         String weekDaysSelected = "";
 
@@ -72,11 +90,4 @@ public class Habit implements Serializable {
         }
         return weekDaysSelected;
     }
-
-
-    public void setWeek_freq(int[] week_freq) {
-        this.week_freq = week_freq;
-    }
-
-
 }
