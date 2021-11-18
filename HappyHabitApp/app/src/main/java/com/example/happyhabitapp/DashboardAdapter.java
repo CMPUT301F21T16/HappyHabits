@@ -14,7 +14,8 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 /**
- * Creates an adapted for the non-interactable listview of today's habits in the dashboard activity
+ * An adapter for the non-interactable listview of today's habits in the dashboard activity
+ * @author Jonathan
  */
 public class DashboardAdapter extends ArrayAdapter<Habit> {
 
@@ -27,6 +28,10 @@ public class DashboardAdapter extends ArrayAdapter<Habit> {
         this.habits = habits;
         this.context = context;
     }
+
+    /**
+     * Inflates the view of each element in the file.
+     */
 
     public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
 

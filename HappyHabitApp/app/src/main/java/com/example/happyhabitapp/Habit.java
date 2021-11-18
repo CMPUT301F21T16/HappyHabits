@@ -5,7 +5,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.Serializable;
 import java.util.Calendar;
 
-
+/**
+ * This class represents a habit of a {@link User}
+ * @author Anuj, Armaan
+ */
 public class Habit implements Serializable {
     private String title;
     private String reason;
@@ -66,7 +69,10 @@ public class Habit implements Serializable {
         this.publicHabit = publicHabit;
     }
 
-    //Returns days selected in human readable format
+    /**
+     * Reformats days selected in human readable format
+     * @return String
+     */
     public String getWeekAsStr(){
         String weekDaysSelected = "";
 

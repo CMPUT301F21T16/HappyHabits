@@ -96,7 +96,6 @@ public class FireBase {
         map.put("Reason", habit.getReason());
         map.put("Days", freq);
         map.put("Dates", habit.getDate());
-        //map.put("public", habit.getPublicHabit());
 
 
         HabitList
@@ -173,11 +172,11 @@ public class FireBase {
 
 
         Map<String, Object> map = new HashMap<>();
-        //map.put("About", event.getHabit().getTitle());
-        //map.put("Date", event.getEvent_date());
-        //map.put("picPath", event.getPic_path());
-        //map.put("location", event.getLocation());
-        //map.put("description", event.getDescription());
+        map.put("About", event.getHabit().getTitle());
+        map.put("Date", event.getEvent_date());
+        map.put("picPath", event.getPic_path());
+        map.put("location", event.getLocation());
+        map.put("description", event.getDescription());
 
         HabitList
                 .document(event.getHabit().getTitle())
@@ -448,4 +447,5 @@ public class FireBase {
 
 
 }
+
 

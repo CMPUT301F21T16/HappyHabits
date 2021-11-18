@@ -22,7 +22,6 @@ public class User {
 
 
     //Constructors
-
     public User() {
     }
 
@@ -104,7 +103,6 @@ public class User {
 
 
     //Setters
-
     /**
      * Add habit to the list of habits.
      * @param userHabit a Habit to be appended to the user-kept ArrayList.
@@ -122,12 +120,10 @@ public class User {
      * @param oldHabit the old habit to be replaced.
      * @param newHabit the new habit to put in place of the old.
      */
-
    public void editHabit(Habit oldHabit, Habit newHabit) {
         int position = this.habitList.indexOf(oldHabit);    //Put at the same position in array
         this.habitList.set(position, newHabit);
    }
-
 
     /**
      * Add User to the list of followers.
@@ -136,6 +132,15 @@ public class User {
     public void follow(User follower) {
         this.followList.add(follower);
     }
+
+    /**
+     * Remove user from list of followers.
+     * @param follower the User to be removed from the follow list.
+     */
+    public void unfollow(User follower) {
+        this.followList.remove(follower);
+    }
+
 
     public void setPicPath(String picPath) {
         this.picPath = picPath;
