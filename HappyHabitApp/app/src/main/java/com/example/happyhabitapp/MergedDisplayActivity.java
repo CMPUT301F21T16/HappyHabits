@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -15,13 +17,17 @@ import java.util.Calendar;
 //TODO: Add button functionalities to toggle which view is displayed.
 //TODO: Update the Username, profile pictures and habits according to firebase.
 //TODO: Add the FAB to open add/edit fragment
+//TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity implements HabitListener{
+
+    private int TODAY = 0;
+    private int ALL= 1;
 
     private User currentUser;      //Change this to firebase??
     private HabitsAdapter recyclerAdapter;  //For the view of all habits (interactable)
     private DashboardAdapter listAdapter;   //For the view of today's habits (view only)
-    private int buttonSelected;             //Indicates what state buttons are in.
+    private int buttonSelected = TODAY;     //Indicates what state buttons are in.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,71 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
             }
         }
         return todaysHabits;
+    }
+
+
+    /**
+     * Sets all button listeners in the activity
+     */
+    private void setButtonListeners() {
+        //TODO: Add the fragment FAB Button
+
+        Button todayButton = findViewById(R.id.todays_habits_btn);
+        Button allButton = findViewById(R.id.all_habits_btn);
+
+        todayButton.setOnClickListener((View v) -> {
+            buttonToggle(TODAY);
+        });
+
+        allButton.setOnClickListener((View v) -> {
+            buttonToggle(ALL);
+        });
+    }
+
+
+    /**
+     * Toggles the view that is displayed when a different button is clicked.
+     * To be called by the button click listeners
+     * @param mode an int representing what mode the activity is currently showing
+     */
+    private void buttonToggle(int mode) {
+
+        Button currentButton;
+        Button otherButton;
+
+        if (buttonSelected != mode) {        //Only trigger if the button isn't already selected
+            ListView listView = findViewById(R.id.today_habit_list);
+            RecyclerView recyclerView = findViewById(R.id.habits_list);
+            if (mode == ALL) {
+               currentButton = findViewById(R.id.todays_habits_btn);
+               otherButton = findViewById(R.id.all_habits_btn);
+               listView.setVisibility(View.INVISIBLE);                  //Hide the listview, show the recycler view.
+               recyclerView.setVisibility(View.VISIBLE);
+            }
+            else {
+               currentButton = findViewById(R.id.all_habits_btn);
+               otherButton = findViewById(R.id.todays_habits_btn);
+               listView.setVisibility(View.VISIBLE);                    //Hide the recycler, show the list view.
+               recyclerView.setVisibility(View.INVISIBLE);
+            }
+            swapColor(currentButton, otherButton);
+            buttonSelected = (mode + 1) % 2;                            //Swap the state
+        }
+    }
+
+    /**
+     * Helper function to button toggle. "Swaps" the colors of the buttons.
+     * @param current the button that needs to be toggled off
+     * @param other the button that needs to be toggled on
+     */
+    private void swapColor(Button current, Button other) {
+        //De-select the current button
+        current.setBackgroundColor(getResources().getColor(R.color.theme_secondary));
+        current.setTextColor(getResources().getColor(R.color.theme_primary));
+
+        //Select the other button
+        other.setBackgroundColor(getResources().getColor(R.color.theme_primary));
+        other.setTextColor(getResources().getColor(R.color.theme_secondary));
     }
 
 
