@@ -2,7 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="100dp"
     android:background="@drawable/habit_list_border"
 
@@ -16,7 +15,6 @@
         android:background="@color/theme_bg"
         android:paddingLeft="4dp"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="match_parent"
