@@ -1,6 +1,7 @@
 package com.example.happyhabitapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +36,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
+        setAdapters();
     }
 
     /**
@@ -92,7 +96,6 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         return todaysHabits;
     }
 
-
     /**
      * Sets all button listeners in the activity
      */
@@ -101,6 +104,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
 
         Button todayButton = findViewById(R.id.todays_habits_btn);
         Button allButton = findViewById(R.id.all_habits_btn);
+        FloatingActionButton addButton = findViewById(R.id.add_habit_btn);
 
         todayButton.setOnClickListener((View v) -> {
             buttonToggle(TODAY);
@@ -109,8 +113,18 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         allButton.setOnClickListener((View v) -> {
             buttonToggle(ALL);
         });
-    }
 
+        //Go to add/edit habit fragment
+        addButton.setOnClickListener((View v) -> {
+
+            DialogFragment addFragment = new Add_Edit_Fragment();
+            Bundle args = new Bundle();
+            args.putSerializable("habit", null);
+            addFragment.setArguments(args);
+
+            addFragment.show(getSupportFragmentManager(), "ADD_HABIT");
+        });
+    }
 
     /**
      * Toggles the view that is displayed when a different button is clicked.
@@ -157,13 +171,13 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         other.setTextColor(getResources().getColor(R.color.theme_secondary));
     }
 
-
     /**
      * Helper method for the recycler adapter
      * @param position
      */
     @Override
     public void onHabitClick(int position) {
+
 
     }
 }
