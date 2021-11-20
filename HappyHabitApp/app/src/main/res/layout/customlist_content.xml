@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@drawable/habit_list_border"
-
-    android:backgroundTint="@color/theme_bg"
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@color/theme_secondary"
         android:layout_weight="1"
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
