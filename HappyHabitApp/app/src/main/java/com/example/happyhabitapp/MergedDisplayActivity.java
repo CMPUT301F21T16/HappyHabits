@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,7 +23,7 @@ import java.util.Calendar;
 //TODO: Add the FAB to open add/edit fragment
 //TODO: Refactor adapters/activities/etc...
 
-public class MergedDisplayActivity extends AppCompatActivity implements HabitListener{
+public class MergedDisplayActivity extends AppCompatActivity implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener {
 
     private int TODAY = 0;
     private int ALL= 1;
@@ -32,11 +33,31 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
     private DashboardAdapter listAdapter;   //For the view of today's habits (view only)
     private int buttonSelected = TODAY;     //Indicates what state buttons are in.
 
+    private ListView listView;              //Preserve information on visibility swaps
+    private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
+
+        //Eventually get from the login-screen. For now, make a dummy version.
+        Calendar today = Calendar.getInstance();
+
+        //-------TEST INFO - REMOVE LATER -------
+        int[] selectedDates = {1,0,0,1,0,0,0};
+        int[] selectedDates2 = {0,0,0,0,1,1,1};
+        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
+
+        ArrayList<Habit> testList = new ArrayList<Habit>();
+        testList.add(habit1); testList.add(habit2); testList.add(habit3);
+        //-----------------------------------
+        currentUser = new User("TestUser", "somePath", testList, null);
+
         setAdapters();
+        setButtonListeners();
     }
 
     /**
@@ -55,7 +76,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
      */
     private void setRecyclerAdapter(){
         recyclerAdapter = new HabitsAdapter(currentUser.getHabitList(), this);
-        RecyclerView recyclerView = findViewById(R.id.habits_list);
+        recyclerView = findViewById(R.id.habits_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));   //Set data to be displayed linearly (instead of grid, etc...)
         recyclerView.setHasFixedSize(true);
 
@@ -63,6 +84,8 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         recyclerAdapter.setTouchHelper(itemTouchHelper);                    //Add gesture support via callbacks
         itemTouchHelper.attachToRecyclerView(recyclerView);                 //Connect to the recyclerview
+
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
 
@@ -72,7 +95,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
      */
     private void setListAdapter(){
         listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
-        ListView listView = findViewById(R.id.today_habit_list);
+        listView = findViewById(R.id.todays_habits_list);
         listView.setAdapter(listAdapter);
     }
 
@@ -100,7 +123,6 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
      * Sets all button listeners in the activity
      */
     private void setButtonListeners() {
-        //TODO: Add the fragment FAB Button
 
         Button todayButton = findViewById(R.id.todays_habits_btn);
         Button allButton = findViewById(R.id.all_habits_btn);
@@ -129,7 +151,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
     /**
      * Toggles the view that is displayed when a different button is clicked.
      * To be called by the button click listeners
-     * @param mode an int representing what mode the activity is currently showing
+     * @param mode an int representing what mode is to be toggled to
      */
     private void buttonToggle(int mode) {
 
@@ -137,8 +159,6 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         Button otherButton;
 
         if (buttonSelected != mode) {        //Only trigger if the button isn't already selected
-            ListView listView = findViewById(R.id.today_habit_list);
-            RecyclerView recyclerView = findViewById(R.id.habits_list);
             if (mode == ALL) {
                currentButton = findViewById(R.id.todays_habits_btn);
                otherButton = findViewById(R.id.all_habits_btn);
@@ -150,9 +170,10 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
                otherButton = findViewById(R.id.todays_habits_btn);
                listView.setVisibility(View.VISIBLE);                    //Hide the recycler, show the list view.
                recyclerView.setVisibility(View.INVISIBLE);
+               setListAdapter();    //Re-draw listView in case any habits were removed
             }
             swapColor(currentButton, otherButton);
-            buttonSelected = (mode + 1) % 2;                            //Swap the state
+            buttonSelected = (buttonSelected + 1) % 2;                            //Swap the state
         }
     }
 
@@ -163,11 +184,11 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
      */
     private void swapColor(Button current, Button other) {
         //De-select the current button
-        current.setBackgroundColor(getResources().getColor(R.color.theme_secondary));
+        current.setBackgroundTintList(getResources().getColorStateList(R.color.theme_secondary));   //Different setter due to material button
         current.setTextColor(getResources().getColor(R.color.theme_primary));
 
         //Select the other button
-        other.setBackgroundColor(getResources().getColor(R.color.theme_primary));
+        other.setBackgroundTintList(getResources().getColorStateList(R.color.theme_primary));
         other.setTextColor(getResources().getColor(R.color.theme_secondary));
     }
 
@@ -178,6 +199,20 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
     @Override
     public void onHabitClick(int position) {
 
+
+    }
+
+    @Override
+    public void onAddPressed(Habit newHabit) {
+        currentUser.addHabit(newHabit); // adds habit to data list
+        recyclerAdapter.notifyDataSetChanged();    // notifies adapter of change
+
+        //Swap to the all habits view to see change
+        buttonToggle(ALL);
+    }
+
+    @Override
+    public void onEditPressed(Habit newHabit, Habit oldHabit) {
 
     }
 }
