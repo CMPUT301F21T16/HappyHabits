@@ -54,7 +54,6 @@
                     android:text="Selected Dates"
                     android:textColor="@color/theme_secondary"
                     android:textSize="14dp" />
-
             </LinearLayout>
 
             <TextView
