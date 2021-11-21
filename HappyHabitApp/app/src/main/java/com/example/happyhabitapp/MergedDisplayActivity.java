@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,6 +28,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
 
     private int TODAY = 0;
     private int ALL= 1;
+
 
     private User currentUser;      //Change this to firebase??
     private HabitsAdapter recyclerAdapter;  //For the view of all habits (interactable)
@@ -88,6 +90,8 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         recyclerView.setAdapter(recyclerAdapter);
     }
 
+    //DELETE ME
+    //GET current
 
     /**
      * Sets an adapter that only supports static listing of habit entries. No interaction.
@@ -105,7 +109,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
      */
     private ArrayList<Habit> getTodaysHabits(ArrayList<Habit> habitList) {
 
-    ArrayList<Habit> todaysHabits = new ArrayList<Habit>();     //The list to be returned
+        ArrayList<Habit> todaysHabits = new ArrayList<Habit>();     //The list to be returned
         Calendar today = Calendar.getInstance();                //Get the date today
 
         for(int i = 0; i < habitList.size(); i++) {
@@ -158,6 +162,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         Button currentButton;
         Button otherButton;
 
+
         if (buttonSelected != mode) {        //Only trigger if the button isn't already selected
             if (mode == ALL) {
                currentButton = findViewById(R.id.todays_habits_btn);
@@ -199,16 +204,19 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
     @Override
     public void onHabitClick(int position) {
 
-
     }
 
     @Override
     public void onAddPressed(Habit newHabit) {
-        currentUser.addHabit(newHabit); // adds habit to data list
-        recyclerAdapter.notifyDataSetChanged();    // notifies adapter of change
 
-        //Swap to the all habits view to see change
-        buttonToggle(ALL);
+        currentUser.addHabit(newHabit);             //adds habit to data list
+        if (recyclerAdapter.getItemCount() == 1) {
+            setRecyclerAdapter();                   //re-bind adapter
+        }
+        else {
+            recyclerAdapter.notifyDataSetChanged();     //notifies adapter of change
+        }
+        buttonToggle(ALL);                          //Swap to the all habits view to see change
     }
 
     @Override
