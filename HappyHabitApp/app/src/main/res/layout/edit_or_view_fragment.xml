@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.fragment.app.FragmentContainerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".EditOrViewFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/theme_secondary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/edit_or_event_prompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:text="@string/edit_or_view_prompt"
+                android:textColor="@color/theme_primary"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_events_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/theme_primary"
+                    android:gravity="center"
+                    android:text="@string/go_to_edit_fragment_msg"
+                    android:textColor="@color/theme_secondary"
+                    android:textSize="18sp"
+                    tools:ignore="TextContrastCheck" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_edit_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/theme_primary"
+                    android:gravity="center"
+                    android:text="@string/go_to_view_activity_msg"
+                    android:textColor="@color/theme_secondary"
+                    android:textSize="18sp"
+                    tools:ignore="TextContrastCheck" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.fragment.app.FragmentContainerView>

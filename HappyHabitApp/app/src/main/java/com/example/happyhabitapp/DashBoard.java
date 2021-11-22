@@ -93,7 +93,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
                         }
                     });
         }
-
         return true;
     }
 
@@ -116,7 +115,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
             startLogin();
             return;
         }
-
         firebaseAuth.getCurrentUser().getIdToken(true)
                 .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                     @Override
@@ -124,7 +122,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
                         Log.d(TAG, "onSuccess" + getTokenResult.getToken());
                     }
                 });
-
     }
 
     private User getUser(){

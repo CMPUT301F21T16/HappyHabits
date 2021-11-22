@@ -57,6 +57,7 @@ public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
     public void onItemSwipe(int position) {
         habitList.remove(position);
         notifyItemRemoved(position);
+        //Delete from firebase
     }
 
     public void setTouchHelper(ItemTouchHelper helper) {
