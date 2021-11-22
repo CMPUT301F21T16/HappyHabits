@@ -66,7 +66,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        fire.getEventLst(events, habit);
+        fire.getEventList(events, habit);
     }
 
     private void startLogin(){

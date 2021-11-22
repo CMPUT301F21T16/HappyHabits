@@ -8,16 +8,19 @@
 
 package com.example.happyhabitapp;
 
+import android.os.Build;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,6 +33,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +50,7 @@ public class FireBase {
     private String current_uid;
 
     private CollectionReference Users = db.collection("Users");
-    private DocumentReference User = Users.document(getUserName());
+    private DocumentReference User = Users.document(getUsername());
     private CollectionReference HabitList = User.collection("HabitList");
     private CollectionReference Followers = User.collection("Followers");
     private CollectionReference Followees = User.collection("Followees");
@@ -62,7 +67,6 @@ public class FireBase {
      */
 
     public void setUser(User user) {
-
         User
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -77,7 +81,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add user", e);
                     }
                 });
-
     }
 
     /**
@@ -96,7 +99,7 @@ public class FireBase {
         map.put("Reason", habit.getReason());
         map.put("Days", freq);
         map.put("Dates", habit.getDate());
-
+        map.put("Public", habit.getPublicHabit());
 
         HabitList
                 .document(habit.getTitle())
@@ -113,7 +116,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add habit to fire", e);
                     }
                 });
-
     }
 
     /**
@@ -169,8 +171,6 @@ public class FireBase {
 
     public void setHabitEventEvent(HabitEvent event) {
 
-
-
         Map<String, Object> map = new HashMap<>();
         map.put("About", event.getHabit().getTitle());
         map.put("Date", event.getEvent_date());
@@ -209,12 +209,11 @@ public class FireBase {
         return current_uid;
     }
 
-
     /**
      * this function return current user's user name as string
      * @return
      */
-    public String getUserName(){
+    public String getUsername(){
         String current_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         return current_name;
     }
@@ -222,7 +221,7 @@ public class FireBase {
 
     /* get information */
 
-    public void getUserLst(ArrayList<User> list){
+    public void getUserList(ArrayList<User> list){
         Users
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -243,7 +242,7 @@ public class FireBase {
      * this function get follower list and store in list
      * @param list
      */
-    public void getFollowerLst(ArrayList<User> list){
+    public void getFollowerList(ArrayList<User> list){
 
         Followers
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -264,7 +263,7 @@ public class FireBase {
      * this function get followee list and store in list
      * @param list
      */
-    public void getFolloweeLst(ArrayList<User> list){
+    public void getFolloweeList(ArrayList<User> list){
         Followees
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -285,16 +284,35 @@ public class FireBase {
      * this function get habit list and store in list
      * @param list
      */
-    public void getHabitLst(ArrayList<Habit> list){
+    public void getHabitList(ArrayList<Habit> list){
+        list.clear();
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
         HabitList
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
                         for (QueryDocumentSnapshot doc: value){
                             Log.d(TAG, "onEvent: getting Habits");
-                            Habit habit = doc.toObject(Habit.class);
-                            Log.d(TAG, "onEvent: " + habit.getTitle());
+                            //Habit habit = doc.toObject(Habit.class);
+                            map[0] = doc.getData();
+                            String title = (String) map[0].get("Title");
+                            String reason = (String) map[0].get("Reason");
+                            List<Long> freq = (List<Long>) map[0].get("Days");
+                            int[] finalFreq = new int[freq.size()];
+                            for (int i = 0; i<freq.size(); i++){
+                                //Long l = new Long(freq[i]);
+                                finalFreq[i] = freq.get(i).intValue();
+                            }
+                            Map<String, Object> dates = (Map<String, Object>) map[0].get("Dates");
+                            Timestamp createDate = (Timestamp) dates.get("time");
+                            Date cal = createDate.toDate();
+                            Calendar finalDate  = Calendar.getInstance();
+                            finalDate.setTime(cal);
+                            boolean pub = (boolean) map[0].get("Public");
+                            Habit habit = new Habit(title, reason, finalDate, finalFreq, pub);
+                            Log.d(TAG, String.valueOf(finalFreq[0]));
                             list.add(habit);
                         }
                     }
@@ -305,7 +323,7 @@ public class FireBase {
      * this function get habit event list and store in list
      * @param list
      */
-    public void getEventLst(ArrayList<HabitEvent> list, Habit habit){
+    public void getEventList(ArrayList<HabitEvent> list, Habit habit){
         HabitList
                 .document(habit.getTitle())
                 .collection("Events")
@@ -434,18 +452,5 @@ public class FireBase {
                     }
                 });
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
 

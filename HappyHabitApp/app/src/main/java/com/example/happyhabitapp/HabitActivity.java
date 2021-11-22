@@ -203,7 +203,6 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         adapter.getHabitList().add(newHabit); // adds habit to data list
         adapter.notifyItemInserted(adapter.getItemCount() - 1); // notifies item at last position has been added
         adapter.notifyDataSetChanged(); // notifies adpater of change
-
     }
 
     /**

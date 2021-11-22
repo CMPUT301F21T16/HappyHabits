@@ -49,13 +49,11 @@ public class DashboardAdapter extends ArrayAdapter<Habit> {
         TextView habitTitle = view.findViewById(R.id.habit_title);
         TextView habitReason = view.findViewById(R.id.reason_text);
         TextView habitFreq = view.findViewById(R.id.selected_dates);
-        ImageButton dragHandle = view.findViewById(R.id.drag_handle);
 
         //Setters
         habitTitle.setText(habit.getTitle());
         habitReason.setText(habit.getReason());
         habitFreq.setText(habit.getWeekAsStr());
-        dragHandle.setVisibility(View.GONE);        //Since non-intractable, hide the drag handle
 
     return view;
     }

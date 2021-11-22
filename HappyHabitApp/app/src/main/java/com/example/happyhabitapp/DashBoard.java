@@ -17,9 +17,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,6 +54,12 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
 
         ImageView user_prof = (ImageView) findViewById(R.id.user_profile_pic);
         user_prof.setBackgroundResource(R.drawable.lol);
+
+        Calendar date = Calendar.getInstance();
+        int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
+        String weekday = new DateFormatSymbols().getWeekdays()[dayOfWeek];
+        TextView day = findViewById(R.id.today_habit);
+        day.setText("Today's Habit("+weekday+")");
     }
 
 
@@ -85,7 +93,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
                         }
                     });
         }
-
         return true;
     }
 
@@ -108,7 +115,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
             startLogin();
             return;
         }
-
         firebaseAuth.getCurrentUser().getIdToken(true)
                 .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                     @Override
@@ -116,7 +122,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
                         Log.d(TAG, "onSuccess" + getTokenResult.getToken());
                     }
                 });
-
     }
 
     private User getUser(){
