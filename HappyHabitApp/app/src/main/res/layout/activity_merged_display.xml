@@ -59,7 +59,7 @@
                 android:textSize="36sp" />
 
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/userName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"

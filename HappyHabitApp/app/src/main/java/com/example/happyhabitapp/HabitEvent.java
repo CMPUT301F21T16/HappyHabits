@@ -3,6 +3,7 @@ package com.example.happyhabitapp;
 import java.util.Calendar;
 import java.util.Date;
 
+
 public class HabitEvent {
     private Habit habit;
     private Calendar event_date;
@@ -80,4 +81,5 @@ public class HabitEvent {
     public String getTitle() {
         return title;
     }
+
 }
