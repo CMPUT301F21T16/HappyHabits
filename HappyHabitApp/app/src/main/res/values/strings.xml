@@ -4,7 +4,7 @@
     <string name="all_habit_header">All Habits</string>
 
 
-<!--  For use with the add_or_view_fragment.xml  -->
+    <!--  For use with the add_or_view_fragment.xml  -->
     <string name="edit_or_view_prompt">What would you like to do with this habit?</string>
     <string name="go_to_edit_fragment_msg">Edit Habit</string>
     <string name="go_to_view_activity_msg">View Events</string>
