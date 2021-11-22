@@ -50,7 +50,9 @@
                     android:layout_width="27dp"
                     android:layout_height="27dp"
                     android:layout_gravity="center|left"
-                    app:srcCompat="@drawable/circleshape" />
+                    android:background="@drawable/circleshape"
+                    app:srcCompat="@drawable/ic_in_progress_icon"
+                    app:tint="@color/in_progress_yellow" />
             </LinearLayout>
 
             <LinearLayout

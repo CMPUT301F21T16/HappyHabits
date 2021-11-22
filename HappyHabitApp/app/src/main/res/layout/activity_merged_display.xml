@@ -134,6 +134,8 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:foreground="@drawable/fab_border"
+        app:elevation="0dp"
         app:backgroundTint="@color/theme_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,6 +3,6 @@
     android:shape="rectangle">
     <stroke
         android:width="1.5dp"
-        android:color="@string/theme_primary" />
+        android:color="@color/theme_primary" />
     <!--Taken from https://stackoverflow.com/questions/40035326/android-border-for-linearlayout/40035405-->
 </shape>
