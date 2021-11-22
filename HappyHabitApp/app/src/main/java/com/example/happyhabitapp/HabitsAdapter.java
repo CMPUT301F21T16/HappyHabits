@@ -22,6 +22,8 @@ public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
     private ItemTouchHelper touchHelper;
     private HabitListener habitListener;
 
+    private FireBase fire = new FireBase();
+
     public HabitsAdapter(List<Habit> habitList, HabitListener habitListener) {
         this.habitList = habitList;
         this.habitListener = habitListener;
@@ -55,6 +57,7 @@ public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
 
     @Override
     public void onItemSwipe(int position) {
+        fire.delHabit(habitList.get(position));
         habitList.remove(position);
         notifyItemRemoved(position);
         //Delete from firebase

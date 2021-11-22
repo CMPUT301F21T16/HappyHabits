@@ -67,13 +67,14 @@ public class MergedDisplayActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
+
         fire.getHabitList(habitList);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        refresh(100);
+
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
 
@@ -354,19 +355,15 @@ public class MergedDisplayActivity extends AppCompatActivity
     @Override
     public void onAddPressed(Habit newHabit) {
 //        currentUser.addHabit(newHabit);             //adds habit to data list
-
+        habitList.add(newHabit);
         fire.setHabit(newHabit);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (recyclerAdapter.getItemCount() == 1) {
-            setRecyclerAdapter();                   //re-bind adapter if list was empty
-        }
-        else {
-            recyclerAdapter.notifyDataSetChanged(); //notifies adapter of change
-        }
+        setAdapters();
+//        if (recyclerAdapter.getItemCount() == 1) {
+//            setRecyclerAdapter();                   //re-bind adapter if list was empty
+//        }
+//        else {
+//            recyclerAdapter.notifyDataSetChanged(); //notifies adapter of change
+//        }
         buttonToggle(ALL);                          //Swap to the all habits view to see change
     }
 

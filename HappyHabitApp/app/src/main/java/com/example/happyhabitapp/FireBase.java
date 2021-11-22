@@ -54,6 +54,7 @@ public class FireBase {
     private CollectionReference HabitList = User.collection("HabitList");
     private CollectionReference Followers = User.collection("Followers");
     private CollectionReference Followees = User.collection("Followees");
+    private CollectionReference Requests = User.collection("Requests");
 
 
     /* Constructors */
@@ -318,6 +319,9 @@ public class FireBase {
                     }
                 });
     }
+
+
+
 
     /**
      * this function get habit event list and store in list
