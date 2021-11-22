@@ -60,12 +60,6 @@ public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
     public void onItemSwipe(int position) {
         fire.delHabit(habitList.get(position));
         habitList.remove(position);
-        fire.getHabitList(habitList);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, habitList.size());
 //        notifyItemRemoved(position);

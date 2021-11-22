@@ -42,7 +42,7 @@ import java.util.List;
 //TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity
-        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, Comparable{
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener{
 
     //Firebase-specific attributes
 
@@ -76,6 +76,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
 
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
@@ -189,6 +190,7 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     //---Display related methods---
 
+
     /**
      * Fills the username field
      */
@@ -202,6 +204,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
+        refresh(1600);
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -212,6 +215,8 @@ public class MergedDisplayActivity extends AppCompatActivity
      * Sources from all of the user's habits.
      */
     private void setRecyclerAdapter(){
+
+
 
 //        recyclerAdapter = new HabitsAdapter(currentUser.getHabitList(), this);
         recyclerAdapter = new HabitsAdapter(habitList, this);
@@ -232,6 +237,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * Sources from user's habits that coincide with today's date.
      */
     private void setListAdapter(){
+
 
 //        listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
         listAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
@@ -358,7 +364,7 @@ public class MergedDisplayActivity extends AppCompatActivity
     public void onAddPressed(Habit newHabit) {
 //        currentUser.addHabit(newHabit);             //adds habit to data list
         fire.setHabit(newHabit);
-        habitList.add(newHabit);
+        fire.getHabitList(habitList);
         setAdapters();
 
 
