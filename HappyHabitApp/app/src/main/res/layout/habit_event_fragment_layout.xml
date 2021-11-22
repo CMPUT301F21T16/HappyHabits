@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/habit_event_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/display_event_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/take_photo_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/habit_event_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Habit Title"
+        android:minHeight="48dp"
+        android:textColor="@color/text_primary" />
+
+
+    <EditText
+        android:id="@+id/habit_event_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Habit Reason"
+        android:maxLength="20"
+        android:minHeight="48dp"
+        android:textColor="@color/text_primary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status:">
+        </TextView>
+
+        <Spinner
+            android:id="@+id/status_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
