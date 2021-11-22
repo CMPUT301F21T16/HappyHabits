@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +31,8 @@ import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 //TODO: Add adapters. Make sure that the recycler adapter notifies the list view of any changes when they occur. --DONE
@@ -55,13 +58,25 @@ public class MergedDisplayActivity extends AppCompatActivity
     private DashboardAdapter listAdapter;   //For the view of today's habits (view only)
     private int buttonSelected = TODAY;     //Indicates what state buttons are in.
 
+    private ArrayList<Habit> habitList = new ArrayList<Habit>();
+
     private ListView listView;              //Preserve information on visibility swaps
     private RecyclerView recyclerView;
+
+    private FireBase fire = new FireBase(); // FireBase
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
+
+        fire.getHabitList(habitList);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
@@ -80,6 +95,7 @@ public class MergedDisplayActivity extends AppCompatActivity
 
         setAdapters();
         setButtonListeners();
+        setUsername();
     }
 
     //---Firebase related methods---
@@ -160,22 +176,35 @@ public class MergedDisplayActivity extends AppCompatActivity
                 .addOnSuccessListener(getTokenResult -> Log.d(TAG, "onSuccess" + getTokenResult.getToken()));
     }
 
+
+    private void refresh(int milliseconds){
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                setAdapters();
+            }
+        };
+        handler.postDelayed(runnable,milliseconds);
+    }
+
     //---Display related methods---
+
 
     /**
      * Fills the username field
      */
     private void setUsername(){
-        TextView username = findViewById(R.id.username); //Delete the duplicate "username" ID in activity_habit.xml
-        username.setText(currentUser.getUsername());
+        TextView username = findViewById(R.id.userName); //Delete the duplicate "username" ID in activity_habit.xml
+        username.setText(fire.getUsername());
     }
-
 
     /**
      * Sets up the adapter for the list view
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
+        refresh(1600);
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -186,7 +215,11 @@ public class MergedDisplayActivity extends AppCompatActivity
      * Sources from all of the user's habits.
      */
     private void setRecyclerAdapter(){
-        recyclerAdapter = new HabitsAdapter(currentUser.getHabitList(), this);
+
+
+
+//        recyclerAdapter = new HabitsAdapter(currentUser.getHabitList(), this);
+        recyclerAdapter = new HabitsAdapter(habitList, this);
         recyclerView = findViewById(R.id.habits_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));   //Set data to be displayed linearly (instead of grid, etc...)
         recyclerView.setHasFixedSize(true);
@@ -204,7 +237,11 @@ public class MergedDisplayActivity extends AppCompatActivity
      * Sources from user's habits that coincide with today's date.
      */
     private void setListAdapter(){
-        listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
+
+
+//        listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
+        listAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
+
         listView = findViewById(R.id.todays_habits_list);
         listView.setAdapter(listAdapter);
     }
@@ -310,7 +347,9 @@ public class MergedDisplayActivity extends AppCompatActivity
     @Override
     public void onHabitClick(int position) {
         //TODO: Have an intermediary fragment that asks user where they would like to be directed.
-        Habit selectedHabit = currentUser.getHabitList().get(position);
+//        Habit selectedHabit = currentUser.getHabitList().get(position);
+        Habit selectedHabit = habitList.get(position);
+
         //Go to new add/edit fragment
 
         DialogFragment newFragment = new Add_Edit_Fragment();
@@ -323,13 +362,18 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     public void onAddPressed(Habit newHabit) {
-        currentUser.addHabit(newHabit);             //adds habit to data list
-        if (recyclerAdapter.getItemCount() == 1) {
-            setRecyclerAdapter();                   //re-bind adapter if list was empty
-        }
-        else {
-            recyclerAdapter.notifyDataSetChanged(); //notifies adapter of change
-        }
+//        currentUser.addHabit(newHabit);             //adds habit to data list
+        fire.setHabit(newHabit);
+        fire.getHabitList(habitList);
+        setAdapters();
+
+
+//        if (recyclerAdapter.getItemCount() == 1) {
+//            setRecyclerAdapter();                   //re-bind adapter if list was empty
+//        }
+//        else {
+//            recyclerAdapter.notifyDataSetChanged(); //notifies adapter of change
+//        }
         buttonToggle(ALL);                          //Swap to the all habits view to see change
     }
 
@@ -339,5 +383,10 @@ public class MergedDisplayActivity extends AppCompatActivity
         int pos = dataList.indexOf(oldHabit);
         dataList.set(pos, newHabit);
         recyclerAdapter.notifyDataSetChanged();
+        fire.delHabit(oldHabit);
+        fire.setHabit(newHabit);
     }
+
+
+
 }
