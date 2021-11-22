@@ -1,35 +1,53 @@
 package com.example.happyhabitapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-//TODO: Add adapters. Make sure that the recycler adapter notifies the list view of any changes when they occur.
-//TODO: Add button functionalities to toggle which view is displayed.
+//TODO: Add adapters. Make sure that the recycler adapter notifies the list view of any changes when they occur. --DONE
+//TODO: Add button functionalities to toggle which view is displayed.                                            --DONE
 //TODO: Update the Username, profile pictures and habits according to firebase.
-//TODO: Add the FAB to open add/edit fragment
+//TODO: Add the FAB to open add/edit fragment                                                                    --DONE
 //TODO: Refactor adapters/activities/etc...
 
-public class MergedDisplayActivity extends AppCompatActivity implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener {
+public class MergedDisplayActivity extends AppCompatActivity
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener{
 
-    private int TODAY = 0;
+    //Firebase-specific attributes
+
+    private final String TAG = "MergedDisplayActivity";       //Contains a log of firebase activity
+
+
+    //Activity-related attributes
+    private int TODAY = 0;         //Constants for changing the display type
     private int ALL= 1;
-
 
     private User currentUser;      //Change this to firebase??
     private HabitsAdapter recyclerAdapter;  //For the view of all habits (interactable)
@@ -63,6 +81,86 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
         setButtonListeners();
     }
 
+    //---Firebase related methods---
+
+    /**
+     * Takes user back to the log-in screen
+     */
+    private void startLogin(){
+        startActivity(new Intent(MergedDisplayActivity.this, MainActivity.class));
+        this.finish();
+    }
+
+    /**
+     * Displays the three dots to prompt log out in the top-right of header
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+        return true;
+    }
+
+    /**
+     * Displays relevant options to user when the three dots are pressed
+     *
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+
+        if (item_id == R.id.logout){
+            Toast.makeText(this, "Logging Out...", Toast.LENGTH_SHORT).show();
+            AuthUI.getInstance().signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                startLogin();
+                            }
+                            else{
+                                Log.e(TAG, "onComplete", task.getException());
+                            }
+                        }
+                    });
+        }
+        return true;
+    }
+
+    /**
+     * Works with onStop and onAuthStateChanged to verify user
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(this);
+    }
+
+    /**
+     * Works with onStart and onAuthStateChanged to verify user
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseAuth.getInstance().removeAuthStateListener(this);
+    }
+
+    /**
+     *  Works with onStart and onStop to verify user
+     */
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            startLogin();
+            return;
+        }
+        firebaseAuth.getCurrentUser().getIdToken(true)
+                .addOnSuccessListener(getTokenResult -> Log.d(TAG, "onSuccess" + getTokenResult.getToken()));
+    }
+
+    //---Display related methods---
+
     /**
      * Sets up the adapter for the list view
      * and the recycler view (initially hidden)
@@ -90,9 +188,6 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
 
         recyclerView.setAdapter(recyclerAdapter);
     }
-
-    //DELETE ME
-    //GET current
 
     /**
      * Sets an adapter that only supports static listing of habit entries. No interaction.

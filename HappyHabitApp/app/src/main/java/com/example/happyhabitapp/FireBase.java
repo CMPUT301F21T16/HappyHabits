@@ -44,7 +44,7 @@ public class FireBase {
     private String current_uid;
 
     private CollectionReference Users = db.collection("Users");
-    private DocumentReference User = Users.document(getUserName());
+    private DocumentReference User = Users.document(getUsername());
     private CollectionReference HabitList = User.collection("HabitList");
     private CollectionReference Followers = User.collection("Followers");
     private CollectionReference Followees = User.collection("Followees");
@@ -61,7 +61,6 @@ public class FireBase {
      */
 
     public void setUser(User user) {
-
         User
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -76,7 +75,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add user", e);
                     }
                 });
-
     }
 
     /**
@@ -96,7 +94,6 @@ public class FireBase {
         map.put("Days", freq);
         map.put("Dates", habit.getDate());
 
-
         HabitList
                 .document(habit.getTitle())
                 .set(map)
@@ -112,7 +109,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add habit to fire", e);
                     }
                 });
-
     }
 
     /**
@@ -168,8 +164,6 @@ public class FireBase {
 
     public void setHabitEventEvent(HabitEvent event) {
 
-
-
         Map<String, Object> map = new HashMap<>();
         map.put("About", event.getHabit().getTitle());
         map.put("Date", event.getEvent_date());
@@ -208,12 +202,11 @@ public class FireBase {
         return current_uid;
     }
 
-
     /**
      * this function return current user's user name as string
      * @return
      */
-    public String getUserName(){
+    public String getUsername(){
         String current_name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         return current_name;
     }
@@ -221,7 +214,7 @@ public class FireBase {
 
     /* get information */
 
-    public void getUserLst(ArrayList<User> list){
+    public void getUserList(ArrayList<User> list){
         Users
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -242,7 +235,7 @@ public class FireBase {
      * this function get follower list and store in list
      * @param list
      */
-    public void getFollowerLst(ArrayList<User> list){
+    public void getFollowerList(ArrayList<User> list){
 
         Followers
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -263,7 +256,7 @@ public class FireBase {
      * this function get followee list and store in list
      * @param list
      */
-    public void getFolloweeLst(ArrayList<User> list){
+    public void getFolloweeList(ArrayList<User> list){
         Followees
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -284,7 +277,7 @@ public class FireBase {
      * this function get habit list and store in list
      * @param list
      */
-    public void getHabitLst(ArrayList<Habit> list){
+    public void getHabitList(ArrayList<Habit> list){
         HabitList
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -304,7 +297,7 @@ public class FireBase {
      * this function get habit event list and store in list
      * @param list
      */
-    public void getEventLst(ArrayList<HabitEvent> list, Habit habit){
+    public void getEventList(ArrayList<HabitEvent> list, Habit habit){
         HabitList
                 .document(habit.getTitle())
                 .collection("Events")
@@ -433,17 +426,5 @@ public class FireBase {
                     }
                 });
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
