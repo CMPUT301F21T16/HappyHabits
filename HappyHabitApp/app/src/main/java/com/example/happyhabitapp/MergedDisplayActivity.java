@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -160,6 +161,15 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
     //---Display related methods---
+
+    /**
+     * Fills the username field
+     */
+    private void setUsername(){
+        TextView username = findViewById(R.id.username); //Delete the duplicate "username" ID in activity_habit.xml
+        username.setText(currentUser.getUsername());
+    }
+
 
     /**
      * Sets up the adapter for the list view
@@ -313,7 +323,6 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     public void onAddPressed(Habit newHabit) {
-
         currentUser.addHabit(newHabit);             //adds habit to data list
         if (recyclerAdapter.getItemCount() == 1) {
             setRecyclerAdapter();                   //re-bind adapter if list was empty
