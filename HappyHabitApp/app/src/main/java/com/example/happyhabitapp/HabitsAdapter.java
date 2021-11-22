@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +19,13 @@ import java.util.List;
  */
 public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
 
-    private List<Habit> habitList;
+    private ArrayList<Habit> habitList;
     private ItemTouchHelper touchHelper;
     private HabitListener habitListener;
 
     private FireBase fire = new FireBase();
 
-    public HabitsAdapter(List<Habit> habitList, HabitListener habitListener) {
+    public HabitsAdapter(ArrayList<Habit> habitList, HabitListener habitListener) {
         this.habitList = habitList;
         this.habitListener = habitListener;
     }
@@ -59,7 +60,15 @@ public class HabitsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
     public void onItemSwipe(int position) {
         fire.delHabit(habitList.get(position));
         habitList.remove(position);
+        fire.getHabitList(habitList);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position, habitList.size());
+//        notifyItemRemoved(position);
         //Delete from firebase
     }
 

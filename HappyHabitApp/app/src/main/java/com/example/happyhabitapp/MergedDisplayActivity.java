@@ -31,6 +31,8 @@ import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 //TODO: Add adapters. Make sure that the recycler adapter notifies the list view of any changes when they occur. --DONE
@@ -40,7 +42,7 @@ import java.util.List;
 //TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity
-        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener{
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, Comparable{
 
     //Firebase-specific attributes
 
@@ -355,9 +357,11 @@ public class MergedDisplayActivity extends AppCompatActivity
     @Override
     public void onAddPressed(Habit newHabit) {
 //        currentUser.addHabit(newHabit);             //adds habit to data list
-        habitList.add(newHabit);
         fire.setHabit(newHabit);
+        habitList.add(newHabit);
         setAdapters();
+
+
 //        if (recyclerAdapter.getItemCount() == 1) {
 //            setRecyclerAdapter();                   //re-bind adapter if list was empty
 //        }
@@ -376,4 +380,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         fire.delHabit(oldHabit);
         fire.setHabit(newHabit);
     }
+
+
+
 }
