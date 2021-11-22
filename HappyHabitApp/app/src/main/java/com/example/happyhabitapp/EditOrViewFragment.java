@@ -23,7 +23,7 @@ public class EditOrViewFragment extends Fragment {
 
     private View view;
 
-    private Button viewButton;
+    private Button eventsButton;
     private Button editButton;
 
     /**
@@ -32,8 +32,8 @@ public class EditOrViewFragment extends Fragment {
     private void initFragment() {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_or_view_fragment, null);
 
-        viewButton = view.findViewById(R.id.go_to_edit_btn);
-        editButton = view.findViewById(R.id.go_to_list_button);
+        eventsButton = view.findViewById(R.id.go_to_events_btn);
+        editButton = view.findViewById(R.id.go_to_edit_btn);
     }
 
     @Override
@@ -43,12 +43,12 @@ public class EditOrViewFragment extends Fragment {
             Habit habit = (Habit) getArguments().getSerializable("habit");   //To be passed to next fragment, or discarded
             initFragment();
 
-            viewButton.setOnClickListener((View v) -> {
-                //Do something
+            eventsButton.setOnClickListener((View v) -> {
+                //Launch a new activity, passing the habit to the activity
             });
 
             editButton.setOnClickListener((View v) -> {
-                //Do something else
+                //Replace this fragment with the add_edit fragment, passing over the habit.
             });
         }
     }

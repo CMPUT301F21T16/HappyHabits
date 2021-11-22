@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 //TODO: Add adapters. Make sure that the recycler adapter notifies the list view of any changes when they occur.
 //TODO: Add button functionalities to toggle which view is displayed.
@@ -178,7 +179,7 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
                setListAdapter();    //Re-draw listView in case any habits were removed
             }
             swapColor(currentButton, otherButton);
-            buttonSelected = (buttonSelected + 1) % 2;                            //Swap the state
+            buttonSelected = (buttonSelected + 1) % 2;                  //Swap the state
         }
     }
 
@@ -203,7 +204,16 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
      */
     @Override
     public void onHabitClick(int position) {
+        //TODO: Have an intermediary fragment that asks user where they would like to be directed.
+        Habit selectedHabit = currentUser.getHabitList().get(position);
+        //Go to new add/edit fragment
 
+        DialogFragment newFragment = new Add_Edit_Fragment();
+        Bundle args = new Bundle();
+        args.putSerializable("habit", selectedHabit);
+        newFragment.setArguments(args);
+
+        newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
     }
 
     @Override
@@ -211,16 +221,19 @@ public class MergedDisplayActivity extends AppCompatActivity implements HabitLis
 
         currentUser.addHabit(newHabit);             //adds habit to data list
         if (recyclerAdapter.getItemCount() == 1) {
-            setRecyclerAdapter();                   //re-bind adapter
+            setRecyclerAdapter();                   //re-bind adapter if list was empty
         }
         else {
-            recyclerAdapter.notifyDataSetChanged();     //notifies adapter of change
+            recyclerAdapter.notifyDataSetChanged(); //notifies adapter of change
         }
         buttonToggle(ALL);                          //Swap to the all habits view to see change
     }
 
     @Override
     public void onEditPressed(Habit newHabit, Habit oldHabit) {
-
+        List<Habit> dataList = recyclerAdapter.getHabitList();
+        int pos = dataList.indexOf(oldHabit);
+        dataList.set(pos, newHabit);
+        recyclerAdapter.notifyDataSetChanged();
     }
 }
