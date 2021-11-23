@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,7 +49,7 @@ public class HabitEventFragment extends DialogFragment {
      */
     @NonNull
     @Override
-    public Dialog OnCreateDialog(@Nullable Bundle savedInstanceState){
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
 
         initFragment(); // initialize all the views with the fragment
         Bundle bundle = getArguments(); // get passed in arguments into the fragment
@@ -143,14 +144,24 @@ public class HabitEventFragment extends DialogFragment {
                     String title = eventTitle.getText().toString();
                     String reason = eventReason.getText().toString();
 
-
+                    // if no event reason is given
                     if (reason.compareTo("") == 0 && title.compareTo("") != 0) {
                         HabitEvent habitEvent = new HabitEvent(habit, date, title);
                         listener.addNewEvent(habitEvent);
                     }
+                    // if an event reason is given
                     else if (reason.compareTo("") != 0 && title.compareTo("") != 0){
                         HabitEvent habitEvent = new HabitEvent(habit, date, title, reason);
-                        listener.addNewEvent(habitEvent)
+                        listener.addNewEvent(habitEvent);
+                    }
+                    // no title is given
+                    else {
+                        Context context = getContext();
+                        CharSequence text = "Invalid Entry, Try again";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     }
                 }).create();
     }
@@ -162,6 +173,14 @@ public class HabitEventFragment extends DialogFragment {
      * @return
      */
     private Dialog EditEvent(AlertDialog.Builder builder, HabitEvent habitEvent){
+
+        // format the date into a string to display
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Calendar date = habitEvent.getEvent_date();
+        String dateString = dateFormat.format(date.getTime());
+
+        //Display date
+        dateDisplay.setText(dateString);
 
         return builder
                 .setView(view)
