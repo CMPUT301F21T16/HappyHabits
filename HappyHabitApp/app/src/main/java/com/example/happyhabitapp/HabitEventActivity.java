@@ -35,9 +35,9 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
         int[] weekFreq = {1,1,1,1,1,1,1,1};
         Habit theHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true);
 
-        HabitEvent event1 = new HabitEvent(theHabit, null, "Dinner", 0);
-        HabitEvent event2 = new HabitEvent(theHabit, null, "Lunch", 1);
-        HabitEvent event3 = new HabitEvent(theHabit, null, "Breakfast", 2);
+        HabitEvent event1 = new HabitEvent(theHabit, null, "Dinner", 0, "Turkey Dinner Yum");
+        HabitEvent event2 = new HabitEvent(theHabit, null, "Lunch", 1, "Starved this time :(");
+        HabitEvent event3 = new HabitEvent(theHabit, null, "Breakfast", 2, "8 Bowls of Rice Krispies");
 
         events = new ArrayList<HabitEvent>();
         events.add(event1); events.add(event2); events.add(event3);
@@ -50,7 +50,7 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
     private void setHabitName(){
         TextView habitName = findViewById(R.id.habit_events_habit_name);
-        habitName.setText("Temp. Name");
+        habitName.setText("Eat Food");
     }
 
     private void setAdapter() {

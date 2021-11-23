@@ -24,11 +24,12 @@ public class HabitEvent {
     }
 
     /* counstructors */
-    public HabitEvent(Habit habit, Calendar event_date, String title, int statusCode) {
+    public HabitEvent(Habit habit, Calendar event_date, String title, int statusCode, String description) {
         this.habit = habit;
         this.event_date = event_date;
         this.title = title;
         this.status = statusCode;
+        this.description = description;
     }
 
     public HabitEvent(Habit habit, Calendar event_date, int statusCode, String pic_path, String location, String description) {
