@@ -38,6 +38,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/habit_event_list"
         android:layout_width="match_parent"
         android:layout_height="625dp"
         android:layout_marginStart="8dp"

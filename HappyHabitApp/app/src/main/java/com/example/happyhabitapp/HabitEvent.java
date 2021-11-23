@@ -5,30 +5,39 @@ import java.util.Date;
 
 
 public class HabitEvent {
+
+    //Define constants for status
+    private int STATUS_INCOMPLETE = 0;
+    private int STATUS_COMPLETE = 1;
+    private int STATUS_IN_PROGRESS = 2;
+
     private Habit habit;
     private Calendar event_date;
     private String pic_path;
     private String location;
     private String description;
     private String title;
+    private int status;
 
     /* for fire base */
     public HabitEvent() {
     }
 
     /* counstructors */
-    public HabitEvent(Habit habit, Calendar event_date, String title) {
+    public HabitEvent(Habit habit, Calendar event_date, String title, int statusCode) {
         this.habit = habit;
         this.event_date = event_date;
         this.title = title;
+        this.status = statusCode;
     }
 
-    public HabitEvent(Habit habit, Calendar event_date, String pic_path, String location, String description) {
+    public HabitEvent(Habit habit, Calendar event_date, int statusCode, String pic_path, String location, String description) {
         this.habit = habit;
         this.event_date = event_date;
         this.pic_path = pic_path;
         this.location = location;
         this.description = description;
+        this.status = statusCode;
     }
 
     /* setters */
@@ -57,6 +66,10 @@ public class HabitEvent {
         this.description = description;
     }
 
+    public void setStatus(int statusCode){
+        this.status = statusCode;
+    }
+
     /* getters */
     public Habit getHabit() {
         return habit;
@@ -80,6 +93,10 @@ public class HabitEvent {
 
     public String getTitle() {
         return title;
+    }
+
+    public int getStatus() {
+        return status;
     }
 
 }

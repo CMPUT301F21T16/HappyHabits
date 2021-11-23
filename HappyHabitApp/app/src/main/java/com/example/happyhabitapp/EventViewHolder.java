@@ -1,0 +1,113 @@
+package com.example.happyhabitapp;
+
+
+import android.content.res.ColorStateList;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.widget.ImageViewCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+/**
+ * This class represents the view model for each event of a habit
+ */
+
+public class EventViewHolder extends RecyclerView.ViewHolder implements
+        View.OnTouchListener, GestureDetector.OnGestureListener {
+
+        GestureDetector eventGestureDetector;
+
+        TextView eventTitleTextView;
+        TextView commentTextView;
+        ImageView thumbnailImageView;
+        ImageView eventStatusImageView;
+
+        private ItemTouchHelper touchHelper;
+        private HabitListener viewListener;
+
+
+    public EventViewHolder(@NonNull View eventView, ItemTouchHelper helper, HabitListener eventListener) {
+        super(eventView);
+
+        eventTitleTextView = eventView.findViewById(R.id.habit_event_title);
+        commentTextView = eventView.findViewById(R.id.event_comment);
+        thumbnailImageView = eventView.findViewById(R.id.event_thumbnail);
+        eventStatusImageView = eventView.findViewById(R.id.event_status);
+
+        eventGestureDetector = new GestureDetector(eventView.getContext(), this);
+        touchHelper = helper;
+        viewListener = eventListener;
+
+        eventView.setOnTouchListener(this);
+    }
+
+    public void attachData(HabitEvent event){
+        eventTitleTextView.setText(event.getTitle());
+        commentTextView.setText(event.getDescription());
+        //TODO: Replace this with the actual image
+        thumbnailImageView.setBackgroundResource(R.drawable.lol);
+
+        //Switch which icon is shown in response to the retrieved status
+        switch(event.getStatus()) {
+            case 0:
+                setImageIcon(R.drawable.ic_not_completed_icon, R.color.complete_green);
+            case 1:
+                setImageIcon(R.drawable.ic_completed_icon, R.color.incomplete_red);
+            case 2:
+                setImageIcon(R.drawable.ic_in_progress_icon, R.color.in_progress_yellow);
+        }
+    }
+
+    /**
+     * Helper function to set the icon and color for the event status
+     * @param iconId the resource id of the drawable vector
+     * @param tint the resource id of the tint of vector
+     */
+    private void setImageIcon(int iconId, int tint) {
+        ImageViewCompat.setImageTintList(eventStatusImageView, ColorStateList.valueOf(tint));
+        eventStatusImageView.setImageResource(iconId);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+        //Does nothing
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        viewListener.onHabitClick(getBindingAdapterPosition());
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+        touchHelper.startDrag(this);
+    }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        eventGestureDetector.onTouchEvent(motionEvent);
+        return false;
+    }
+}

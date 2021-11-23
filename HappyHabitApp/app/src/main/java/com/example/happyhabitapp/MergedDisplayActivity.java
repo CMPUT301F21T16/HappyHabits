@@ -23,16 +23,12 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 //TODO: Add adapters. Make sure that the recycler adapter notifies the list view of any changes when they occur. --DONE
@@ -204,7 +200,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
-        refresh(1600);
+        refresh(10000);
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -224,7 +220,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));   //Set data to be displayed linearly (instead of grid, etc...)
         recyclerView.setHasFixedSize(true);
 
-        ItemTouchHelper.Callback callback = new HabitTouchHelper(recyclerAdapter);
+        ItemTouchHelper.Callback callback = new EventAndHabitTouchHelper(recyclerAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         recyclerAdapter.setTouchHelper(itemTouchHelper);                    //Add gesture support via callbacks
         itemTouchHelper.attachToRecyclerView(recyclerView);                 //Connect to the recyclerview
