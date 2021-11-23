@@ -1,5 +1,6 @@
 package com.example.happyhabitapp;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * This is the class for the Habit Event Fragment
@@ -47,8 +51,16 @@ public class HabitEventFragment extends DialogFragment {
     @Override
     public Dialog OnCreateDialog(@Nullable Bundle savedInstanceState){
         initFragment();
+        Bundle bundle = getArguments();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
 
+       if ( bundle != null && bundle.containsKey("Edit Event")){
+           return EditEvent(builder);
+       }
+       else {
+           return AddNewEvent(builder);
+       }
     }
 
     /**
@@ -56,7 +68,8 @@ public class HabitEventFragment extends DialogFragment {
      * chooses to add or edit a habit event
      */
     public interface OnFragmentInteractionListener{
-
+        void addNewEvent(HabitEvent event);
+        void editEvent(HabitEvent newEvent, HabitEvent oldEvent);
     }
 
     @Override
@@ -92,6 +105,62 @@ public class HabitEventFragment extends DialogFragment {
         status.setAdapter(statusAdapter);
 
         return;
+    }
+
+    /**
+     * Creates a Fragment that supports the addition of a brand new Habit Event
+     * User inputted values are used to get attributes
+     * @param builder
+     * @return
+     */
+    private Dialog AddNewEvent(AlertDialog.Builder builder){
+
+        // format the date into a string to display
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Calendar date = Calendar.getInstance();
+        String dateString = dateFormat.format(date.getTime());
+
+        //Display date
+        dateDisplay.setText(dateString);
+
+        // return user inputs
+        return builder
+                .setView(view)
+                .setNegativeButton("CANCEL", null)
+                .setPositiveButton("ADD HABIT", (dialogInterface, i) -> {
+
+                    // get user input fields into strings
+                    String title = eventTitle.getText().toString();
+                    String reason = eventReason.getText().toString();
+
+
+                    if (reason.compareTo("") == 0 && title.compareTo("") != 0) {
+                        HabitEvent habitEvent = new HabitEvent(date, title);
+                        listener.addNewEvent(habitEvent);
+                    }
+                    else if (reason.compareTo("") != 0 && title.compareTo("") != 0){
+                        HabitEvent habitEvent = new HabitEvent(date, title);
+                        listener.addNewEvent(habitEvent);
+
+                    }
+                }).create();
+    }
+
+    /**
+     * Create that fragment that supports the editing of an existing habit
+     * Displays the already existing attrbutes and allows users to change them
+     * @param builder
+     * @return
+     */
+    private Dialog EditEvent(AlertDialog.Builder builder){
+
+        return builder
+                .setView(view)
+                .setNegativeButton("CANCEL", null)
+                .setPositiveButton("DONE", (dialogInterface, i) -> {
+
+                }).create();
+
     }
 
 
