@@ -34,5 +34,4 @@
         tools:override="true">@color/theme_bg_secondary</color>
     <color name="dayDeselectedTextColor" xmlns:tools="http://schemas.android.com/tools"
         tools:override="true">@android:color/black</color>
-
 </resources>

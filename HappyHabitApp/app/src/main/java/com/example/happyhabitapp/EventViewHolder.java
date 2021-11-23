@@ -60,10 +60,10 @@ public class EventViewHolder extends RecyclerView.ViewHolder implements
         //Switch which icon is shown in response to the retrieved status
         switch(event.getStatus()) {
             case 0:
-                setImageIcon(R.drawable.ic_not_completed_icon, R.color.complete_green);
+                setImageIcon(R.drawable.ic_completed_icon, R.color.complete_green);
                 break;
             case 1:
-                setImageIcon(R.drawable.ic_completed_icon, R.color.incomplete_red);
+                setImageIcon(R.drawable.ic_not_completed_icon, R.color.incomplete_red);
                 break;
             case 2:
                 setImageIcon(R.drawable.ic_in_progress_icon, R.color.in_progress_yellow);
