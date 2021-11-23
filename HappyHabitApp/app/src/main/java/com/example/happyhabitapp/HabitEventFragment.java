@@ -28,7 +28,6 @@ import java.util.Calendar;
 public class HabitEventFragment extends DialogFragment {
 
     // Attributes
-
     private ImageView eventPhoto; // Optional image to be uploaded by the user showcasing their habit event
     private TextView dateDisplay; //Text displaying the date the event was done
     private Button addPhotoButton; // Button that enables user to upload or change the eventPhoto
@@ -50,17 +49,28 @@ public class HabitEventFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog OnCreateDialog(@Nullable Bundle savedInstanceState){
-        initFragment();
-        Bundle bundle = getArguments();
+
+        initFragment(); // initialize all the views with the fragment
+        Bundle bundle = getArguments(); // get passed in arguments into the fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        // An argument is always passed into this fragment, either an existing HabitEvent or a Habit
 
+        // if were editing, we pass in an existing HabitEvent and extract it to modify
        if ( bundle != null && bundle.containsKey("Edit Event")){
-           return EditEvent(builder);
+           HabitEvent habitEvent = (HabitEvent) bundle.getSerializable("Edit Event");
+           return EditEvent(builder, habitEvent);
        }
+       // if were adding a new habit, we pass in a Habit that we pass into the constructor
+       else if ( bundle != null && bundle.containsKey("habit")){
+           Habit habit = (Habit) bundle.getSerializable("habit");
+           return AddNewEvent(builder, habit);
+       }
+
        else {
-           return AddNewEvent(builder);
+           throw new RuntimeException("No proper arguments passed in");
        }
+
     }
 
     /**
@@ -113,7 +123,7 @@ public class HabitEventFragment extends DialogFragment {
      * @param builder
      * @return
      */
-    private Dialog AddNewEvent(AlertDialog.Builder builder){
+    private Dialog AddNewEvent(AlertDialog.Builder builder, Habit habit){
 
         // format the date into a string to display
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -135,13 +145,12 @@ public class HabitEventFragment extends DialogFragment {
 
 
                     if (reason.compareTo("") == 0 && title.compareTo("") != 0) {
-                        HabitEvent habitEvent = new HabitEvent(date, title);
+                        HabitEvent habitEvent = new HabitEvent(habit, date, title);
                         listener.addNewEvent(habitEvent);
                     }
                     else if (reason.compareTo("") != 0 && title.compareTo("") != 0){
-                        HabitEvent habitEvent = new HabitEvent(date, title);
-                        listener.addNewEvent(habitEvent);
-
+                        HabitEvent habitEvent = new HabitEvent(habit, date, title, reason);
+                        listener.addNewEvent(habitEvent)
                     }
                 }).create();
     }
@@ -152,7 +161,7 @@ public class HabitEventFragment extends DialogFragment {
      * @param builder
      * @return
      */
-    private Dialog EditEvent(AlertDialog.Builder builder){
+    private Dialog EditEvent(AlertDialog.Builder builder, HabitEvent habitEvent){
 
         return builder
                 .setView(view)

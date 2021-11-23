@@ -22,6 +22,14 @@ public class HabitEvent {
         this.title = title;
     }
 
+
+    public HabitEvent(Habit habit, Calendar event_date, String title, String description) {
+        this.habit = habit;
+        this.event_date = event_date;
+        this.title = title;
+        this.description = description;
+    }
+
     public HabitEvent(Habit habit, Calendar event_date, String pic_path, String location, String description) {
         this.habit = habit;
         this.event_date = event_date;
