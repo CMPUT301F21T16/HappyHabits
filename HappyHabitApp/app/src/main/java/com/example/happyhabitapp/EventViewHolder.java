@@ -9,9 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.common.io.Resources;
 
 
 /**
@@ -57,10 +61,13 @@ public class EventViewHolder extends RecyclerView.ViewHolder implements
         switch(event.getStatus()) {
             case 0:
                 setImageIcon(R.drawable.ic_not_completed_icon, R.color.complete_green);
+                break;
             case 1:
                 setImageIcon(R.drawable.ic_completed_icon, R.color.incomplete_red);
+                break;
             case 2:
                 setImageIcon(R.drawable.ic_in_progress_icon, R.color.in_progress_yellow);
+                break;
         }
     }
 
@@ -70,7 +77,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder implements
      * @param tint the resource id of the tint of vector
      */
     private void setImageIcon(int iconId, int tint) {
-        ImageViewCompat.setImageTintList(eventStatusImageView, ColorStateList.valueOf(tint));
+        eventStatusImageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(eventStatusImageView.getContext(), tint)));
         eventStatusImageView.setImageResource(iconId);
     }
 
