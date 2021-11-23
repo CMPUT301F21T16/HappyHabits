@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,9 +30,27 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //---- For testing only (delete after) ----
+        int[] weekFreq = {1,1,1,1,1,1,1,1};
+        Habit theHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true);
+
+        HabitEvent event1 = new HabitEvent(theHabit, null, "Dinner", 0);
+        HabitEvent event2 = new HabitEvent(theHabit, null, "Lunch", 1);
+        HabitEvent event3 = new HabitEvent(theHabit, null, "Breakfast", 2);
+
+        events = new ArrayList<HabitEvent>();
+        events.add(event1); events.add(event2); events.add(event3);
+        //----- END TEST -----
         setContentView(R.layout.habit_event_activity);
+        setHabitName();
         setAdapter();
         setBackButton();
+    }
+
+    private void setHabitName(){
+        TextView habitName = findViewById(R.id.habit_events_habit_name);
+        habitName.setText("Temp. Name");
     }
 
     private void setAdapter() {
