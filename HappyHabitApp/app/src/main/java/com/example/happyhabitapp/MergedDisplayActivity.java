@@ -204,7 +204,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
-        refresh(1600);
+        refresh(10000);
         setRecyclerAdapter();
         setListAdapter();
     }
