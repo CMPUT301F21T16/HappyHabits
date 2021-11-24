@@ -42,7 +42,7 @@ import java.util.List;
 //TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity
-        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener{
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, FirestoreCallback{
 
     //Firebase-specific attributes
 
@@ -69,13 +69,15 @@ public class MergedDisplayActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
-
+        fire.setApi(this);
         fire.getHabitList(habitList);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
 
 
         //Eventually get from the login-screen. For now, make a dummy version.
@@ -204,7 +206,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
-        refresh(10000);
+        //refresh(10000);
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -388,5 +390,8 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
 
-
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+        setAdapters();
+    }
 }

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -42,27 +43,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+    ArrayList<String> test = new ArrayList<String>();
 
-
-    private FireBase fire = new FireBase();
-    private ArrayList<User> followers = new ArrayList<User>();
-    private User john = new User("John");
-    ListView followerLst;
-    ArrayAdapter<User> adapter;
 
 
     private final String TAG = "TestActivity";
+    ArrayList<Habit> testHabLst = new ArrayList<Habit>();
+    Calendar c = Calendar.getInstance();
+    int[] freq = {0,0,0,0,0,0,0};
+    Habit habit1 = new Habit("Walk dog", "fat Dog", c, freq, true);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        followers.add(john);
-        followerLst = findViewById(R.id.followers);
-        adapter = new ArrayAdapter<User>(this, R.layout.activity_test, followers);
-        followerLst.setAdapter(adapter);
+        testHabLst.add(habit1);
+
 
     }
+
+    public void createDocument(View view){
+
+    }
+
+    public void readDocument(View view){
+        Toast.makeText(this,test.get(0), Toast.LENGTH_SHORT).show();
+
+    }
+
+
+
+
+
+
+
 
     private void startLogin(){
         startActivity(new Intent(TestActivity.this, MainActivity.class));
@@ -97,9 +111,6 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
         return true;
     }
-
-
-
 
 
     /* To check if there is a signed in user */
