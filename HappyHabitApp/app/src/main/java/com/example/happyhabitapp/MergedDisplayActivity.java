@@ -345,7 +345,7 @@ public class MergedDisplayActivity extends AppCompatActivity
 
         //Go to new add/edit fragment
 
-        DialogFragment newFragment = new Add_Edit_Fragment();
+        DialogFragment newFragment = new EditOrViewFragment();
         Bundle args = new Bundle();
         args.putSerializable("habit", selectedHabit);
         newFragment.setArguments(args);
