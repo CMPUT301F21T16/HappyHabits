@@ -61,5 +61,9 @@ public class EventsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
     public void setTouchHelper(ItemTouchHelper helper) {
         this.touchHelper = helper;
     }
+
+    public List<HabitEvent> getEventList() {
+        return habitEventList;
+    }
 }
 

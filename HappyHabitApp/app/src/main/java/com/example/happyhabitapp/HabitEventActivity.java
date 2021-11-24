@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the activity that displays all of the habit's events
@@ -105,9 +106,20 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
         });
     }
 
+    /**
+     * This method launches the fragment to edit the clicked event
+     * @param position
+     */
     @Override
     public void onHabitClick(int position) {
         //TODO: Go to fragment
+
+        DialogFragment newFragment = new HabitEventFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("Edit Event", passedInHabit);
+        newFragment.setArguments(args);
+
+        newFragment.show(getSupportFragmentManager(),"EDIT_EVENT");
     }
 
     /**
@@ -122,6 +134,9 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
     @Override
     public void editEvent(HabitEvent newEvent, HabitEvent oldEvent) {
-
+        List<HabitEvent> dataList = recyclerAdapter.getEventList();
+        int pos = dataList.indexOf(oldEvent);
+        dataList.set(pos, newEvent);
+        recyclerAdapter.notifyDataSetChanged();
     }
 }
