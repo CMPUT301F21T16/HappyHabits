@@ -1,6 +1,7 @@
 package com.example.happyhabitapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -22,31 +25,38 @@ import java.util.ArrayList;
 //TODO: Connect to firebase
 //TODO: Fix issue of Drag event occurring on swipe (Why is it doing this, when habits adapter has no issue?)
 
-public class HabitEventActivity extends AppCompatActivity implements HabitListener{
+public class HabitEventActivity extends AppCompatActivity implements HabitListener, HabitEventFragment.OnFragmentInteractionListener{
 
     private ArrayList<HabitEvent> events;
     private EventsAdapter recyclerAdapter;
 
     private RecyclerView recyclerView;
     private ImageView backIcon;
+
+    private Habit passedInHabit;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //---- For testing only (delete after) ----
         int[] weekFreq = {1,1,1,1,1,1,1,1};
-        Habit theHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true);
 
-        HabitEvent event1 = new HabitEvent(theHabit, null, "Dinner", 0, "Turkey Dinner Yum");
-        HabitEvent event2 = new HabitEvent(theHabit, null, "Lunch", 1, "Starved this time :(");
-        HabitEvent event3 = new HabitEvent(theHabit, null, "Breakfast", 2, "8 Bowls of Rice Krispies");
+        HabitEvent event1 = new HabitEvent(null, "Dinner", 0, "Turkey Dinner Yum");
+        HabitEvent event2 = new HabitEvent(null, "Lunch", 1, "Starved this time :(");
+        HabitEvent event3 = new HabitEvent(null, "Breakfast", 2, "8 Bowls of Rice Krispies");
 
         events = new ArrayList<HabitEvent>();
         events.add(event1); events.add(event2); events.add(event3);
+
+        passedInHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true, events);
+
         //----- END TEST -----
         setContentView(R.layout.habit_event_activity);
         setHabitName();
         setAdapter();
+        setAddButton();
         setBackButton();
     }
 
@@ -56,7 +66,7 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
     }
 
     private void setAdapter() {
-        recyclerAdapter = new EventsAdapter(events, this);
+        recyclerAdapter = new EventsAdapter(passedInHabit.getEvents(), this);
         recyclerView = findViewById(R.id.habit_event_list);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));   //Set data to be displayed linearly (instead of grid, etc...)
@@ -79,8 +89,39 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
         );
     }
 
+
+    /**
+     * This method launches the fragment to add a new event
+     */
+    private void setAddButton() {
+        FloatingActionButton addButton = findViewById(R.id.add_habit_btn);
+        addButton.setOnClickListener(view -> {
+            DialogFragment newFragment = new HabitEventFragment();
+            Bundle args = new Bundle();
+            args.putSerializable("habit", passedInHabit);
+            newFragment.setArguments(args);
+
+            newFragment.show(getSupportFragmentManager(),"ADD_EVENT");
+        });
+    }
+
     @Override
     public void onHabitClick(int position) {
         //TODO: Go to fragment
+    }
+
+    /**
+     * This method receives the event from the fragment.
+     * @param event
+     */
+    @Override
+    public void addNewEvent(HabitEvent event) {
+        passedInHabit.getEvents().add(event);
+        recyclerAdapter.notifyItemInserted(passedInHabit.getEvents().size() - 1);
+    }
+
+    @Override
+    public void editEvent(HabitEvent newEvent, HabitEvent oldEvent) {
+
     }
 }

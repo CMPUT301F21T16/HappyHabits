@@ -80,9 +80,9 @@ public class MergedDisplayActivity extends AppCompatActivity
         //-------TEST INFO - REMOVE LATER -------
         int[] selectedDates = {1,0,0,1,0,0,0};
         int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
+        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true, null);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false, null);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true, null);
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
@@ -212,9 +212,6 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void setRecyclerAdapter(){
 
-
-
-//        recyclerAdapter = new HabitsAdapter(currentUser.getHabitList(), this);
         recyclerAdapter = new HabitsAdapter(habitList, this);
         recyclerView = findViewById(R.id.habits_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));   //Set data to be displayed linearly (instead of grid, etc...)
@@ -382,7 +379,4 @@ public class MergedDisplayActivity extends AppCompatActivity
         fire.delHabit(oldHabit);
         fire.setHabit(newHabit);
     }
-
-
-
 }

@@ -146,12 +146,12 @@ public class HabitEventFragment extends DialogFragment {
 
                     // if no event reason is given
                     if (reason.compareTo("") == 0 && title.compareTo("") != 0) {
-                        HabitEvent habitEvent = new HabitEvent(habit, date, title);
+                        HabitEvent habitEvent = new HabitEvent(date, title, 2, reason);
                         listener.addNewEvent(habitEvent);
                     }
                     // if an event reason is given
                     else if (reason.compareTo("") != 0 && title.compareTo("") != 0){
-                        HabitEvent habitEvent = new HabitEvent(habit, date, title, reason);
+                        HabitEvent habitEvent = new HabitEvent(date, title, 2, reason);
                         listener.addNewEvent(habitEvent);
                     }
                     // no title is given
@@ -190,7 +190,5 @@ public class HabitEventFragment extends DialogFragment {
                 }).create();
 
     }
-
-
 
 }

@@ -4,14 +4,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class HabitEvent {
+public class HabitEvent{
 
     //Define constants for status
     private int STATUS_INCOMPLETE = 0;
     private int STATUS_COMPLETE = 1;
     private int STATUS_IN_PROGRESS = 2;
 
-    private Habit habit;
+
     private Calendar event_date;
     private String pic_path;
     private String location;
@@ -24,16 +24,14 @@ public class HabitEvent {
     }
 
     /* counstructors */
-    public HabitEvent(Habit habit, Calendar event_date, String title, int statusCode, String description) {
-        this.habit = habit;
+    public HabitEvent(Calendar event_date, String title, int statusCode, String description) {
         this.event_date = event_date;
         this.title = title;
         this.status = statusCode;
         this.description = description;
     }
 
-    public HabitEvent(Habit habit, Calendar event_date, int statusCode, String pic_path, String location, String description) {
-        this.habit = habit;
+    public HabitEvent(Calendar event_date, int statusCode, String pic_path, String location, String description) {
         this.event_date = event_date;
         this.pic_path = pic_path;
         this.location = location;
@@ -43,9 +41,6 @@ public class HabitEvent {
 
     /* setters */
 
-    public void setHabit(Habit habit) {
-        this.habit = habit;
-    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -72,9 +67,6 @@ public class HabitEvent {
     }
 
     /* getters */
-    public Habit getHabit() {
-        return habit;
-    }
 
     public Calendar getEvent_date() {
         return event_date;
