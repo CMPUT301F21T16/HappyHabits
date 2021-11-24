@@ -93,6 +93,7 @@
             android:layout_margin="10dp"
             android:paddingTop="3dp"
             android:paddingLeft="10dp"
+            android:maxLength="20"
             android:hint="Event Reason"
             android:textColorHint="@color/theme_primary"
             android:textColor="@color/theme_primary"

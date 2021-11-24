@@ -104,8 +104,10 @@ public class HabitEventFragment extends DialogFragment {
      */
     private void initFragment(){
 
-        // connect all Views from habit event xml file
+        // inflate the fragment
         view =  LayoutInflater.from(getActivity()).inflate(R.layout.habit_event_fragment_layout,null);
+
+        // connect all Views from habit event xml file
         eventPhoto = view.findViewById(R.id.habit_event_pic);
         dateDisplay = view.findViewById(R.id.display_event_date);
         addPhotoButton = view.findViewById(R.id.take_photo_btn);
@@ -189,10 +191,12 @@ public class HabitEventFragment extends DialogFragment {
      */
     private Dialog EditEvent(AlertDialog.Builder builder, HabitEvent habitEvent){
 
-        // Set visible fields to display current Event's attributes
+        // convert the event's date into a readable string
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Calendar date = habitEvent.getEvent_date();
         String dateString = dateFormat.format(date.getTime());
+
+        // Set visible fields to display current Event's attributes
         displayCurrentEvent(habitEvent, dateString);
 
         // return user inputs
@@ -245,7 +249,7 @@ public class HabitEventFragment extends DialogFragment {
      * Translates the possible selectable statuses into the corresponding
      * integers to be passed into the Habit Event
      * @param statusString
-     *      String, either: Complete, Incomplete, or In Progress
+     *      String: either: Incomplete, Complete, or In Progress
      * @return
      *      int: either 0 = Incomplete, 1 = Complete, 2 = In Progress, -1 = Error
      */
@@ -269,9 +273,11 @@ public class HabitEventFragment extends DialogFragment {
      * Displays all the attributes of an existing HabitEvent into the fragment
      * This allows Users to view an existing Event
      * @param event
+     *      HabitEvent object to be viewed
+     * @param date
+     *      String that corresponds to the event's date of creation
      */
     private void displayCurrentEvent(HabitEvent event, String date){
-
 
         //Display date
         dateDisplay.setText(date);
