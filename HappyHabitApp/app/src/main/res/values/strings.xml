@@ -8,4 +8,11 @@
     <string name="edit_or_view_prompt">What would you like to do with this habit?</string>
     <string name="go_to_edit_fragment_msg">Edit Habit</string>
     <string name="go_to_view_activity_msg">View Events</string>
+
+    <!-- List of statuses for habit event fragment -->
+    <string-array name ="statuses">
+        <item>Complete</item>
+        <item>In Progress</item>
+        <item> Incomplete</item>
+    </string-array>
 </resources>
