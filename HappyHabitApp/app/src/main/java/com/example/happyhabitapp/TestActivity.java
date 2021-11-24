@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -41,24 +43,12 @@ import java.util.Map;
 
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
-    ArrayList<User> list = new ArrayList<>();
-    ArrayList<Habit> habits = new ArrayList<>();
-    ArrayList<HabitEvent> events = new ArrayList<>();
 
-    Calendar c = Calendar.getInstance();
-    int week_frq[] = {1};
-
-
-    User user = new User("lichild", "path");
-    User user2 = new User("koko", "path2");
-
-    Habit habit = new Habit("jump", "exercise",c, week_frq,true);
-    Habit habit2 = new Habit("watch", "fun", c, week_frq, true);
-    HabitEvent event = new HabitEvent(habit, c, "today's jump");
-
-
-    FireBase fire = new FireBase();
-
+    private FireBase fire = new FireBase();
+    private ArrayList<User> followers = new ArrayList<User>();
+    private User john = new User("John");
+    ListView followerLst;
+    ArrayAdapter<User> adapter;
 
 
     private final String TAG = "TestActivity";
@@ -67,7 +57,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        fire.getEventList(events, habit);
+        followers.add(john);
+        followerLst = findViewById(R.id.followers);
+        adapter = new ArrayAdapter<User>(this, R.layout.activity_test, followers);
+        followerLst.setAdapter(adapter);
+
     }
 
     private void startLogin(){
@@ -105,43 +99,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
 
-    public void createDocument(View view) {
-        Toast.makeText(this, "createDocument", Toast.LENGTH_SHORT).show();
-        fire.setUser(user);
-        fire.setHabit(habit);
-        fire.setFollowers(user2);
-        fire.setFollowees(user);
-        fire.setHabitEventEvent(event);
 
-
-
-    }
-
-    public void readDocument(View view) {
-
-        Integer size = events.size();
-        Toast.makeText(this, size.toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    public void updateDocument(View view) {
-        Toast.makeText(this, "updateDocument", Toast.LENGTH_SHORT).show();
-        fire.setHabit(habit2);
-
-
-    }
-
-    public void deleteDocument(View view) {
-        Toast.makeText(this,"Deleteing...", Toast.LENGTH_SHORT).show();
-        fire.delUser();
-    }
-
-    public void getAllDocuments(View view) {
-        Toast.makeText(this, "getAllDocuments", Toast.LENGTH_SHORT).show();
-
-    }
-
-    public void getAllDocumentsWithRealtimeUpdates(View view) {
-    }
 
 
     /* To check if there is a signed in user */
