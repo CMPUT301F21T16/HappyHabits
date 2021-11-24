@@ -146,23 +146,37 @@ public class HabitEventFragment extends DialogFragment {
                     // get user input fields into strings
                     String title = eventTitle.getText().toString();
                     String reason = eventReason.getText().toString();
+
+                    // get the selected status from the menu
                     String statusString = statusMenu.getSelectedItem().toString();
                     int status = getStatusNum(statusString);
 
+                    // try to create new Habit Event
 
-
-                    // no title is given or no status is selected
-                    if (title.compareTo("") == 0 || status == -1) {
+                    // no title is given
+                    if (title.compareTo("") == 0) {
                         Context context = getContext();
 
-                        CharSequence text = "Invalid Entry, Try again";
+                        CharSequence text = "Title required";
                         int duration = Toast.LENGTH_SHORT;
 
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
                     }
+                    // no status is given
+                    else if ( status == -1) {
+                        Context context = getContext();
 
-                    listener.addNewEvent(new HabitEvent(habit,));
+                        CharSequence text = "Please select a status";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                    // all required fields are filled
+                    else {
+                        listener.addNewEvent(new HabitEvent(date, title, status, reason));
+                    }
 
                 }).create();
     }
@@ -175,18 +189,52 @@ public class HabitEventFragment extends DialogFragment {
      */
     private Dialog EditEvent(AlertDialog.Builder builder, HabitEvent habitEvent){
 
-        // format the date into a string to display
+        // Set visible fields to display current Event's attributes
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Calendar date = habitEvent.getEvent_date();
         String dateString = dateFormat.format(date.getTime());
+        displayCurrentEvent(habitEvent, dateString);
 
-        //Display date
-        dateDisplay.setText(dateString);
-
+        // return user inputs
         return builder
                 .setView(view)
                 .setNegativeButton("CANCEL", null)
                 .setPositiveButton("DONE", (dialogInterface, i) -> {
+
+                    // get user input fields into strings
+                    String title = eventTitle.getText().toString();
+                    String reason = eventReason.getText().toString();
+
+                    // get the selected status from the menu
+                    String statusString = statusMenu.getSelectedItem().toString();
+                    int status = getStatusNum(statusString);
+
+                    // try to create new Habit Event
+
+                    // no title is given
+                    if (title.compareTo("") == 0) {
+                        Context context = getContext();
+
+                        CharSequence text = "Title required";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                    // no status is given
+                    else if ( status == -1) {
+                        Context context = getContext();
+
+                        CharSequence text = "Please select a status";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                    // all required fields are filled
+                    else {
+                        listener.editEvent( new HabitEvent(date, title, status, reason), habitEvent);
+                    }
 
                 }).create();
 
@@ -202,11 +250,12 @@ public class HabitEventFragment extends DialogFragment {
      *      int: either 0 = Incomplete, 1 = Complete, 2 = In Progress, -1 = Error
      */
     private int getStatusNum(String statusString){
-
+        // strings of possible statuses
         String[] statuses = {"Incomplete", "Complete", "In Progress"};
         int size = statuses.length;
-        int val = -1;
+        int val = -1; //initialized to error value
 
+        // Status numbers correspond to the their position in the string array
         for (int i = 0; i < size; i++) {
             if (statuses[i].compareTo(statusString) == 0){
                 val = i;
@@ -214,6 +263,31 @@ public class HabitEventFragment extends DialogFragment {
         }
 
         return val;
+    }
+
+    /**
+     * Displays all the attributes of an existing HabitEvent into the fragment
+     * This allows Users to view an existing Event
+     * @param event
+     */
+    private void displayCurrentEvent(HabitEvent event, String date){
+
+
+        //Display date
+        dateDisplay.setText(date);
+
+        // display text fields
+        eventTitle.setText(event.getTitle());
+        eventReason.setText(event.getDescription());
+
+        // preselect the drop down menu
+
+        // IMPORTANT: This assumes the status numbers properly correspond to the order that the
+        // status strings appear on the drop down menu
+        int pos = event.getStatus();
+        statusMenu.setSelection(pos);
+
+        return;
     }
 
 
