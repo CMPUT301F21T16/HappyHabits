@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class HabitEvent {
+
     private Habit habit;
     private Calendar event_date;
     private String pic_path;

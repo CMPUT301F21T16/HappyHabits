@@ -34,11 +34,12 @@ public class HabitEventFragment extends DialogFragment {
     private Button addPhotoButton; // Button that enables user to upload or change the eventPhoto
     private EditText eventTitle; // The title of the habit event
     private EditText eventReason; // an optional comment made by the user on the habit event
-    private Spinner status; // drop down menu that enables user to select a status for the habit event
+    private Spinner statusMenu; // drop down menu that enables user to select a status for the habit event
     private ArrayAdapter<CharSequence> statusAdapter; // ArrayAdapter to allow us to select from an preset list of statuses
     private View view; // The fragments overall layout
     private OnFragmentInteractionListener listener; // listener for the FragmentListener interface
-
+    private String addKey = "habit";
+    private String editKey = "event";
 
     /**
      * Denotes actions to be taken when the fragment is first created
@@ -63,8 +64,8 @@ public class HabitEventFragment extends DialogFragment {
            return EditEvent(builder, habitEvent);
        }
        // if were adding a new habit, we pass in a Habit that we pass into the constructor
-       else if ( bundle != null && bundle.containsKey("habit")){
-           Habit habit = (Habit) bundle.getSerializable("habit");
+       else if ( bundle != null && bundle.containsKey(addKey)){
+           Habit habit = (Habit) bundle.getSerializable(addKey);
            return AddNewEvent(builder, habit);
        }
 
@@ -79,7 +80,9 @@ public class HabitEventFragment extends DialogFragment {
      * chooses to add or edit a habit event
      */
     public interface OnFragmentInteractionListener{
+        // add a newly created Habit Event
         void addNewEvent(HabitEvent event);
+        // edit an existing habit event
         void editEvent(HabitEvent newEvent, HabitEvent oldEvent);
     }
 
@@ -108,19 +111,19 @@ public class HabitEventFragment extends DialogFragment {
         addPhotoButton = view.findViewById(R.id.take_photo_btn);
         eventTitle = view.findViewById(R.id.habit_event_title);
         eventReason = view.findViewById(R.id.habit_event_reason);
-        status = view.findViewById(R.id.status_menu);
+        statusMenu = view.findViewById(R.id.status_menu);
 
         // initialise the adapter for the status drop down menu
         statusAdapter = ArrayAdapter.createFromResource((Context) listener, R.array.statuses, android.R.layout.simple_spinner_item);
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        status.setAdapter(statusAdapter);
+        statusMenu.setAdapter(statusAdapter);
 
         return;
     }
 
     /**
      * Creates a Fragment that supports the addition of a brand new Habit Event
-     * User inputted values are used to get attributes
+     * User inputted values are used to get attributes of th event
      * @param builder
      * @return
      */
@@ -128,7 +131,7 @@ public class HabitEventFragment extends DialogFragment {
 
         // format the date into a string to display
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        Calendar date = Calendar.getInstance();
+        Calendar date = Calendar.getInstance(); // Calendar object to be passed in
         String dateString = dateFormat.format(date.getTime());
 
         //Display date
@@ -143,19 +146,12 @@ public class HabitEventFragment extends DialogFragment {
                     // get user input fields into strings
                     String title = eventTitle.getText().toString();
                     String reason = eventReason.getText().toString();
+                    String statusString = statusMenu.getSelectedItem().toString();
+                    int status = getStatusNum(statusString);
 
-                    // if no event reason is given
-                    if (reason.compareTo("") == 0 && title.compareTo("") != 0) {
-                        HabitEvent habitEvent = new HabitEvent(habit, date, title);
-                        listener.addNewEvent(habitEvent);
-                    }
-                    // if an event reason is given
-                    else if (reason.compareTo("") != 0 && title.compareTo("") != 0){
-                        HabitEvent habitEvent = new HabitEvent(habit, date, title, reason);
-                        listener.addNewEvent(habitEvent);
-                    }
-                    // no title is given
-                    else {
+
+                    // no title is given or no status is selected
+                    if (title.compareTo("") == 0 || status == -1) {
                         Context context = getContext();
                         CharSequence text = "Invalid Entry, Try again";
                         int duration = Toast.LENGTH_SHORT;
@@ -163,6 +159,9 @@ public class HabitEventFragment extends DialogFragment {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
                     }
+
+                    listener.addNewEvent(new HabitEvent(habit,));
+
                 }).create();
     }
 
@@ -191,6 +190,28 @@ public class HabitEventFragment extends DialogFragment {
 
     }
 
+    /**
+     * Translates the possible selectable statuses into the corresponding
+     * integers to be passed into the Habit Event
+     * @param statusString
+     *      String, either: Complete, Incomplete, or In Progress
+     * @return
+     *      int: either 0 = Incomplete, 1 = Complete, 2 = In Progress, -1 = Error
+     */
+    private int getStatusNum(String statusString){
+
+        String[] statuses = {"Incomplete", "Complete", "In Progress"};
+        int size = statuses.length;
+        int val = -1;
+
+        for (int i = 0; i < size; i++) {
+            if (statuses[i].compareTo(statusString) == 0){
+                val = i;
+            }
+        }
+
+        return val;
+    }
 
 
 }

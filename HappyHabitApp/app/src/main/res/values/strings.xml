@@ -11,8 +11,8 @@
 
     <!-- List of statuses for habit event fragment -->
     <string-array name ="statuses">
+        <item>Incomplete</item>
         <item>Complete</item>
         <item>In Progress</item>
-        <item> Incomplete</item>
     </string-array>
 </resources>
