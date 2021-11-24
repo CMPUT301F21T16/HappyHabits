@@ -5,10 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
-    android:padding="20dp">
+    android:layout_height="match_parent"
+    android:minHeight="600dp"
+    android:padding="20dp"
+    android:windowSoftInputMode="adjustPan">
 
     <LinearLayout
+
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,10 +20,11 @@
         <ImageView
             android:id="@+id/habit_event_pic"
             android:layout_width="match_parent"
-            android:layout_height="0"
+            android:layout_height="0dp"
             android:layout_weight="5"
             android:padding="10dp"
             android:background="@color/theme_primary"
+            app:srcCompat="@drawable/lol"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <LinearLayout
@@ -35,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textColor="@color/theme_primary"
                 android:text="MM/DD/YYYY" />
 
@@ -45,16 +49,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:backgroundTint="@color/theme_primary"
+                app:iconTint="@color/theme_secondary"
+                app:icon="@drawable/ic_baseline_add_a_photo_24"
+                app:iconGravity="textStart"
                 android:gravity="center"
-                android:layout_gravity="top"
                 android:insetLeft="0dp"
                 android:insetTop="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="0dp"
-                android:text="Change Photo"
-                android:textColor="@color/theme_secondary"
-                android:textSize="22sp"
+                android:textSize="20sp"
+                android:text=""
                 app:cornerRadius="0dp"
                 tools:ignore="TextContrastCheck" />
         </LinearLayout>
@@ -65,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="2">
 
         <EditText
             android:id="@+id/habit_event_title"
@@ -98,29 +103,26 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="125dp"
+            android:layout_margin="10dp"
             android:background="@drawable/element_border"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:paddingLeft="10dp"
                 android:text="Status:"
                 android:textSize="16sp"
                 android:textColor="@color/theme_primary"
-                android:gravity="centerVertical">
+                android:gravity="center|left">
             </TextView>
 
             <Spinner
                 android:id="@+id/status_menu"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>
     </LinearLayout>
