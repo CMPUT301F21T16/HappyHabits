@@ -152,7 +152,7 @@ public class HabitEventFragment extends DialogFragment {
 
                     // no title is given or no status is selected
                     if (title.compareTo("") == 0 || status == -1) {
-                        Context context = getContext();
+                        Context context = gi getContext();
                         CharSequence text = "Invalid Entry, Try again";
                         int duration = Toast.LENGTH_SHORT;
 
