@@ -177,18 +177,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         firebaseAuth.getCurrentUser().getIdToken(true)
                 .addOnSuccessListener(getTokenResult -> Log.d(TAG, "onSuccess" + getTokenResult.getToken()));
     }
-
-
-    private void refresh(int milliseconds){
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                setAdapters();
-            }
-        };
-        handler.postDelayed(runnable,milliseconds);
-    }
+    
 
     //---Display related methods---
 
@@ -206,7 +195,6 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
-        //refresh(10000);
         setRecyclerAdapter();
         setListAdapter();
     }
