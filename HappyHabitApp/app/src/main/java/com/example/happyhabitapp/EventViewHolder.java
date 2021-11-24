@@ -93,7 +93,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder implements
 
     @Override
     public boolean onSingleTapUp(MotionEvent motionEvent) {
-        viewListener.onHabitClick(getBindingAdapterPosition());
+        viewListener.onHabitClick(getAdapterPosition());
         return false;
     }
 

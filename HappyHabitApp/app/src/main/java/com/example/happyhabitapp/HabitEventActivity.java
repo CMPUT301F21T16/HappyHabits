@@ -17,9 +17,11 @@ import java.util.ArrayList;
  * and as an intermediary between the adding/editing of those events.
  */
 
-//TODO: Create a view model, adapter, and listener for the habit events
-//TODO: Render all view models and connect to the adapter
+//TODO: Create a view model, adapter, and listener for the habit events --DONE
+//TODO: Render all view models and connect to the adapter --DONE
 //TODO: Connect to firebase
+//TODO: Fix issue of Drag event occurring on swipe (Why is it doing this, when habits adapter has no issue?)
+
 public class HabitEventActivity extends AppCompatActivity implements HabitListener{
 
     private ArrayList<HabitEvent> events;
@@ -76,7 +78,6 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
             }
         );
     }
-
 
     @Override
     public void onHabitClick(int position) {
