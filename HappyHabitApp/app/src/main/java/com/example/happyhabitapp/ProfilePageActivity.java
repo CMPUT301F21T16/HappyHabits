@@ -34,13 +34,11 @@ public class ProfilePageActivity extends AppCompatActivity {
      * in the layout
      */
     private void setPreliminaryInfo() {
-        TextView usernameTextView = findViewById(R.id.profile_page_username);
-        TextView startDateTextView = findViewById(R.id.profile_page_start_date);
+        TextView usernameTextView = findViewById(R.id.follow_list_username);
         TextView followerCountTextView = findViewById(R.id.follower_count);
         TextView followCountTextView = findViewById(R.id.following_count);
 
         usernameTextView.setText(currentUser.getUsername());
-        startDateTextView.setText(currentUser.getStartDate());
         followerCountTextView.setText(currentUser.getFollowerList().size());
         followCountTextView.setText(currentUser.getFollowList().size());
     }

@@ -47,35 +47,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="15dp"
-        android:layout_gravity="center">
-
-        <TextView
-            android:id="@+id/userSince"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/theme_primary"
-            android:textSize="22sp"
-            android:text="User Since:"
-            android:gravity="right"/>
-
-        <TextView
-            android:id="@+id/profile_page_start_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/theme_primary"
-            android:textSize="22sp"
-            android:paddingLeft="5dp"
-            android:text="MM/DD/YYYY" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/send_req_bar"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"

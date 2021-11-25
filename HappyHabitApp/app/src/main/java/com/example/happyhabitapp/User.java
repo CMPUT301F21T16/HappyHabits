@@ -18,6 +18,7 @@ public class User {
     private String picPath;  //Represents the path of the profilePicture (Not mandatory?)
     private String username;
     private ArrayList<Habit> habitList;
+    private Calendar startDate;
 
     private ArrayList<User> followList;
     private ArrayList<User> followerList;
@@ -49,18 +50,6 @@ public class User {
         this.habitList = new ArrayList<Habit>();
     }
 
-    public ArrayList<User> getFollowerList() {
-        return followerList;
-    }
-
-    public void setFollowList(ArrayList<User> followList) {
-        this.followList = followList;
-    }
-
-    public void setFollowerList(ArrayList<User> followerList) {
-        this.followerList = followerList;
-    }
-
     /**
      * Constructor for a returning user.
      * @param username a String that is unique when compared against the database.
@@ -68,15 +57,25 @@ public class User {
      * @param habitList an ArrayList of Habit that contains all the user's habits.
      * @param followList an ArrayList of User that contains all the user's friends/followers/followees?
      */
-    public User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList, ArrayList<User> followeeList) {
+    public User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList, ArrayList<User> followerList, ArrayList<User> pendingRequests) {
         this.username = username;
         this.picPath = path;
         this.habitList = habitList;
         this.followList = followList;
-        this.followerList = followeeList;
+        this.followerList = followerList;
+        this.pendingRequests = pendingRequests;
     }
 
     //Getters
+
+    public ArrayList<User> getPendingRequests() {
+        return pendingRequests;
+    }
+
+    public ArrayList<User> getFollowerList() {
+        return followerList;
+    }
+
 
     /**
      * Get and return the User instance if usernames match.
@@ -120,6 +119,19 @@ public class User {
 
 
     //Setters
+
+    public void setPendingRequests(ArrayList<User> pendingRequests) {
+        this.pendingRequests = pendingRequests;
+    }
+
+    public void setFollowList(ArrayList<User> followList) {
+        this.followList = followList;
+    }
+
+    public void setFollowerList(ArrayList<User> followerList) {
+        this.followerList = followerList;
+    }
+
     /**
      * Add habit to the list of habits.
      * @param userHabit a Habit to be appended to the user-kept ArrayList.
