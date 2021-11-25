@@ -40,6 +40,8 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // TO DO: et passed in Habit from the EditorView Fragment
+
         //---- For testing only (delete after) ----
         int[] weekFreq = {1,1,1,1,1,1,1,1};
 

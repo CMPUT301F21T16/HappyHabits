@@ -38,7 +38,7 @@ import java.util.List;
 //TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity
-        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener{
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, EditOrViewFragment.onFragmentInteractionListener{
 
     //Firebase-specific attributes
 
@@ -378,5 +378,30 @@ public class MergedDisplayActivity extends AppCompatActivity
         recyclerAdapter.notifyDataSetChanged();
         fire.delHabit(oldHabit);
         fire.setHabit(newHabit);
+    }
+
+    /**
+     * Launches an AddEditFragment in order to allow
+     * User to edit an existing habit
+     */
+    @Override
+    public void goToEdit(Habit habit) {
+        DialogFragment newFragment = new Add_Edit_Fragment();
+        Bundle args = new Bundle();
+        args.putSerializable("habit", habit);
+        newFragment.setArguments(args);
+        newFragment.show(getSupportFragmentManager(), "Edit Habit");
+
+    }
+
+    /**
+     * Launches the HabitEvents Activity to allow user to view
+     * HabitEvents associated with a Habit
+     */
+    @Override
+    public void goToEvents(Habit habit) {
+        Intent eventActivity = new Intent( MergedDisplayActivity.this , HabitEventActivity.class);
+        eventActivity.putExtra("habit", habit); // pass in the activity
+        startActivity(eventActivity);
     }
 }
