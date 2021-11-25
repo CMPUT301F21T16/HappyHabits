@@ -28,7 +28,7 @@ public class HabitsListTest {
         testList.add(habit2);
         testList.add(habit3);
 
-        sampleUser = new User("Jimmy", "some path", testList, blankFollowerList);
+        sampleUser = new User("Jimmy", "some path", testList, blankFollowerList, null);
     }
 
     @Test

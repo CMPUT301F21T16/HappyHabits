@@ -4,18 +4,39 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_dash_board.xml" value="0.14791666666666667" />
-        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/edit_or_view_fragment.xml" value="0.2828125" />
-        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_fragment_layout.xml" value="0.2796875" />
-        <entry key="app/src/main/res/drawable/circleshape.xml" value="0.16296296296296298" />
-        <entry key="app/src/main/res/drawable/textlines.xml" value="0.39166666666666666" />
-        <entry key="app/src/main/res/layout/activity_dash_board.xml" value="0.37552083333333336" />
-        <entry key="app/src/main/res/layout/activity_followee.xml" value="0.35989583333333336" />
-        <entry key="app/src/main/res/layout/activity_follower.xml" value="0.37552083333333336" />
-        <entry key="app/src/main/res/layout/activity_habit.xml" value="0.17692307692307693" />
-        <entry key="app/src/main/res/layout/activity_merged_display.xml" value="0.18461538461538463" />
-        <entry key="app/src/main/res/layout/activity_test.xml" value="0.30811965811965814" />
-        <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/requester_item.xml" value="0.33" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/circleshape.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/element_border.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/fab_border.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/habit_list_border.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_add_btn.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_backbutton.xml" value="0.3765625" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_completed_icon.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_in_progress_icon.xml" value="0.2838541666666667" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_in_progress_icon_alt.xml" value="0.2838541666666667" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_more_vert.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/ic_not_completed_icon.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/drawable/status_icon_border.xml" value="0.3828125" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_dash_board.xml" value="0.11997273346966598" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_habit.xml" value="0.24444444444444444" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_habit_event.xml" value="0.25" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_merged_display.xml" value="0.25" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_profile_page.xml" value="0.33" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_test.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/add_edit_habit_fragment_layout.xml" value="0.25" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/all_habits_header.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/customlist_content.xml" value="0.33" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/dashboard_list_header.xml" value="0.33" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/edit_or_view_fragment.xml" value="0.5" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_activity.xml" value="0.25" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_content.xml" value="0.67" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_fragment_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/list_followers_followees.xml" value="0.33" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/list_header_today.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jonathan/Desktop/CMPUT 301/Group Project/HappyHabits/HappyHabitApp/app/src/main/res/layout/user_request_content.xml" value="0.33" />
       </map>
     </option>
   </component>

@@ -87,7 +87,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
         //-----------------------------------
-        currentUser = new User("TestUser", "somePath", testList, null);
+        currentUser = new User("TestUser", "somePath", testList, null, null);
 
         setAdapters();
         setButtonListeners();

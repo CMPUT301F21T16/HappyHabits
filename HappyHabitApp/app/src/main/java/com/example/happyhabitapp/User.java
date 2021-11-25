@@ -18,7 +18,10 @@ public class User {
     private String picPath;  //Represents the path of the profilePicture (Not mandatory?)
     private String username;
     private ArrayList<Habit> habitList;
+
     private ArrayList<User> followList;
+    private ArrayList<User> followerList;
+    private ArrayList<User> pendingRequests;
 
 
     //Constructors
@@ -45,6 +48,19 @@ public class User {
         this.picPath = path;
         this.habitList = new ArrayList<Habit>();
     }
+
+    public ArrayList<User> getFollowerList() {
+        return followerList;
+    }
+
+    public void setFollowList(ArrayList<User> followList) {
+        this.followList = followList;
+    }
+
+    public void setFollowerList(ArrayList<User> followerList) {
+        this.followerList = followerList;
+    }
+
     /**
      * Constructor for a returning user.
      * @param username a String that is unique when compared against the database.
@@ -52,11 +68,12 @@ public class User {
      * @param habitList an ArrayList of Habit that contains all the user's habits.
      * @param followList an ArrayList of User that contains all the user's friends/followers/followees?
      */
-    public User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList) {
+    public User(String username, String path, ArrayList<Habit> habitList, ArrayList<User> followList, ArrayList<User> followeeList) {
         this.username = username;
         this.picPath = path;
         this.habitList = habitList;
         this.followList = followList;
+        this.followerList = followeeList;
     }
 
     //Getters
