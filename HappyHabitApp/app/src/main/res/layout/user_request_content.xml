@@ -27,7 +27,6 @@
             android:layout_weight="1"
             android:background="@color/theme_primary"
             android:orientation="horizontal"
-
             android:paddingLeft="4dp">
 
             <ImageView
@@ -67,7 +66,7 @@
                     android:gravity="center"
                     android:text="Accept"
                     android:textColor="@color/theme_primary"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
                     tools:ignore="TextContrastCheck" />
@@ -81,7 +80,7 @@
                     android:gravity="center"
                     android:text="Reject"
                     android:textColor="@color/theme_primary"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp"
                     tools:ignore="TextContrastCheck" />
