@@ -1,8 +1,12 @@
 package com.example.happyhabitapp;
 
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
+
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.SimpleDateFormat;
@@ -140,6 +146,21 @@ public class HabitEventFragment extends DialogFragment {
 
         //Display date
         dateDisplay.setText(dateString);
+        addLocationButton.setOnClickListener(new View.OnClickListener() {
+             @RequiresApi(api = Build.VERSION_CODES.M)
+             @Override
+             public void onClick(View view) {
+
+                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+                     //request permission
+                 } else {
+                     // already has permission so location is accessible
+                     CharSequence text = "Location access granted";
+                     int duration = Toast.LENGTH_SHORT;
+                     Toast toast = Toast.makeText(getContext(), text, duration);
+                     toast.show();
+                 }
+             }});
 
         // return user inputs
         return builder
@@ -182,9 +203,7 @@ public class HabitEventFragment extends DialogFragment {
                         listener.addNewEvent(new HabitEvent(date, title, status, reason));
                     }
 
-                }
-
-                ).create();
+                }).create();
     }
 
     /**
