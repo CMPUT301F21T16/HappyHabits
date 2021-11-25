@@ -2,12 +2,17 @@ package com.example.happyhabitapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ProfilePageActivity extends AppCompatActivity {
 
     private User currentUser;
+    FollowsAdapter followsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +21,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         currentUser = getUser();
         setPreliminaryInfo();
         setList();
+        setButtons();
     }
 
     private User getUser(){
@@ -41,6 +47,56 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     private void setList() {
         //Set list
+        followsAdapter = new FollowsAdapter(this, currentUser.getFollowerList(), currentUser, true);    //View only
+        ListView userRequests = findViewById(R.id.follow_req_list);
+        userRequests.setAdapter(followsAdapter);
     }
+
+    private void setButtons() {
+        setFollowerButton();
+        setFollowingButton();
+        setBackButton();
+    }
+
+    /**
+     * Defines and launches a new intent.
+     * Go to the users page with a flag that tells the new activity which list (followers) to source from.
+     */
+    private void setFollowerButton() {
+        LinearLayout followerButton = findViewById(R.id.follower_btn);
+        followerButton.setOnClickListener(v -> {
+            Intent followerIntent = new Intent(ProfilePageActivity.this, ViewUsersActivity.class);
+            followerIntent.putExtra("GET_FOLLOW_STATE", "followers");
+            startActivity(followerIntent);
+        });
+    }
+
+    /**
+     * Defines and launches a new intent.
+     * Go to the users page with a flag that tells the new activity which list (following) to source from.
+     */
+    private void setFollowingButton() {
+        LinearLayout followingButton = findViewById(R.id.following_btn);
+        followingButton.setOnClickListener(v -> {
+            Intent followerIntent = new Intent(ProfilePageActivity.this, ViewUsersActivity.class);
+            followerIntent.putExtra("GET_FOLLOW_STATE", "following");
+            startActivity(followerIntent);
+        });
+    }
+
+    /**
+     * Defines and launches a new intent.
+     * Returns the user to the dashboard activity.
+     */
+    private void setBackButton() {
+        ImageView backButton = findViewById(R.id.profile_page_back_btn);
+        backButton.setOnClickListener(v -> {
+            Intent backIntent = new Intent(ProfilePageActivity.this, MergedDisplayActivity.class);
+            startActivity(backIntent);
+        });
+    }
+
+
+
 
 }

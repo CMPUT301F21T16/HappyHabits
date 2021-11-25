@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ViewUsersActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,55 +55,6 @@
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
         android:textColor="@color/theme_primary"/>
-
-    <LinearLayout
-        android:id="@+id/send_req_bar"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:backgroundColor="@color/theme_secondary"
-        android:background="@drawable/element_border"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@color/theme_primary"
-            android:layout_weight="3"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:gravity="center"
-            android:textColor="@color/theme_secondary"
-            android:textSize="16sp"
-            android:text="Send Follow Request" />
-
-        <EditText
-            android:id="@+id/req_to_username"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:inputType="textPersonName"
-            android:background="#0000000"
-            android:hint="Follower's username"
-            android:textColor="@color/theme_primary"
-            android:gravity="center|left"
-            android:paddingLeft="8dp"
-            android:textColorHint="@color/theme_primary"
-            android:textSize="16sp"
-            android:text="Name" />
-
-        <ImageView
-            android:id="@+id/profile_page_back_btn"
-            android:scaleX="-1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp"
-            app:srcCompat="@drawable/ic_backbutton"
-            app:tint="@color/theme_primary" />
-
-    </LinearLayout>
 
     <ListView
         android:id="@+id/user_list"

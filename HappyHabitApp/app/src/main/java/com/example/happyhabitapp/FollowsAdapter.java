@@ -16,28 +16,26 @@ import java.util.ArrayList;
 /**
  * A class that adapts and inflates a list of users
  */
-public class followsAdapter extends ArrayAdapter<User> {
+public class FollowsAdapter extends ArrayAdapter<User> {
 
     User currentUser;
     ArrayList<User> users;
     private Context context;
-    boolean isAcceptable = false;
+    boolean isAcceptable;
 
     /**
      * Constructor for the adapter
      * @param context the context of the list
      * @param currentUser the user who is viewing the other the list of users.
-     * @param users an ArrayList of User
      * @param isAcceptable a boolean representing whether or not the user can be accepted/rejected
      */
-    public followsAdapter(Context context, User currentUser, boolean isAcceptable) {
+    public FollowsAdapter(Context context, ArrayList<User> users, User currentUser, boolean isAcceptable) {
         super(context, 0, users);
-        this.users = currentUser.getPendingList();
+        this.users = users;
         this.context = context;
         this.currentUser = currentUser;
         this.isAcceptable = isAcceptable;
     }
-
 
     /**
      * Inflates the view of each element in the file.
