@@ -32,6 +32,7 @@ public class HabitEventFragment extends DialogFragment {
     private ImageView eventPhoto; // Optional image to be uploaded by the user showcasing their habit event
     private TextView dateDisplay; //Text displaying the date the event was done
     private Button addPhotoButton; // Button that enables user to upload or change the eventPhoto
+    private Button addLocationButton; // Button that enables user to add location to event
     private EditText eventTitle; // The title of the habit event
     private EditText eventReason; // an optional comment made by the user on the habit event
     private Spinner statusMenu; // drop down menu that enables user to select a status for the habit event
@@ -111,6 +112,7 @@ public class HabitEventFragment extends DialogFragment {
         eventPhoto = view.findViewById(R.id.habit_event_pic);
         dateDisplay = view.findViewById(R.id.display_event_date);
         addPhotoButton = view.findViewById(R.id.take_photo_btn);
+        addLocationButton = view.findViewById(R.id.add_location_btn);
         eventTitle = view.findViewById(R.id.habit_event_title);
         eventReason = view.findViewById(R.id.habit_event_reason);
         statusMenu = view.findViewById(R.id.status_menu);
@@ -180,7 +182,9 @@ public class HabitEventFragment extends DialogFragment {
                         listener.addNewEvent(new HabitEvent(date, title, status, reason));
                     }
 
-                }).create();
+                }
+
+                ).create();
     }
 
     /**
