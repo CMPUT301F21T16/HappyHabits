@@ -23,16 +23,12 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 //TODO: Add adapters. Make sure that the recycler adapter notifies the list view of any changes when they occur. --DONE
@@ -42,7 +38,9 @@ import java.util.List;
 //TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity
-        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, FirestoreCallback{
+
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, FirestoreCallback, EditOrViewFragment.onFragmentInteractionListener{
+
 
     //Firebase-specific attributes
 
@@ -86,9 +84,9 @@ public class MergedDisplayActivity extends AppCompatActivity
         //-------TEST INFO - REMOVE LATER -------
         int[] selectedDates = {1,0,0,1,0,0,0};
         int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
+        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true, null);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false, null);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true, null);
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
@@ -195,6 +193,8 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
+
+
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -206,15 +206,12 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void setRecyclerAdapter(){
 
-
-
-//        recyclerAdapter = new HabitsAdapter(currentUser.getHabitList(), this);
         recyclerAdapter = new HabitsAdapter(habitList, this);
         recyclerView = findViewById(R.id.habits_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));   //Set data to be displayed linearly (instead of grid, etc...)
         recyclerView.setHasFixedSize(true);
 
-        ItemTouchHelper.Callback callback = new HabitTouchHelper(recyclerAdapter);
+        ItemTouchHelper.Callback callback = new EventAndHabitTouchHelper(recyclerAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         recyclerAdapter.setTouchHelper(itemTouchHelper);                    //Add gesture support via callbacks
         itemTouchHelper.attachToRecyclerView(recyclerView);                 //Connect to the recyclerview
@@ -342,7 +339,7 @@ public class MergedDisplayActivity extends AppCompatActivity
 
         //Go to new add/edit fragment
 
-        DialogFragment newFragment = new Add_Edit_Fragment();
+        DialogFragment newFragment = new EditOrViewFragment();
         Bundle args = new Bundle();
         args.putSerializable("habit", selectedHabit);
         newFragment.setArguments(args);
@@ -377,9 +374,37 @@ public class MergedDisplayActivity extends AppCompatActivity
         fire.setHabit(newHabit);
     }
 
+    /**
+     * Launches an AddEditFragment in order to allow
+     * User to edit an existing habit
+     */
+    @Override
+    public void goToEdit(Habit habit) {
+        DialogFragment newFragment = new Add_Edit_Fragment();
+        Bundle args = new Bundle();
+        args.putSerializable("habit", habit);
+        newFragment.setArguments(args);
+        newFragment.show(getSupportFragmentManager(), "Edit Habit");
+    }
+
+
+
 
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
         setAdapters();
+
+    }
+
+        /**
+         * Launches the HabitEvents Activity to allow user to view
+         * HabitEvents associated with a Habit
+         */
+    @Override
+    public void goToEvents(Habit habit) {
+        Intent eventActivity = new Intent( MergedDisplayActivity.this , HabitEventActivity.class);
+        eventActivity.putExtra("habit", habit); // pass in the activity
+        startActivity(eventActivity);
+
     }
 }

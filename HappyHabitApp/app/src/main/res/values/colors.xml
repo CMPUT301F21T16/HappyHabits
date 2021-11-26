@@ -20,9 +20,9 @@
     <color name="highlighted_entry">#FFABCDEF</color>
 
     <!--  For use with the habit event status indicators  -->
-    <color name="incomplete_red">#FFBA1313</color>
-    <color name="complete_green">#049101</color>
-    <color name="in_progress_yellow">#FF9800</color>
+    <color name="incomplete_red">#FF0A0A</color>
+    <color name="complete_green">#04C800</color>
+    <color name="in_progress_yellow">#FFBF00</color>
 
     <color name="dayPressed" xmlns:tools="http://schemas.android.com/tools"
         tools:override="true">@color/black</color>
@@ -34,5 +34,4 @@
         tools:override="true">@color/theme_bg_secondary</color>
     <color name="dayDeselectedTextColor" xmlns:tools="http://schemas.android.com/tools"
         tools:override="true">@android:color/black</color>
-
 </resources>

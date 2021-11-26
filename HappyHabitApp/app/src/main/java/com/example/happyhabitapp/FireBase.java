@@ -10,22 +10,18 @@ package com.example.happyhabitapp;
 
 import android.os.Build;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -33,13 +29,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 
 public class FireBase implements FirestoreCallback{
 
@@ -191,33 +185,33 @@ public class FireBase implements FirestoreCallback{
      * @param event (HabitEvent class object)
      */
 
-    public void setHabitEventEvent(HabitEvent event) {
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("About", event.getHabit().getTitle());
-        map.put("Date", event.getEvent_date());
-        map.put("picPath", event.getPic_path());
-        map.put("location", event.getLocation());
-        map.put("description", event.getDescription());
-
-        HabitList
-                .document(event.getHabit().getTitle())
-                .collection("Events")
-                .document(event.getTitle())
-                .set(map)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "onSuccess: added event to fire");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: could not add event", e);
-                    }
-                });
-    }
+//    public void setHabitEventEvent(HabitEvent event) {
+//
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("About", event.getHabit().getTitle());
+//        map.put("Date", event.getEvent_date());
+//        map.put("picPath", event.getPic_path());
+//        map.put("location", event.getLocation());
+//        map.put("description", event.getDescription());
+//
+//        HabitList
+//                .document(event.getHabit().getTitle())
+//                .collection("Events")
+//                .document(event.getTitle())
+//                .set(map)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Log.d(TAG, "onSuccess: added event to fire");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.e(TAG, "onFailure: could not add event", e);
+//                    }
+//                });
+//    }
 
 
     /* getters */
@@ -349,7 +343,7 @@ public class FireBase implements FirestoreCallback{
                             Calendar finalDate  = Calendar.getInstance();
                             finalDate.setTime(cal);
                             boolean pub = (boolean) map[0].get("Public");
-                            Habit habit = new Habit(title, reason, finalDate, finalFreq, pub);
+                            Habit habit = new Habit(title, reason, finalDate, finalFreq, pub, null);
                             Log.d(TAG, String.valueOf(finalFreq[0]));
                             list.add(habit);
                         }

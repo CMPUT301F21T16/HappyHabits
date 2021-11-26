@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -189,7 +188,7 @@ public class Add_Edit_Fragment extends DialogFragment {
                     Boolean switchState = publicSwitch.isChecked();
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
-                        Habit newHabit = new Habit(title, reason, date, week_freq,switchState);
+                        Habit newHabit = new Habit(title, reason, date, week_freq,switchState, null);
                         listener.onAddPressed(newHabit);
                     }
                     else{
@@ -310,7 +309,7 @@ public class Add_Edit_Fragment extends DialogFragment {
                     // If statement checks if the values inputted are not empty. Date and unit has default options so those are not checked
                     if(title.compareTo("") != 0 && reason.compareTo("") != 0 && !pickerSelectedDays.isEmpty()){
 
-                        Habit newHabit = new Habit(title,reason,date,freq,switchState);
+                        Habit newHabit = new Habit(title,reason,date,freq,switchState, null);
 
                         listener.onEditPressed(newHabit, selectedHabit);
                     }
