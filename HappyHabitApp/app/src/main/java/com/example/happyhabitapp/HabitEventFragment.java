@@ -153,6 +153,7 @@ public class HabitEventFragment extends DialogFragment {
 
                  if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
                      //request permission
+                     new MapDialogFragment().show(getChildFragmentManager(), null);
                  } else {
                      // already has permission so location is accessible
                      CharSequence text = "Location access granted";

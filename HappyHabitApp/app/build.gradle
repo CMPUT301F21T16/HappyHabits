@@ -3,7 +3,7 @@ plugins {
      */
     id 'com.android.application'
     id 'com.google.gms.google-services'
-
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -68,6 +68,10 @@ dependencies {
 
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.1.1'
+
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+
+
 
 
 }
