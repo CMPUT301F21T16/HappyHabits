@@ -150,17 +150,7 @@ public class HabitEventFragment extends DialogFragment {
              @RequiresApi(api = Build.VERSION_CODES.M)
              @Override
              public void onClick(View view) {
-
-                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
-                     //request permission
-                     new MapDialogFragment().show(getChildFragmentManager(), null);
-                 } else {
-                     // already has permission so location is accessible
-                     CharSequence text = "Location access granted";
-                     int duration = Toast.LENGTH_SHORT;
-                     Toast toast = Toast.makeText(getContext(), text, duration);
-                     toast.show();
-                 }
+                 new MapDialogFragment().show(getChildFragmentManager(), null);
              }});
 
         // return user inputs
