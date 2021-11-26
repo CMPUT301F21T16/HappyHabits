@@ -177,7 +177,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         firebaseAuth.getCurrentUser().getIdToken(true)
                 .addOnSuccessListener(getTokenResult -> Log.d(TAG, "onSuccess" + getTokenResult.getToken()));
     }
-    
+
 
     //---Display related methods---
 

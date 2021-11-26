@@ -44,14 +44,20 @@ import java.util.Map;
 
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     ArrayList<String> test = new ArrayList<String>();
-
-
+    FireBase fire = new FireBase();
+    Calendar date = Calendar.getInstance();
 
     private final String TAG = "TestActivity";
     ArrayList<Habit> testHabLst = new ArrayList<Habit>();
     Calendar c = Calendar.getInstance();
     int[] freq = {0,0,0,0,0,0,0};
     Habit habit1 = new Habit("Walk dog", "fat Dog", c, freq, true);
+    User followee = new User("john");
+    User follower = new User("Hana");
+    User requester = new User("Lol");
+    HabitEvent event1 = new HabitEvent(habit1, date, "DId this");
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     public void createDocument(View view){
-
+        fire.setHabit(habit1);
+        fire.setFollowees(followee);
+        fire.setFollowers(follower);
+        fire.setRequest(requester);
+        fire.setHabitEventEvent(event1);
     }
 
     public void readDocument(View view){

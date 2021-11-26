@@ -168,6 +168,24 @@ public class FireBase implements FirestoreCallback{
                 });
     }
 
+    public void setRequest(User user){
+        Requests
+                .document(user.getUsername())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
     /**
      * this function will upload habit event to the firebase
      * @param event (HabitEvent class object)
