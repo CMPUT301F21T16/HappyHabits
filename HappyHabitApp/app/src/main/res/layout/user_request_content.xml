@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="2.5dp"
+    android:paddingBottom="2.5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/theme_secondary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/theme_primary"
+            android:orientation="horizontal"
+            android:paddingLeft="4dp">
+
+            <ImageView
+                android:id="@+id/profile_page_pic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/theme_primary"
+                android:padding="2dp"
+                android:src="@drawable/default_profile_pic" />
+
+            <!-- Use this to hide Y/N buttons, which automatically re-weighs user text  -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/follow_request_username"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:text="Username"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:layout_marginRight="15dp"
+                    android:textColor="@color/theme_secondary"
+                    android:textSize="24dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/accept_req_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:backgroundTint="@color/theme_secondary"
+                    app:cornerRadius="0dp"
+                    android:layout_gravity="center"
+                    android:minWidth="0dp"
+                    android:text="Yes"
+                    android:textColor="@color/theme_primary"
+                    android:textSize="14sp"
+
+                    android:layout_marginRight="1dp"
+                    tools:ignore="TextContrastCheck" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/reject_req_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:backgroundTint="@color/theme_secondary"
+                    app:cornerRadius="0dp"
+                    android:minWidth="0dp"
+                    android:layout_gravity="center"
+                    android:text="No"
+                    android:textColor="@color/theme_primary"
+                    android:textSize="14sp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="1dp"
+                    tools:ignore="TextContrastCheck" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
+
+

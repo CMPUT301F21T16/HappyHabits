@@ -70,7 +70,14 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.1.1'
 
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+
+
+
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
+
 
 
 

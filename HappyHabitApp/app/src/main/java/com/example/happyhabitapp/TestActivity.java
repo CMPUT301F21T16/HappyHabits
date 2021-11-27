@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,28 +42,56 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
-
-
-    private FireBase fire = new FireBase();
-    private ArrayList<User> followers = new ArrayList<User>();
-    private User john = new User("John");
-    ListView followerLst;
-    ArrayAdapter<User> adapter;
-
+public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, FirestoreCallback {
+    ArrayList<String> test = new ArrayList<String>();
+    FireBase fire = new FireBase();
+    Calendar date = Calendar.getInstance();
+    ArrayList<User> requesters = new ArrayList<User>();
 
     private final String TAG = "TestActivity";
+    ArrayList<Habit> testHabLst = new ArrayList<Habit>();
+    Calendar c = Calendar.getInstance();
+    int[] freq = {0,0,0,0,0,0,0};
+    Habit habit1 = new Habit("Walk dog", "fat Dog", c, freq, true, null);
+    User followee = new User("john");
+    User follower = new User("Hana");
+    User requester = new User("Lol");
+
+    HabitEvent event1 = new HabitEvent(date, "Did something", 0,"DId this");
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        followers.add(john);
-        followerLst = findViewById(R.id.followers);
-        adapter = new ArrayAdapter<User>(this, R.layout.activity_test, followers);
-        followerLst.setAdapter(adapter);
+        testHabLst.add(habit1);
+        fire.setRequest(requester);
+        fire.getRequestList(requesters);
+
+
 
     }
+
+    public void createDocument(View view){
+        fire.setHabit(habit1);
+        fire.setFollowees(followee);
+        fire.setFollowers(follower);
+        fire.setRequest(requester);
+    }
+
+    public void readDocument(View view){
+//        fire.getRequestList(requesters);
+        Toast.makeText(this,requesters.get(0).getUsername(), Toast.LENGTH_SHORT).show();
+
+    }
+
+
+
+
+
+
+
 
     private void startLogin(){
         startActivity(new Intent(TestActivity.this, MainActivity.class));
@@ -99,9 +128,6 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
 
-
-
-
     /* To check if there is a signed in user */
     @Override
     protected void onStart() {
@@ -129,5 +155,15 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         Log.d(TAG, "onSuccess" + getTokenResult.getToken());
                     }
                 });
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callRequestList(ArrayList<User> requesters) {
+
     }
 }

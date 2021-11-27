@@ -19,12 +19,13 @@ public class Habit implements Serializable {
     public Habit() {
     }
 
-    public ArrayList<HabitEvent> getEvents() {
-        return events;
-    }
 
-    public void setEvents(ArrayList<HabitEvent> events) {
-        this.events = events;
+    public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit) {
+        this.title = title;
+        this.reason = reason;
+        this.date = date;
+        this.week_freq = week_freq;
+        this.publicHabit = publicHabit;
     }
 
     public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit, ArrayList<HabitEvent> events) {
@@ -46,6 +47,10 @@ public class Habit implements Serializable {
 
     public String getReason() {
         return reason;
+    }
+
+    public ArrayList<HabitEvent> getEvents() {
+        return events;
     }
 
     public void setReason(String reason) {
@@ -75,6 +80,9 @@ public class Habit implements Serializable {
 
     public void setPublicHabit(boolean publicHabit) {
         this.publicHabit = publicHabit;
+    }
+    public void setEvents(ArrayList<HabitEvent> events) {
+        this.events = events;
     }
 
     /**

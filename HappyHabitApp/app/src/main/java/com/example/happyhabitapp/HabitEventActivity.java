@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -109,7 +110,7 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
     @Override
     public void onHabitClick(int position) {
-        //TODO: Go to fragment
+        Toast.makeText(this, "la", Toast.LENGTH_SHORT).show();
     }
 
     /**
