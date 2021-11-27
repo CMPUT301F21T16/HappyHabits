@@ -1,13 +1,14 @@
 package com.example.happyhabitapp;
 
-import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
-
-import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,11 +19,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,6 +53,9 @@ public class HabitEventFragment extends DialogFragment {
     private OnFragmentInteractionListener listener; // listener for the FragmentListener interface
     private String addKey = "habit";
     private String editKey = "event";
+    private ActivityResultLauncher<Intent> getLocationFromMap;
+    private LatLng latlng;
+    private Boolean edit;
 
     /**
      * Denotes actions to be taken when the fragment is first created
@@ -128,6 +137,16 @@ public class HabitEventFragment extends DialogFragment {
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusMenu.setAdapter(statusAdapter);
 
+        getLocationFromMap = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent intent = result.getData();
+                        latlng = intent.getExtras().getParcelable("latlng");
+                        Log.d("testReceive", String.valueOf(latlng.latitude));
+                        Log.d("testReceive", String.valueOf(latlng.longitude));
+                    }
+                });
+
         return;
     }
 
@@ -146,24 +165,19 @@ public class HabitEventFragment extends DialogFragment {
 
         //Display date
         dateDisplay.setText(dateString);
+        edit = false;
+
         addLocationButton.setOnClickListener(new View.OnClickListener() {
              @RequiresApi(api = Build.VERSION_CODES.M)
              @Override
              public void onClick(View view) {
-
-                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
-                     //request permission
-                     new MapDialogFragment().show(getChildFragmentManager(), null);
-                 } else {
-                     // already has permission so location is accessible
-                     CharSequence text = "Location access granted";
-                     int duration = Toast.LENGTH_SHORT;
-                     Toast toast = Toast.makeText(getContext(), text, duration);
-                     toast.show();
-                 }
+                 Intent intent = new Intent(getContext(),MapActivity.class);
+                 intent.putExtra("latlng", latlng);
+                 intent.putExtra("edit",edit);
+                 getLocationFromMap.launch(intent);
              }});
 
-        // return user inputs
+                 // return user inputs
         return builder
                 .setView(view)
                 .setNegativeButton("CANCEL", null)
@@ -219,6 +233,17 @@ public class HabitEventFragment extends DialogFragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Calendar date = habitEvent.getEvent_date();
         String dateString = dateFormat.format(date.getTime());
+        edit = true;
+
+        addLocationButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),MapActivity.class);
+                intent.putExtra("latlng", latlng);
+                intent.putExtra("edit",edit);
+                getLocationFromMap.launch(intent);
+            }});
 
         // Set visible fields to display current Event's attributes
         displayCurrentEvent(habitEvent, dateString);
