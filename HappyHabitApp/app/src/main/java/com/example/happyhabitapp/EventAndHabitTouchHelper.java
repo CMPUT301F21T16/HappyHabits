@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Assists {@link HabitsAdapter} in detecting touch inputs.
+ * Assists a Habit or Event adapter in detecting touch inputs.
  * @author: Jonathan
  */
-public class HabitTouchHelper extends ItemTouchHelper.Callback{
+public class EventAndHabitTouchHelper extends ItemTouchHelper.Callback{
 
     private final ItemTouchHelperAdapter touchHelperAdapter;
 
-    public HabitTouchHelper(ItemTouchHelperAdapter touchHelperAdapter) {
+    public EventAndHabitTouchHelper(ItemTouchHelperAdapter touchHelperAdapter) {
         this.touchHelperAdapter = touchHelperAdapter;
     }
 
@@ -53,7 +53,7 @@ public class HabitTouchHelper extends ItemTouchHelper.Callback{
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.RIGHT;
+        final int swipeFlags = ItemTouchHelper.RIGHT;
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 

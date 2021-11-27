@@ -1,8 +1,7 @@
 package com.example.happyhabitapp;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -15,16 +14,26 @@ public class Habit implements Serializable {
     private Calendar date;
     private int[] week_freq;
     private boolean publicHabit;
+    private ArrayList<HabitEvent> events;
 
     public Habit() {
     }
 
-    public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit) {
+    public ArrayList<HabitEvent> getEvents() {
+        return events;
+    }
+
+    public void setEvents(ArrayList<HabitEvent> events) {
+        this.events = events;
+    }
+
+    public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit, ArrayList<HabitEvent> events) {
         this.title = title;
         this.reason = reason;
         this.date = date;
         this.week_freq = week_freq;
         this.publicHabit = publicHabit;
+        this.events = events;
     }
 
     public String getTitle() {

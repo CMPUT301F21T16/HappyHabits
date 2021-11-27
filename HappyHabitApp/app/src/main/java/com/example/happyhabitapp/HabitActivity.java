@@ -8,17 +8,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,7 +133,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-        ItemTouchHelper.Callback callback = new HabitTouchHelper(adapter);
+        ItemTouchHelper.Callback callback = new EventAndHabitTouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         adapter.setTouchHelper(itemTouchHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -207,8 +204,6 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         adapter.getHabitList().add(newHabit); // adds habit to data list
         adapter.notifyItemInserted(adapter.getItemCount() - 1); // notifies item at last position has been added
         adapter.notifyDataSetChanged(); // notifies adpater of change
-        data.setHabit(newHabit);
-        Toast.makeText(this, "Added Habit", Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -44,7 +44,6 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         titleTextView = (TextView) habitView.findViewById(R.id.habit_title);
         reasonTextView = (TextView) habitView.findViewById(R.id.reason_text);
         frequencyTextView = (TextView) habitView.findViewById(R.id.selected_dates);
-        dragHandle = (ImageButton) habitView.findViewById(R.id.drag_handle);
 
         habitGestureDetector = new GestureDetector(habitView.getContext(), this);
         touchHelper = helper;
@@ -101,4 +100,5 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         habitGestureDetector.onTouchEvent(motionEvent);
         return true;
     }
+
 }

@@ -2,8 +2,6 @@ package com.example.happyhabitapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,18 +9,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,6 +50,12 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
 
         ImageView user_prof = (ImageView) findViewById(R.id.user_profile_pic);
         user_prof.setBackgroundResource(R.drawable.lol);
+
+        Calendar date = Calendar.getInstance();
+        int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
+        String weekday = new DateFormatSymbols().getWeekdays()[dayOfWeek];
+        TextView day = findViewById(R.id.today_habit);
+        day.setText("Today's Habit("+weekday+")");
     }
 
 
@@ -86,7 +89,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
                         }
                     });
         }
-
         return true;
     }
 
@@ -109,7 +111,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
             startLogin();
             return;
         }
-
         firebaseAuth.getCurrentUser().getIdToken(true)
                 .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                     @Override
@@ -117,7 +118,6 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
                         Log.d(TAG, "onSuccess" + getTokenResult.getToken());
                     }
                 });
-
     }
 
     private User getUser(){
@@ -127,9 +127,9 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
         //-------TEST INFO - REMOVE LATER -------
         int[] selectedDates = {1,0,0,1,0,0,0};
         int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
+        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true, null);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false, null);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true, null);
 
         ArrayList<Habit> habitList = new ArrayList<Habit>();
         //testList.add(habit1); testList.add(habit2); testList.add(habit3);

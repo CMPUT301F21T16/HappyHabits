@@ -61,7 +61,6 @@ public class FireBase {
      */
 
     public void setUser(User user) {
-
         User
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -76,7 +75,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add user", e);
                     }
                 });
-
     }
 
     /**
@@ -113,7 +111,6 @@ public class FireBase {
                         Log.e(TAG, "onFailure: could not add habit to fire", e);
                     }
                 });
-
     }
 
     /**
@@ -208,7 +205,6 @@ public class FireBase {
         current_uid =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         return current_uid;
     }
-
 
     /**
      * this function return current user's user name as string
@@ -434,17 +430,5 @@ public class FireBase {
                     }
                 });
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
