@@ -58,7 +58,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User requester = new User("Lol");
 
     HabitEvent event1 = new HabitEvent(date, "Did something", 0,"DId this");
-    boolean has = true;
+    boolean[] has = {false};
 
 
     @Override
@@ -68,7 +68,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         setContentView(R.layout.activity_test);
         testHabLst.add(habit1);
         fire.setRequest(requester);
-        fire.hasUser("lichild");
+//        fire.hasUser("lichild");
 
 
 
@@ -82,8 +82,13 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     public void readDocument(View view){
-        fire.hasUser("lichild");
-        if (has == true){
+        fire.hasUser("lichild", has);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (has[0] == true){
             Toast.makeText(this,"Has", Toast.LENGTH_SHORT).show();
         }
         Toast.makeText(this,"Read", Toast.LENGTH_SHORT).show();
@@ -172,8 +177,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     @Override
-    public boolean checkUser(boolean has) {
-        this.has = has;
-        return has;
+    public void checkUser(boolean[] has) {
+        if (has[0]){
+            Toast.makeText(this,"success", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 }

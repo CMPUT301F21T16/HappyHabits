@@ -23,7 +23,9 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     private ArrayList<User> pendingRequests = new ArrayList<User>();
     private Integer follower_num;
     private Integer followee_num;
-    private boolean has_user;
+    private boolean[] has_user = {false};
+
+    String request_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         setList();
         setPreliminaryInfo();
         setButtons();
+        setRequestSender();
     }
 
     /**
@@ -117,7 +120,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         ImageView sendButton = findViewById(R.id.send_request);
 
         sendButton.setOnClickListener(v -> {
-            String usernameRequested = requestContent.getText().toString();
+            request_name = requestContent.getText().toString();
 
             //TODO: Implement following psuedocode, which adds the current user to reciever pending list if they exist
             //if (username in firebase)
@@ -127,16 +130,18 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
             //else:
             //   do: toast("that user doesn't exist!")
             //
-            fire.hasUser(usernameRequested);
-            if (has_user){
+            fire.hasUser(request_name, has_user);
 
-            }else{
-                Toast.makeText(this, "User Doesn't Exits!", Toast.LENGTH_SHORT).show();
-            }
 
 
         });
     }
+
+    protected void isUser(String name){
+        fire.sendRequest(name);
+    }
+
+
 
     /* ===================================================================== Method for FirestoreCallback ========================================================================== */
     @Override
@@ -151,8 +156,11 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     }
 
     @Override
-    public boolean checkUser(boolean has) {
-        has_user = has;
-        return has;
+    public void checkUser(boolean[] has) {
+        if (has_user[0]){
+            fire.sendRequest(request_name);
+        }else{
+            Toast.makeText(this, "User Doesn't Exits!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

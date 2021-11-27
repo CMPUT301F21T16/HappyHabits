@@ -407,8 +407,8 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean checkUser(boolean has) {
-        return has;
+    public void checkUser(boolean[] has) {
+
     }
 
     /**

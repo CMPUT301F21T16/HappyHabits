@@ -217,6 +217,30 @@ public class FireBase implements FirestoreCallback{
 //    }
 
 
+    public void sendRequest (String name){
+        Map<String, Object> map = new HashMap<>();
+        map.put("Name", name);
+        DocumentReference other_user = getOtherUser(name);
+        CollectionReference others_request = other_user.collection("Requests");
+        others_request
+                .document(getUsername())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: request sent");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ", e);
+                    }
+                });
+
+    }
+
+
     /* ================================================================== Functions to Retrieve data from firebase ======================================================= */
 
     /**
@@ -370,6 +394,8 @@ public class FireBase implements FirestoreCallback{
     }
 
 
+
+
     /* ======================================================================== Functions that delete data from firebase ============================================================================ */
 
     /**
@@ -509,8 +535,8 @@ public class FireBase implements FirestoreCallback{
      * check if the name is in the Users collection and change the boolean value through callBack
      * @param name
      */
-    public void hasUser(String name){
-        final boolean[] has = {false};
+    public void hasUser(String name, boolean[] has){
+        has[0] = false;
         Users
                 .document(name)
                 .get()
@@ -523,7 +549,7 @@ public class FireBase implements FirestoreCallback{
                                 Log.d(TAG, "onSuccess: yes");
                             }
                         }
-                        fireapi.checkUser(has[0]);
+                        fireapi.checkUser(has);
                     }
                 });
     }
@@ -539,14 +565,6 @@ public class FireBase implements FirestoreCallback{
         return Users.document(name);
     }
 
-    /**
-     * function to get other user's habit list collection reference, used when viewing public habits
-     * @param otherUser
-     * @return CollectionReference 
-     */
-    public CollectionReference getOtherHabits (DocumentReference otherUser){
-        return otherUser.collection("HabitList");
-    }
 
 
     /* ============================================================================ CallBack Related Functions ================================================================== */
@@ -569,8 +587,9 @@ public class FireBase implements FirestoreCallback{
     }
 
     @Override
-    public boolean checkUser(boolean has) {
-        return has;
+    public void checkUser(boolean[] has) {
     }
+
+
 }
 
