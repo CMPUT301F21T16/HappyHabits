@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,7 +92,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
         //-----------------------------------
-        currentUser = new User("TestUser", "somePath", testList, null);
+        currentUser = new User("TestUser", "somePath", testList);
 
         setAdapters();
         setButtonListeners();
@@ -193,8 +194,6 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
-
-
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -261,6 +260,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         Button todayButton = findViewById(R.id.todays_habits_btn);
         Button allButton = findViewById(R.id.all_habits_btn);
         FloatingActionButton addButton = findViewById(R.id.add_habit_btn);
+        ImageView profileIcon = findViewById(R.id.dashboard_profile_pic);
 
         todayButton.setOnClickListener((View v) -> {
             buttonToggle(TODAY);
@@ -279,6 +279,11 @@ public class MergedDisplayActivity extends AppCompatActivity
             addFragment.setArguments(args);
 
             addFragment.show(getSupportFragmentManager(), "ADD_HABIT");
+        });
+
+        profileIcon.setOnClickListener((View v) -> {
+            Intent profileIntent = new Intent(MergedDisplayActivity.this, ProfilePageActivity.class);
+            startActivity(profileIntent);
         });
     }
 

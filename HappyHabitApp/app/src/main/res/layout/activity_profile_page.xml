@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProfilePageActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/profile_page_back_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/theme_primary"
+            android:paddingLeft="10dp"
+            app:srcCompat="@drawable/ic_backbutton"
+            app:tint="@color/theme_secondary" />
+
+        <TextView
+            android:id="@+id/profile_page_username"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="Username"
+            android:background="@color/theme_primary"
+            android:textColor="@color/theme_secondary"
+            android:gravity="center|right"
+            android:textSize="18sp"
+            android:padding="5dp"
+            />
+
+        <ImageView
+            android:id="@+id/profile_page_pic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="2dp"
+            android:paddingRight="10dp"
+            android:background="@color/theme_primary"
+            android:src="@drawable/default_profile_pic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/send_req_bar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/element_border"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/theme_primary"
+            android:layout_weight="3"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:gravity="center"
+            android:textColor="@color/theme_secondary"
+            android:textSize="16sp"
+            android:text="Send Follow Request" />
+
+        <EditText
+            android:id="@+id/req_to_username"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:inputType="textPersonName"
+            android:background="#00000000"
+            android:hint="Follower's username"
+            android:textColor="@color/theme_primary"
+            android:gravity="center|left"
+            android:paddingLeft="8dp"
+            android:textColorHint="@color/theme_primary"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/send_request"
+            android:scaleX="-1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_backbutton"
+            app:tint="@color/theme_primary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/follower_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/theme_primary"
+            android:layout_margin="10dp">
+            <TextView
+                android:id="@+id/follower_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textColor="@color/theme_secondary"
+                android:text="5"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/theme_secondary"
+                android:text="Followers"
+                android:paddingBottom="3dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/following_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/theme_primary"
+            android:layout_margin="10dp">
+            <TextView
+                android:id="@+id/following_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textColor="@color/theme_secondary"
+                android:text="3"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/theme_secondary"
+                android:text="Following"
+                android:paddingBottom="3dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Follow Requests:"
+        android:textSize="22sp"
+        android:padding="8dp"
+        android:textColor="@color/theme_primary"/>
+
+    <ListView
+        android:id="@+id/follow_req_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

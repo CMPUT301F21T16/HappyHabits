@@ -48,7 +48,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
 
-        currentUser = new User("TestUser", "somePath", testList, null);
+        currentUser = new User("TestUser", "somePath", testList, null, null);
         initActivity();
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null){

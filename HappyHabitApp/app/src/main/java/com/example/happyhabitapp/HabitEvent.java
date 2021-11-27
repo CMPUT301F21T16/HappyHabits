@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class HabitEvent{
+public class HabitEvent extends Habit{
 
     //Define constants for status
     private int STATUS_INCOMPLETE = 0;

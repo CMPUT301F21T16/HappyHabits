@@ -17,7 +17,7 @@ public class UserTest {
     public void makeUser(){
         ArrayList<Habit> habitList = new ArrayList<Habit>();
         ArrayList<User> followList = new ArrayList<User>();
-        sampleUser = new User("Todd", "toddsPic", habitList, followList);
+        sampleUser = new User("Todd", "toddsPic", habitList, followList, null);
     }
 
     //Passed
@@ -70,7 +70,7 @@ public class UserTest {
     public void followListAddRemove(){
         int[] weekFreq = {1,1,1,1,0,0,1};
 
-        User sampleFollower = new User("Sarah", "somePicture", null, null);
+        User sampleFollower = new User("Sarah", "somePicture", null, null, null);
 
         sampleUser.follow(sampleFollower);
         Assert.assertEquals(1, sampleUser.getFollowList().size());

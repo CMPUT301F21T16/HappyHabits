@@ -51,11 +51,12 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     ArrayList<Habit> testHabLst = new ArrayList<Habit>();
     Calendar c = Calendar.getInstance();
     int[] freq = {0,0,0,0,0,0,0};
-    Habit habit1 = new Habit("Walk dog", "fat Dog", c, freq, true);
+    Habit habit1 = new Habit("Walk dog", "fat Dog", c, freq, true, null);
     User followee = new User("john");
     User follower = new User("Hana");
     User requester = new User("Lol");
-//    HabitEvent event1 = new HabitEvent(habit1, date, "DId this");
+
+    HabitEvent event1 = new HabitEvent(date, "Did something", 0,"DId this");
 
 
 
