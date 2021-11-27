@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -140,7 +141,9 @@ public class HabitEventFragment extends DialogFragment {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent intent = result.getData();
-                        // Handle the Intent
+                        latlng = intent.getExtras().getParcelable("latlng");
+                        Log.d("testReceive", String.valueOf(latlng.latitude));
+                        Log.d("testReceive", String.valueOf(latlng.longitude));
                     }
                 });
 
