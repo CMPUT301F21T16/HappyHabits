@@ -1,10 +1,15 @@
 package com.example.happyhabitapp;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class HabitEvent extends Habit{
+
+public class HabitEvent implements Serializable {
+
 
     //Define constants for status
     private int STATUS_INCOMPLETE = 0;
@@ -15,7 +20,7 @@ public class HabitEvent extends Habit{
 
     private Calendar event_date;
     private String pic_path;
-    private String location;
+    private LatLng location;
     private String description;
     private String title;
     private int status;
@@ -25,14 +30,28 @@ public class HabitEvent extends Habit{
     }
 
     /* counstructors */
-    public HabitEvent(Calendar event_date, String title, int statusCode, String description) {
+    public HabitEvent(Calendar event_date, String title, int statusCode, String description) { // no location or image
         this.event_date = event_date;
         this.title = title;
         this.status = statusCode;
         this.description = description;
     }
 
-    public HabitEvent(Calendar event_date, int statusCode, String pic_path, String location, String description) {
+    public HabitEvent(Calendar event_date, int statusCode, String description, String pic_path) { // only image
+        this.event_date = event_date;
+        this.pic_path = pic_path;
+        this.location = location;
+        this.description = description;
+        this.status = statusCode;
+    }
+    public HabitEvent(Calendar event_date, int statusCode, String description, LatLng location) { // only location
+        this.event_date = event_date;
+        this.pic_path = pic_path;
+        this.location = location;
+        this.description = description;
+        this.status = statusCode;
+    }
+    public HabitEvent(Calendar event_date, int statusCode, String description, String pic_path, LatLng location) { // image and location
         this.event_date = event_date;
         this.pic_path = pic_path;
         this.location = location;
@@ -55,7 +74,7 @@ public class HabitEvent extends Habit{
         this.pic_path = pic_path;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(LatLng location) {
         this.location = location;
     }
 
@@ -77,7 +96,7 @@ public class HabitEvent extends Habit{
         return pic_path;
     }
 
-    public String getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
