@@ -10,24 +10,34 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ProfilePageActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    private User currentUser;
+public class ProfilePageActivity extends AppCompatActivity implements FirestoreCallback{
+
     FollowsAdapter followsAdapter;
+    private FireBase fire = new FireBase(); // FireBase
+
+    private ArrayList<User> followerList = new ArrayList<User>();
+    private ArrayList<User> followeeList = new ArrayList<User>();       //To be passed into Firebase to get lists back
+    private ArrayList<User> pendingRequests = new ArrayList<User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fire.setApi(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
-        currentUser = getUser();
-        setPreliminaryInfo();
+        fire.getFollowerList(followerList);
+        fire.getFolloweeList(followeeList);
+        fire.getRequestList(pendingRequests);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //setPreliminaryInfo();
         setList();
         setButtons();
-    }
-
-    private User getUser(){
-        //Some firebase thing or something that return the User
-
     }
 
     /**
@@ -35,20 +45,24 @@ public class ProfilePageActivity extends AppCompatActivity {
      * in the layout
      */
     private void setPreliminaryInfo() {
-        TextView usernameTextView = findViewById(R.id.follow_list_username);
+        TextView usernameTextView = findViewById(R.id.profile_page_username);
         TextView followerCountTextView = findViewById(R.id.follower_count);
         TextView followCountTextView = findViewById(R.id.following_count);
 
-        usernameTextView.setText(currentUser.getUsername());
-        followerCountTextView.setText(currentUser.getFollowerList().size());
-        followCountTextView.setText(currentUser.getFollowList().size());
+        usernameTextView.setText(fire.getUsername());
+        followerCountTextView.setText(followerList.size()); //Get the count of the followers/followees
+        followCountTextView.setText(followeeList.size());
     }
 
+    /**
+     * Sets the user
+     */
     private void setList() {
         //Set list
-        followsAdapter = new FollowsAdapter(this, currentUser.getFollowerList(), currentUser, true);    //View only
+        followsAdapter = new FollowsAdapter(this, pendingRequests,true);    //View only
         ListView userRequests = findViewById(R.id.follow_req_list);
         userRequests.setAdapter(followsAdapter);
+        followsAdapter.notifyDataSetChanged();
     }
 
     private void setButtons() {
@@ -106,7 +120,7 @@ public class ProfilePageActivity extends AppCompatActivity {
             String usernameRequested = requestContent.getText().toString();
 
             //TODO: Implement following psuedocode, which adds the current user to reciever pending list if they exist
-           //if (username in firebase)
+            //if (username in firebase)
             //   do: toast("request sent!")
             //       User receiver = fire.getUser(username)
             //       receiver.AddToPendingList(current user)
@@ -114,5 +128,15 @@ public class ProfilePageActivity extends AppCompatActivity {
             //   do: toast("that user doesn't exist!")
             //
         });
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callRequestList(ArrayList<User> requesters) {
+        setList();
     }
 }

@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class ViewUsersActivity extends AppCompatActivity {
 
 
@@ -15,12 +17,21 @@ public class ViewUsersActivity extends AppCompatActivity {
     String followState; //Whether followers or followees are to be listed.
     FollowsAdapter followsAdapter;
 
+    ArrayList<User> followerList;
+    ArrayList<User> followeeList;
+
+    FireBase fire = new FireBase();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_followers_followees);
+
         Intent intent = getIntent();
-        followState = intent.getStringExtra("GET_FOLLOW_STATE");
+        followState = intent.getStringExtra("GET_FOLLOW_STATE"); //Get what type of data is to be rendered
+
+        fire.getFolloweeList(followeeList); //get the follower/followee list from firebase
+        fire.getFollowerList(followerList);
         setPreliminaryInfo();
         setList();
         setBackButton();
@@ -30,16 +41,16 @@ public class ViewUsersActivity extends AppCompatActivity {
         TextView usernameTextView = findViewById(R.id.follow_list_username);
         TextView listHeader = findViewById(R.id.following_or_followee);
 
-        usernameTextView.setText(currentUser.getUsername());
+        usernameTextView.setText(fire.getUsername());
         listHeader.setText(followState.toUpperCase());
     }
 
     private void setList() {
         if (followState.equals("followers")) {
-            followsAdapter = new FollowsAdapter(this, currentUser.getFollowerList(), currentUser, false);
+            followsAdapter = new FollowsAdapter(this, followerList, false);
         }
         else {
-            followsAdapter = new FollowsAdapter(this, currentUser.getFollowList(), currentUser, false);
+            followsAdapter = new FollowsAdapter(this, followeeList, false);
         }
         ListView followUsers = findViewById(R.id.follow_req_list);
         followUsers.setAdapter(followsAdapter);

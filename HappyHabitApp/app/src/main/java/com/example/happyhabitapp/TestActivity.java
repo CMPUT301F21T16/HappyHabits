@@ -42,10 +42,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, FirestoreCallback {
     ArrayList<String> test = new ArrayList<String>();
     FireBase fire = new FireBase();
     Calendar date = Calendar.getInstance();
+    ArrayList<User> requesters = new ArrayList<User>();
 
     private final String TAG = "TestActivity";
     ArrayList<Habit> testHabLst = new ArrayList<Habit>();
@@ -65,6 +66,9 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         testHabLst.add(habit1);
+        fire.setRequest(requester);
+        fire.getRequestList(requesters);
+
 
 
     }
@@ -74,11 +78,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fire.setFollowees(followee);
         fire.setFollowers(follower);
         fire.setRequest(requester);
-
     }
 
     public void readDocument(View view){
-        Toast.makeText(this,test.get(0), Toast.LENGTH_SHORT).show();
+//        fire.getRequestList(requesters);
+        Toast.makeText(this,requesters.get(0).getUsername(), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -151,5 +155,15 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         Log.d(TAG, "onSuccess" + getTokenResult.getToken());
                     }
                 });
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callRequestList(ArrayList<User> requesters) {
+
     }
 }

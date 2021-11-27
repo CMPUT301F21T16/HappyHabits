@@ -163,19 +163,21 @@ public class FireBase implements FirestoreCallback{
     }
 
     public void setRequest(User user){
+        Map<String, Object> map = new HashMap<>();
+        map.put("Name", user.getUsername());
         Requests
                 .document(user.getUsername())
-                .set(user)
+                .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
+                        Log.d(TAG, "onSuccess: set Request");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Log.e(TAG, "onFailure: ", e);
                     }
                 });
     }
@@ -236,23 +238,6 @@ public class FireBase implements FirestoreCallback{
 
 
     /* get information */
-
-    public void getUserList(ArrayList<User> list){
-        Users
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        list.clear();
-                        for (QueryDocumentSnapshot doc: value){
-                            Log.d(TAG, "onEvent: getting Users");
-                            User user = doc.toObject(com.example.happyhabitapp.User.class);
-                            Log.d(TAG, "onEvent: " + user.getUsername());
-                            list.add(user);
-                        }
-                    }
-                });
-    }
-
 
     /**
      * this function get follower list and store in list
@@ -327,7 +312,6 @@ public class FireBase implements FirestoreCallback{
                         list.clear();
                         for (QueryDocumentSnapshot doc: value){
                             Log.d(TAG, "onEvent: getting Habits");
-                            //Habit habit = doc.toObject(Habit.class);
                             map[0] = doc.getData();
                             String title = (String) map[0].get("Title");
                             String reason = (String) map[0].get("Reason");
@@ -377,6 +361,26 @@ public class FireBase implements FirestoreCallback{
                         }
                     }
                 });
+    }
+
+
+    public void getRequestList(ArrayList<User> requesters){
+        requesters.clear();
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
+        Requests
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                Log.d(TAG, "onEvent: getting Requester List");
+                for (QueryDocumentSnapshot doc: value){
+                    map[0] = doc.getData();
+                    String requester_name = (String) map[0].get("Name");
+                    User user = new User(requester_name);
+                    requesters.add(user);
+                }
+                fireapi.callRequestList(requesters);
+            }
+        });
     }
 
 
@@ -497,6 +501,11 @@ public class FireBase implements FirestoreCallback{
 
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callRequestList(ArrayList<User> requesters) {
 
     }
 }

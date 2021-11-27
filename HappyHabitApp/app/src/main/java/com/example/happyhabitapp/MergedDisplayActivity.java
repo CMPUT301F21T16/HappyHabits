@@ -92,7 +92,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
         //-----------------------------------
-        currentUser = new User("TestUser", "somePath", testList);
+//        currentUser = new User("TestUser", "somePath", testList);
 
         setAdapters();
         setButtonListeners();
@@ -401,7 +401,12 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     }
 
-        /**
+    @Override
+    public void callRequestList(ArrayList<User> requesters) {
+        return;
+    }
+
+    /**
          * Launches the HabitEvents Activity to allow user to view
          * HabitEvents associated with a Habit
          */

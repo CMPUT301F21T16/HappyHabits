@@ -24,17 +24,17 @@ public class FollowsAdapter extends ArrayAdapter<User> {
     private Context context;
     boolean isAcceptable;
 
+    private FireBase fire = new FireBase();
+
     /**
      * Constructor for the adapter
      * @param context the context of the list
-     * @param currentUser the user who is viewing the other the list of users.
      * @param isAcceptable a boolean representing whether or not the user can be accepted/rejected
      */
-    public FollowsAdapter(Context context, ArrayList<User> users, User currentUser, boolean isAcceptable) {
+    public FollowsAdapter(Context context, ArrayList<User> users, boolean isAcceptable) {
         super(context, 0, users);
         this.users = users;
         this.context = context;
-        this.currentUser = currentUser;
         this.isAcceptable = isAcceptable;
     }
 
@@ -43,7 +43,6 @@ public class FollowsAdapter extends ArrayAdapter<User> {
      */
     public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
-
         User requestingUser = users.get(pos);
 
         if (view == null) {
@@ -59,7 +58,7 @@ public class FollowsAdapter extends ArrayAdapter<User> {
         //Setters
         usernameTextView.setText(requestingUser.getUsername());
 
-        //Do not render the buttons if the users are already accepted
+        //Do not render the buttons if the users are already accepted as followers
         if (!isAcceptable) {
             acceptReqButton.setVisibility(View.GONE);
             rejectReqButton.setVisibility(View.GONE);
@@ -77,20 +76,16 @@ public class FollowsAdapter extends ArrayAdapter<User> {
         else {
             //TODO: reflect in firebase
             acceptReqButton.setOnClickListener(v -> {
-                //TODO: Add pending list to User?
                 //Add to users followers
-                currentUser.getPendingList().remove(requestingUser);
-                currentUser.getFollowerList().add(requestingUser);
+                users.remove(requestingUser);       //Remove from the adapted list
+                //fire.delRequest(requestingUser);       //Remove from the pending list in firebase
+                fire.setFollowers(requestingUser);  //Add to the followers list in firebase
+                notifyDataSetChanged();
             });
             rejectReqButton.setOnClickListener(v -> {
-                currentUser.getPendingList().remove(requestingUser);
+                //fire.delUser(requestingUser);       //Remove from the pending list in firebase
             });
         }
         return view;
     }
-
-
-
-
-
 }
