@@ -3,6 +3,8 @@ package com.example.happyhabitapp;
 import static java.lang.Thread.sleep;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,6 +77,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onMarkerDragEnd(@NonNull Marker marker) {
                 latlng = marker.getPosition();
+                Log.d("testdrag", String.valueOf(latlng.latitude));
+                Log.d("testdrag", String.valueOf(latlng.longitude));
             }
 
             @Override
@@ -83,10 +87,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
         setLocationButton = findViewById(R.id.set_location_btn);
-        setLocationButton.setOnClickListener(new View.OnClickListener() {
+        setLocationButton.setOnClickListener(new View.OnClickListener() { // return latlng from marker to the HabitEventFragment
             @Override
             public void onClick(View v) {
-
+                Log.d("testlatlng", String.valueOf(latlng.latitude));
+                Log.d("testlatlng", String.valueOf(latlng.longitude));
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("latlng",latlng);
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
             }
         });
     }
