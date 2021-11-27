@@ -14,6 +14,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,11 +35,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FireBase {
+public class FireBase implements FirestoreCallback{
 
     private final String TAG = "FireBase";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    
 
 
     private String current_uid;
@@ -49,7 +52,7 @@ public class FireBase {
     private CollectionReference Followers = User.collection("Followers");
     private CollectionReference Followees = User.collection("Followees");
     private CollectionReference Requests = User.collection("Requests");
-
+    FirestoreCallback fireapi;
 
     /* Constructors */
     public FireBase() {}
@@ -155,6 +158,24 @@ public class FireBase {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "onFailure: could not add followees", e);
+                    }
+                });
+    }
+
+    public void setRequest(User user){
+        Requests
+                .document(user.getUsername())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                     }
                 });
     }
@@ -274,6 +295,22 @@ public class FireBase {
                 });
     }
 
+//    public void test(){
+//        HabitList.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()){
+//                    for (DocumentSnapshot doc: task.getResult()){
+//                        doc.getData();
+//                    }
+//                    Log.d(TAG, "onComplete: ");
+//                }else {
+//                    Log.e(TAG, "Error: ", task.getException());
+//                }
+//            }
+//        });
+//    }
+
 
     /**
      * this function get habit list and store in list
@@ -310,9 +347,12 @@ public class FireBase {
                             Log.d(TAG, String.valueOf(finalFreq[0]));
                             list.add(habit);
                         }
+                        fireapi.callHabitList(list);
                     }
                 });
     }
+
+
 
 
 
@@ -449,6 +489,15 @@ public class FireBase {
                         Log.e(TAG, "onFailure: couldn't delete event", e);
                     }
                 });
+    }
+
+    public void setApi(FirestoreCallback fireapi){
+        this.fireapi = fireapi;
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
     }
 }
 

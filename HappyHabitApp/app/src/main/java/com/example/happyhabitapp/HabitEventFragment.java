@@ -1,8 +1,12 @@
 package com.example.happyhabitapp;
 
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
+
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +38,7 @@ public class HabitEventFragment extends DialogFragment {
     private ImageView eventPhoto; // Optional image to be uploaded by the user showcasing their habit event
     private TextView dateDisplay; //Text displaying the date the event was done
     private Button addPhotoButton; // Button that enables user to upload or change the eventPhoto
+    private Button addLocationButton; // Button that enables user to add location to event
     private EditText eventTitle; // The title of the habit event
     private EditText eventReason; // an optional comment made by the user on the habit event
     private Spinner statusMenu; // drop down menu that enables user to select a status for the habit event
@@ -111,6 +118,7 @@ public class HabitEventFragment extends DialogFragment {
         eventPhoto = view.findViewById(R.id.habit_event_pic);
         dateDisplay = view.findViewById(R.id.display_event_date);
         addPhotoButton = view.findViewById(R.id.take_photo_btn);
+        addLocationButton = view.findViewById(R.id.add_location_btn);
         eventTitle = view.findViewById(R.id.habit_event_title);
         eventReason = view.findViewById(R.id.habit_event_reason);
         statusMenu = view.findViewById(R.id.status_menu);
@@ -138,6 +146,22 @@ public class HabitEventFragment extends DialogFragment {
 
         //Display date
         dateDisplay.setText(dateString);
+        addLocationButton.setOnClickListener(new View.OnClickListener() {
+             @RequiresApi(api = Build.VERSION_CODES.M)
+             @Override
+             public void onClick(View view) {
+
+                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+                     //request permission
+                     new MapDialogFragment().show(getChildFragmentManager(), null);
+                 } else {
+                     // already has permission so location is accessible
+                     CharSequence text = "Location access granted";
+                     int duration = Toast.LENGTH_SHORT;
+                     Toast toast = Toast.makeText(getContext(), text, duration);
+                     toast.show();
+                 }
+             }});
 
         // return user inputs
         return builder

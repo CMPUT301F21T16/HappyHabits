@@ -38,7 +38,9 @@ import java.util.List;
 //TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity
-        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, EditOrViewFragment.onFragmentInteractionListener{
+
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, FirestoreCallback, EditOrViewFragment.onFragmentInteractionListener{
+
 
     //Firebase-specific attributes
 
@@ -65,13 +67,15 @@ public class MergedDisplayActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
-
+        fire.setApi(this);
         fire.getHabitList(habitList);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
 
 
         //Eventually get from the login-screen. For now, make a dummy version.
@@ -173,17 +177,6 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
 
-    private void refresh(int milliseconds){
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                setAdapters();
-            }
-        };
-        handler.postDelayed(runnable,milliseconds);
-    }
-
     //---Display related methods---
 
 
@@ -200,7 +193,8 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
-        refresh(10000);
+
+
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -391,17 +385,26 @@ public class MergedDisplayActivity extends AppCompatActivity
         args.putSerializable("habit", habit);
         newFragment.setArguments(args);
         newFragment.show(getSupportFragmentManager(), "Edit Habit");
+    }
+
+
+
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+        setAdapters();
 
     }
 
-    /**
-     * Launches the HabitEvents Activity to allow user to view
-     * HabitEvents associated with a Habit
-     */
+        /**
+         * Launches the HabitEvents Activity to allow user to view
+         * HabitEvents associated with a Habit
+         */
     @Override
     public void goToEvents(Habit habit) {
         Intent eventActivity = new Intent( MergedDisplayActivity.this , HabitEventActivity.class);
         eventActivity.putExtra("habit", habit); // pass in the activity
         startActivity(eventActivity);
+
     }
 }
