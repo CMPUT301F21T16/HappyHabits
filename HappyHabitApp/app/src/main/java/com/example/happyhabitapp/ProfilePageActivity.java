@@ -20,6 +20,8 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     private ArrayList<User> followerList = new ArrayList<User>();
     private ArrayList<User> followeeList = new ArrayList<User>();       //To be passed into Firebase to get lists back
     private ArrayList<User> pendingRequests = new ArrayList<User>();
+    private Integer follower_num;
+    private Integer followee_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +31,12 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         fire.getFollowerList(followerList);
         fire.getFolloweeList(followeeList);
         fire.getRequestList(pendingRequests);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+
 
         //setPreliminaryInfo();
         setList();
+        setPreliminaryInfo();
         setButtons();
     }
 
@@ -48,10 +48,11 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         TextView usernameTextView = findViewById(R.id.profile_page_username);
         TextView followerCountTextView = findViewById(R.id.follower_count);
         TextView followCountTextView = findViewById(R.id.following_count);
-
         usernameTextView.setText(fire.getUsername());
-        followerCountTextView.setText(followerList.size()); //Get the count of the followers/followees
-        followCountTextView.setText(followeeList.size());
+        follower_num = followerList.size();
+        followee_num = followeeList.size();
+        followerCountTextView.setText(follower_num.toString()); //Get the count of the followers/followees
+        followCountTextView.setText(followee_num.toString());
     }
 
     /**
@@ -79,7 +80,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         LinearLayout followerButton = findViewById(R.id.follower_btn);
         followerButton.setOnClickListener(v -> {
             Intent followerIntent = new Intent(ProfilePageActivity.this, ViewUsersActivity.class);
-            followerIntent.putExtra("GET_FOLLOW_STATE", "followers");
+            followerIntent.putExtra("GET_FOLLOW_STATE", "Followers");
             startActivity(followerIntent);
         });
     }
@@ -92,7 +93,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         LinearLayout followingButton = findViewById(R.id.following_btn);
         followingButton.setOnClickListener(v -> {
             Intent followerIntent = new Intent(ProfilePageActivity.this, ViewUsersActivity.class);
-            followerIntent.putExtra("GET_FOLLOW_STATE", "following");
+            followerIntent.putExtra("GET_FOLLOW_STATE", "Following");
             startActivity(followerIntent);
         });
     }
@@ -138,5 +139,6 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     @Override
     public void callRequestList(ArrayList<User> requesters) {
         setList();
+        setPreliminaryInfo();
     }
 }

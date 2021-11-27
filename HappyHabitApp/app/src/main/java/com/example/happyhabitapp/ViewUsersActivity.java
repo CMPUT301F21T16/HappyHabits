@@ -10,22 +10,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class ViewUsersActivity extends AppCompatActivity {
+public class ViewUsersActivity extends AppCompatActivity implements FirestoreCallback{
 
 
     //TODO: Connect to firebase here
+
     String followState; //Whether followers or followees are to be listed.
     FollowsAdapter followsAdapter;
 
-    ArrayList<User> followerList;
-    ArrayList<User> followeeList;
+    ArrayList<User> followerList = new ArrayList<User>();
+    ArrayList<User> followeeList = new ArrayList<User>();
+    ListView followUsers;
 
     FireBase fire = new FireBase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fire.setApi(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_followers_followees);
+        followUsers = findViewById(R.id.user_list);
 
         Intent intent = getIntent();
         followState = intent.getStringExtra("GET_FOLLOW_STATE"); //Get what type of data is to be rendered
@@ -42,17 +46,18 @@ public class ViewUsersActivity extends AppCompatActivity {
         TextView listHeader = findViewById(R.id.following_or_followee);
 
         usernameTextView.setText(fire.getUsername());
-        listHeader.setText(followState.toUpperCase());
+        listHeader.setText(followState);
+
     }
 
     private void setList() {
-        if (followState.equals("followers")) {
+        if (followState.equals("Followers")) {
             followsAdapter = new FollowsAdapter(this, followerList, false);
         }
         else {
             followsAdapter = new FollowsAdapter(this, followeeList, false);
         }
-        ListView followUsers = findViewById(R.id.follow_req_list);
+
         followUsers.setAdapter(followsAdapter);
     }
 
@@ -62,5 +67,16 @@ public class ViewUsersActivity extends AppCompatActivity {
             Intent backIntent = new Intent(ViewUsersActivity.this, ProfilePageActivity.class);
             startActivity(backIntent);
         });
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callRequestList(ArrayList<User> requesters) {
+        setPreliminaryInfo();
+        setList();
     }
 }

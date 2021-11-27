@@ -256,6 +256,7 @@ public class FireBase implements FirestoreCallback{
                             Log.d(TAG, "onEvent: " + follower.getUsername());
                             list.add(follower);
                         }
+                        fireapi.callRequestList(list);
                     }
                 });
     }
@@ -276,26 +277,11 @@ public class FireBase implements FirestoreCallback{
                             Log.d(TAG, "onEvent: " + followee.getUsername());
                             list.add(followee);
                         }
+                        fireapi.callRequestList(list);
                     }
                 });
     }
-
-//    public void test(){
-//        HabitList.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()){
-//                    for (DocumentSnapshot doc: task.getResult()){
-//                        doc.getData();
-//                    }
-//                    Log.d(TAG, "onComplete: ");
-//                }else {
-//                    Log.e(TAG, "Error: ", task.getException());
-//                }
-//            }
-//        });
-//    }
-
+    
 
     /**
      * this function get habit list and store in list

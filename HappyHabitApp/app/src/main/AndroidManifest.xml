@@ -17,6 +17,10 @@
         android:windowSoftInputMode="stateHidden|adjustNothing"
         android:theme="@style/Theme.HappyHabitApp">
         <activity
+            android:name=".ViewUsersActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".HabitEventActivity"
             android:exported="true" />
         <activity
