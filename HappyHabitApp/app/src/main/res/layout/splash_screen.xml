@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/theme_secondary">
+
+    <ImageView
+        android:id="@+id/happy_habits_logo"
+        android:layout_width="382dp"
+        android:layout_height="359dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_happy_habits_logo_2" />
+
+    <TextView
+        android:id="@+id/app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/splash_title"
+        android:layout_gravity="center"
+        android:textColor="@color/theme_primary"
+        android:textSize="52sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/log_in_btn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/theme_primary"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textColor="@color/theme_secondary"
+        android:textSize="18sp"
+        app:cornerRadius="40dp"
+        tools:ignore="TextContrastCheck" />
+</LinearLayout>

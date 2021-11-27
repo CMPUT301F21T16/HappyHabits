@@ -43,11 +43,12 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@color/theme_primary"
+                    android:backgroundTint="@color/theme_primary"
                     android:gravity="center"
                     android:text="@string/go_to_edit_fragment_msg"
                     android:textColor="@color/theme_secondary"
                     android:textSize="18sp"
+                    app:cornerRadius="0dp"
                     tools:ignore="TextContrastCheck" />
 
                 <com.google.android.material.button.MaterialButton
@@ -57,11 +58,12 @@
                     android:layout_margin="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:background="@color/theme_primary"
+                    android:backgroundTint="@color/theme_primary"
                     android:gravity="center"
                     android:text="@string/go_to_view_activity_msg"
                     android:textColor="@color/theme_secondary"
                     android:textSize="18sp"
+                    app:cornerRadius="0dp"
                     tools:ignore="TextContrastCheck" />
 
             </LinearLayout>

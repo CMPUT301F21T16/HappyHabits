@@ -14,7 +14,7 @@
     <color name="button_text">#293f4e</color>
     <color name="theme_primary">#FF03B6CE</color>
     <color name="theme_primary_unselected">#D3A9FCFF</color>
-    <color name="theme_secondary">#F8F8F8</color>
+    <color name="theme_secondary">#FBFBFB</color>
     <color name="theme_bg">#FBFBFB</color>
     <color name="theme_bg_secondary">#FF5C5C5C</color>
     <color name="highlighted_entry">#FFABCDEF</color>
