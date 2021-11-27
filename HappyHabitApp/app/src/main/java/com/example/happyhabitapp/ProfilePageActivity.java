@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -94,7 +95,24 @@ public class ProfilePageActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Implements user send request functionality within the user "search bar"
+     */
+    private void setRequestSender() {
+        EditText requestContent = findViewById(R.id.req_to_username);
+        ImageView sendButton = findViewById(R.id.send_request);
 
+        sendButton.setOnClickListener(v -> {
+            String usernameRequested = requestContent.getText().toString();
 
-
+            //TODO: Implement following psuedocode, which adds the current user to reciever pending list if they exist
+           //if (username in firebase)
+            //   do: toast("request sent!")
+            //       User receiver = fire.getUser(username)
+            //       receiver.AddToPendingList(current user)
+            //else:
+            //   do: toast("that user doesn't exist!")
+            //
+        });
+    }
 }

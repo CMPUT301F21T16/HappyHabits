@@ -49,40 +49,44 @@
                     android:id="@+id/follow_request_username"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="5"
                     android:text="Username"
                     android:includeFontPadding="false"
                     android:gravity="center"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                     android:textColor="@color/theme_secondary"
-                    android:textSize="25dp" />
+                    android:textSize="24dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/accept_req_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/theme_secondary"
-                    android:gravity="center"
-                    android:text="Accept"
+                    android:layout_weight="2"
+                    app:backgroundTint="@color/theme_secondary"
+                    app:cornerRadius="0dp"
+                    android:layout_gravity="center"
+                    android:minWidth="0dp"
+                    android:text="Yes"
                     android:textColor="@color/theme_primary"
                     android:textSize="14sp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
+
+                    android:layout_marginRight="1dp"
                     tools:ignore="TextContrastCheck" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/reject_req_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/theme_secondary"
-                    android:gravity="center"
-                    android:text="Reject"
+                    android:layout_weight="2"
+                    app:backgroundTint="@color/theme_secondary"
+                    app:cornerRadius="0dp"
+                    android:minWidth="0dp"
+                    android:layout_gravity="center"
+                    android:text="No"
                     android:textColor="@color/theme_primary"
                     android:textSize="14sp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="1dp"
                     tools:ignore="TextContrastCheck" />
             </LinearLayout>
         </LinearLayout>

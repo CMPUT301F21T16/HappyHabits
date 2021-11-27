@@ -18,6 +18,7 @@
     <color name="theme_bg">#FBFBFB</color>
     <color name="theme_bg_secondary">#FF5C5C5C</color>
     <color name="highlighted_entry">#FFABCDEF</color>
+    <color name="transparent">#00000000</color>
 
     <!--  For use with the habit event status indicators  -->
     <color name="incomplete_red">#FF0A0A</color>

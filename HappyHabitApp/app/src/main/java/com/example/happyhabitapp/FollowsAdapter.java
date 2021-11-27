@@ -1,6 +1,7 @@
 package com.example.happyhabitapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +63,19 @@ public class FollowsAdapter extends ArrayAdapter<User> {
         if (!isAcceptable) {
             acceptReqButton.setVisibility(View.GONE);
             rejectReqButton.setVisibility(View.GONE);
+
+            //Set a listener to go to the user's dashboard instead
+            view.setOnClickListener(v -> {
+                //TODO: Pass the selected username to the dashboard
+
+                Intent toUserDashboard = new Intent(getContext(), MergedDisplayActivity.class);
+                toUserDashboard.putExtra("username", requestingUser.getUsername());
+                getContext().startActivity(toUserDashboard);
+            });
         }
-        //Otherwise attach listeners
+        //Otherwise attach listeners to accept/reject
         else {
+            //TODO: reflect in firebase
             acceptReqButton.setOnClickListener(v -> {
                 //TODO: Add pending list to User?
                 //Add to users followers

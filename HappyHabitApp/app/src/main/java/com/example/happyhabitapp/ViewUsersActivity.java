@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewUsersActivity extends AppCompatActivity {
 
-    //TODO: Add an attribute that tells whether header is "Followers" or is "Followees"
+
+    //TODO: Connect to firebase here
     String followState; //Whether followers or followees are to be listed.
     FollowsAdapter followsAdapter;
 
