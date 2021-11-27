@@ -1,9 +1,13 @@
 package com.example.happyhabitapp;
 
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
+
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -26,9 +30,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,9 +59,10 @@ public class HabitEventFragment extends DialogFragment {
     private OnFragmentInteractionListener listener; // listener for the FragmentListener interface
     private String addKey = "habit";
     private String editKey = "event";
-    private ActivityResultLauncher<Intent> getLocationFromMap;
-    private LatLng latlng;
-    private Boolean edit;
+    private ActivityResultLauncher<Intent> getLocationFromMap; //Launch activity to get location
+    private ActivityResultLauncher<String> requestPermissionLauncher; // request permissions
+    private LatLng latlng = null; // location of habit event
+    private Boolean edit; // if editing, true.
 
     /**
      * Denotes actions to be taken when the fragment is first created
@@ -147,6 +154,46 @@ public class HabitEventFragment extends DialogFragment {
                     }
                 });
 
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        // Permission is granted. Continue the action or workflow in your
+                        // app.
+                        Intent intent = new Intent(getContext(),MapActivity.class);
+                        intent.putExtra("latlng", latlng);
+                        intent.putExtra("edit",edit);
+                        getLocationFromMap.launch(intent);
+                    } else {
+                        // Explain to the user that the feature is unavailable because the
+                        // features requires a permission that the user has denied. At the
+                        // same time, respect the user's decision. Don't link to system
+                        // settings in an effort to convince the user to change their
+                        // decision.
+                        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setTitle("Location");
+                        alertDialog.setMessage("Location is needed if you would like to add it to your habit event, If denied, location will be disabled");
+
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,"allow",new DialogInterface.OnClickListener(){
+
+                            @RequiresApi(api = Build.VERSION_CODES.M)
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("test", String.valueOf(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)));
+                                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                            }
+                        });
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"deny",new DialogInterface.OnClickListener(){
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //disable location add button for habit event
+                                addLocationButton.setClickable(false);
+                                addLocationButton.setAlpha(.5f);
+                            }
+                        });
+                        alertDialog.show();
+                    }});
+
         return;
     }
 
@@ -171,10 +218,15 @@ public class HabitEventFragment extends DialogFragment {
              @RequiresApi(api = Build.VERSION_CODES.M)
              @Override
              public void onClick(View view) {
-                 Intent intent = new Intent(getContext(),MapActivity.class);
-                 intent.putExtra("latlng", latlng);
-                 intent.putExtra("edit",edit);
-                 getLocationFromMap.launch(intent);
+                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=  PERMISSION_GRANTED){
+                     requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                 }
+                 else{
+                     Intent intent = new Intent(getContext(),MapActivity.class);
+                     intent.putExtra("latlng", latlng);
+                     intent.putExtra("edit",edit);
+                     getLocationFromMap.launch(intent);
+                 }
              }});
 
                  // return user inputs
@@ -239,10 +291,15 @@ public class HabitEventFragment extends DialogFragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),MapActivity.class);
-                intent.putExtra("latlng", latlng);
-                intent.putExtra("edit",edit);
-                getLocationFromMap.launch(intent);
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=  PERMISSION_GRANTED){
+                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                }
+                else{
+                    Intent intent = new Intent(getContext(),MapActivity.class);
+                    intent.putExtra("latlng", latlng);
+                    intent.putExtra("edit",edit);
+                    getLocationFromMap.launch(intent);
+                }
             }});
 
         // Set visible fields to display current Event's attributes
