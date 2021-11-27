@@ -36,8 +36,8 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         fire.getFolloweeList(followeeList);
         fire.getRequestList(pendingRequests);
 
-        setList();
-        setPreliminaryInfo();
+//        setList();
+//        setPreliminaryInfo();
         setButtons();
         setRequestSender();
     }
@@ -121,25 +121,14 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
 
         sendButton.setOnClickListener(v -> {
             request_name = requestContent.getText().toString();
-
-            //TODO: Implement following psuedocode, which adds the current user to reciever pending list if they exist
-            //if (username in firebase)
-            //   do: toast("request sent!")
-            //       User receiver = fire.getUser(username)
-            //       receiver.AddToPendingList(current user)
-            //else:
-            //   do: toast("that user doesn't exist!")
-            //
             fire.hasUser(request_name, has_user);
+            requestContent.setText("");
 
 
 
         });
     }
 
-    protected void isUser(String name){
-        fire.sendRequest(name);
-    }
 
 
 

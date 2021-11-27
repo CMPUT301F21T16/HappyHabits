@@ -219,7 +219,7 @@ public class FireBase implements FirestoreCallback{
 
     public void sendRequest (String name){
         Map<String, Object> map = new HashMap<>();
-        map.put("Name", name);
+        map.put("Name", getUsername());
         DocumentReference other_user = getOtherUser(name);
         CollectionReference others_request = other_user.collection("Requests");
         others_request
@@ -388,6 +388,7 @@ public class FireBase implements FirestoreCallback{
                     User user = new User(requester_name);
                     requesters.add(user);
                 }
+//                Log.d(TAG, "onEvent: " + requesters.get(0).getUsername());
                 fireapi.callRequestList(requesters);
             }
         });
