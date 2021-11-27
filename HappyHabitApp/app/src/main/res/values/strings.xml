@@ -10,7 +10,7 @@
     <string name="go_to_view_activity_msg">View Events</string>
 
     <!-- List of statuses for habit event fragment -->
-    <string-array name ="statuses">
+    <string-array name="statuses">
         <item>Incomplete</item>
         <item>Complete</item>
         <item>In Progress</item>

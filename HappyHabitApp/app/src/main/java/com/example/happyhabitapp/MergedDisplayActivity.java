@@ -225,7 +225,7 @@ public class MergedDisplayActivity extends AppCompatActivity
     private void setListAdapter(){
 
 
-//        listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
+//      listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
         listAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
 
         listView = findViewById(R.id.todays_habits_list);
@@ -297,7 +297,6 @@ public class MergedDisplayActivity extends AppCompatActivity
         Button currentButton;
         Button otherButton;
 
-
         if (buttonSelected != mode) {        //Only trigger if the button isn't already selected
             if (mode == ALL) {
                currentButton = findViewById(R.id.todays_habits_btn);
@@ -324,12 +323,12 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void swapColor(Button current, Button other) {
         //De-select the current button
-        current.setBackgroundTintList(getResources().getColorStateList(R.color.theme_secondary));   //Different setter due to material button
-        current.setTextColor(getResources().getColor(R.color.theme_primary));
+        other.setBackgroundTintList(getResources().getColorStateList(R.color.theme_secondary));   //Different setter due to material button
+        other.setTextColor(getResources().getColor(R.color.theme_primary));
 
         //Select the other button
-        other.setBackgroundTintList(getResources().getColorStateList(R.color.theme_primary));
-        other.setTextColor(getResources().getColor(R.color.theme_secondary));
+        current.setBackgroundTintList(getResources().getColorStateList(R.color.theme_primary));
+        current.setTextColor(getResources().getColor(R.color.theme_secondary));
     }
 
     /**
