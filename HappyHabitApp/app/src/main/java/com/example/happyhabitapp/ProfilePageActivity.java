@@ -32,9 +32,6 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         fire.getFolloweeList(followeeList);
         fire.getRequestList(pendingRequests);
 
-
-
-        //setPreliminaryInfo();
         setList();
         setPreliminaryInfo();
         setButtons();
@@ -131,6 +128,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         });
     }
 
+    /* ===================================================================== Method for FirestoreCallback ========================================================================== */
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
 

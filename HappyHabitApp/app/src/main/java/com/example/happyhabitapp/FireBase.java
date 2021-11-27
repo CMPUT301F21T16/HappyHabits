@@ -57,7 +57,7 @@ public class FireBase implements FirestoreCallback{
     /* Constructors */
     public FireBase() {}
 
-    /* Functions to upload to database */
+    /* ========================================================== Functions to upload to database ================================================================== */
 
     /**
      * this function upload user's information to firebase
@@ -216,7 +216,7 @@ public class FireBase implements FirestoreCallback{
 //    }
 
 
-    /* getters */
+    /* ================================================================== Functions to Retrieve data from firebase ======================================================= */
 
     /**
      * This function will return the current userid
@@ -281,7 +281,6 @@ public class FireBase implements FirestoreCallback{
                     }
                 });
     }
-    
 
     /**
      * this function get habit list and store in list
@@ -324,9 +323,6 @@ public class FireBase implements FirestoreCallback{
 
 
 
-
-
-
     /**
      * this function get habit event list and store in list
      * @param list
@@ -349,7 +345,10 @@ public class FireBase implements FirestoreCallback{
                 });
     }
 
-
+    /**
+     * This function gets all the pending requests and store it in the passed in ArrayList
+     * @param requesters
+     */
     public void getRequestList(ArrayList<User> requesters){
         requesters.clear();
         final Map<String, Object>[] map = new Map[]{new HashMap<>()};
@@ -370,7 +369,7 @@ public class FireBase implements FirestoreCallback{
     }
 
 
-    /* delete data from firebase */
+    /* ======================================================================== Functions that delete data from firebase ============================================================================ */
 
     /**
      * this function delete user from users
@@ -481,6 +480,42 @@ public class FireBase implements FirestoreCallback{
                 });
     }
 
+    /**
+     * This function delete a pending request from requesting list
+     * @param requester
+     */
+    public void delRequst(User requester){
+        Requests
+                .document(requester.getUsername())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: deleted requester");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ", e);
+                    }
+                });
+    }
+
+    /* ======================================================== Functions that check status of data in the firebase ============================================================= */
+
+    public boolean hasUser(String name){
+        boolean has = false;
+
+        return has;
+    }
+
+
+    /* ============================================================================ CallBack Related Functions ================================================================== */
+    /**
+     * Implementing callBack to solve the syncing issue
+     * @param fireapi
+     */
     public void setApi(FirestoreCallback fireapi){
         this.fireapi = fireapi;
     }

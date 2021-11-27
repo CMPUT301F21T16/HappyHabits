@@ -77,13 +77,14 @@ public class FollowsAdapter extends ArrayAdapter<User> {
             //TODO: reflect in firebase
             acceptReqButton.setOnClickListener(v -> {
                 //Add to users followers
+                fire.delRequst(requestingUser);       //Remove from the pending list in firebase
                 users.remove(requestingUser);       //Remove from the adapted list
-                //fire.delRequest(requestingUser);       //Remove from the pending list in firebase
-                fire.setFollowers(requestingUser);  //Add to the followers list in firebase
+                fire.setFollowers(requestingUser);//Add to the followers list in firebase
                 notifyDataSetChanged();
             });
             rejectReqButton.setOnClickListener(v -> {
-                //fire.delUser(requestingUser);       //Remove from the pending list in firebase
+                fire.delRequst(requestingUser);//Remove from the pending list in firebase
+                users.remove(requestingUser);
             });
         }
         return view;
