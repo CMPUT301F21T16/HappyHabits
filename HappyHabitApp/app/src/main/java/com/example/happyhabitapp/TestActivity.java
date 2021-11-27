@@ -55,7 +55,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User followee = new User("john");
     User follower = new User("Hana");
     User requester = new User("Lol");
-    HabitEvent event1 = new HabitEvent(habit1, date, "DId this");
+//    HabitEvent event1 = new HabitEvent(habit1, date, "DId this");
 
 
 
@@ -73,7 +73,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fire.setFollowees(followee);
         fire.setFollowers(follower);
         fire.setRequest(requester);
-        fire.setHabitEventEvent(event1);
+
     }
 
     public void readDocument(View view){
