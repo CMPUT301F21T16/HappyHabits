@@ -75,7 +75,7 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
         setPreliminaryInfo();
         setList();
     }

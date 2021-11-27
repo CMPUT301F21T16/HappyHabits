@@ -404,7 +404,7 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
         return;
     }
 

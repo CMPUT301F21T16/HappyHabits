@@ -6,41 +6,26 @@
 
 package com.example.happyhabitapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, FirestoreCallback {
 
@@ -56,10 +41,9 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User followee = new User("john");
     User follower = new User("Hana");
     User requester = new User("Lol");
-
-    HabitEvent event1 = new HabitEvent(date, "Did something", 0,"DId this");
+    HabitEvent event1 = new HabitEvent(date, "Title", 0, "Description");
     boolean[] has = {false};
-
+    ArrayList<HabitEvent> events = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,19 +63,12 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fire.setFollowees(followee);
         fire.setFollowers(follower);
         fire.setRequest(requester);
+        fire.setHabitEventEvent(event1, habit1);
     }
 
     public void readDocument(View view){
-        fire.hasUser("lichild", has);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (has[0] == true){
-            Toast.makeText(this,"Has", Toast.LENGTH_SHORT).show();
-        }
         Toast.makeText(this,"Read", Toast.LENGTH_SHORT).show();
+        fire.getEventList(events, habit1);
 
     }
 
@@ -172,7 +149,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
 
     }
 

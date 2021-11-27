@@ -139,7 +139,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
         setList();
         setPreliminaryInfo();
     }
