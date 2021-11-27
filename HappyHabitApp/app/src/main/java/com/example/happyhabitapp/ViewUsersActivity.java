@@ -79,4 +79,9 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
         setPreliminaryInfo();
         setList();
     }
+
+    @Override
+    public boolean checkUser(boolean has) {
+        return has;
+    }
 }

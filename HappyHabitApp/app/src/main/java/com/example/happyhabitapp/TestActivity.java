@@ -43,11 +43,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, FirestoreCallback {
+
     ArrayList<String> test = new ArrayList<String>();
     FireBase fire = new FireBase();
     Calendar date = Calendar.getInstance();
     ArrayList<User> requesters = new ArrayList<User>();
-
     private final String TAG = "TestActivity";
     ArrayList<Habit> testHabLst = new ArrayList<Habit>();
     Calendar c = Calendar.getInstance();
@@ -58,16 +58,17 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User requester = new User("Lol");
 
     HabitEvent event1 = new HabitEvent(date, "Did something", 0,"DId this");
-
+    boolean has = true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fire.setApi(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         testHabLst.add(habit1);
         fire.setRequest(requester);
-        fire.getRequestList(requesters);
+        fire.hasUser("lichild");
 
 
 
@@ -81,8 +82,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     public void readDocument(View view){
-//        fire.getRequestList(requesters);
-        Toast.makeText(this,requesters.get(0).getUsername(), Toast.LENGTH_SHORT).show();
+        fire.hasUser("lichild");
+        if (has == true){
+            Toast.makeText(this,"Has", Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(this,"Read", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -165,5 +169,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @Override
     public void callRequestList(ArrayList<User> requesters) {
 
+    }
+
+    @Override
+    public boolean checkUser(boolean has) {
+        this.has = has;
+        return has;
     }
 }

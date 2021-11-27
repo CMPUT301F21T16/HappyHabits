@@ -22,6 +22,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -504,10 +505,47 @@ public class FireBase implements FirestoreCallback{
 
     /* ======================================================== Functions that check status of data in the firebase ============================================================= */
 
-    public boolean hasUser(String name){
-        boolean has = false;
+    /**
+     * check if the name is in the Users collection and change the boolean value through callBack
+     * @param name
+     */
+    public void hasUser(String name){
+        final boolean[] has = {false};
+        Users
+                .document(name)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            has[0] = true;
+                            if (has[0] == true){
+                                Log.d(TAG, "onSuccess: yes");
+                            }
+                        }
+                        fireapi.checkUser(has[0]);
+                    }
+                });
+    }
 
-        return has;
+    /* ================================================================================== Special Helper Functions ============================================================ */
+
+    /**
+     * function to get other user's document reference, used when viewing public habits
+     * @param name
+     * @return DocumentReference
+     */
+    public DocumentReference getOtherUser (String name){
+        return Users.document(name);
+    }
+
+    /**
+     * function to get other user's habit list collection reference, used when viewing public habits
+     * @param otherUser
+     * @return CollectionReference 
+     */
+    public CollectionReference getOtherHabits (DocumentReference otherUser){
+        return otherUser.collection("HabitList");
     }
 
 
@@ -528,6 +566,11 @@ public class FireBase implements FirestoreCallback{
     @Override
     public void callRequestList(ArrayList<User> requesters) {
 
+    }
+
+    @Override
+    public boolean checkUser(boolean has) {
+        return has;
     }
 }
 

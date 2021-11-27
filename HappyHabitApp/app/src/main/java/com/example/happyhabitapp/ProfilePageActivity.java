@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     private ArrayList<User> pendingRequests = new ArrayList<User>();
     private Integer follower_num;
     private Integer followee_num;
+    private boolean has_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +127,14 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
             //else:
             //   do: toast("that user doesn't exist!")
             //
+            fire.hasUser(usernameRequested);
+            if (has_user){
+
+            }else{
+                Toast.makeText(this, "User Doesn't Exits!", Toast.LENGTH_SHORT).show();
+            }
+
+
         });
     }
 
@@ -138,5 +148,11 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     public void callRequestList(ArrayList<User> requesters) {
         setList();
         setPreliminaryInfo();
+    }
+
+    @Override
+    public boolean checkUser(boolean has) {
+        has_user = has;
+        return has;
     }
 }

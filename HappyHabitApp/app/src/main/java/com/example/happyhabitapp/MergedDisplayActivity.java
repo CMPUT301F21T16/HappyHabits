@@ -406,6 +406,11 @@ public class MergedDisplayActivity extends AppCompatActivity
         return;
     }
 
+    @Override
+    public boolean checkUser(boolean has) {
+        return has;
+    }
+
     /**
          * Launches the HabitEvents Activity to allow user to view
          * HabitEvents associated with a Habit
