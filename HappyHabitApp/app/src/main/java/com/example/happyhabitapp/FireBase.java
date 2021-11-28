@@ -326,7 +326,7 @@ public class FireBase implements FirestoreCallback{
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
-                        Log.d(TAG, "onEvent: getting Habits");
+//                        Log.d(TAG, "onEvent: getting Habits");
                         for (QueryDocumentSnapshot doc: value){
                             map[0] = doc.getData();
                             // get title
@@ -390,10 +390,13 @@ public class FireBase implements FirestoreCallback{
 
                             if (temp_stat == 0){
                                 final_stat[0] = 0;
+                                Log.d(TAG, "onEvent: 0");
                             } else if (temp_stat == 1){
                                 final_stat[0] = 1;
+                                Log.d(TAG, "onEvent: 1");
                             }else if (temp_stat == 2){
                                 final_stat[0] = 2;
+                                Log.d(TAG, "onEvent: 2");
                             }
                             // get description
                             String description = (String) map[0].get("Description");

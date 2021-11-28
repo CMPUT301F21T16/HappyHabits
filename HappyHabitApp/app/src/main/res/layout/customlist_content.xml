@@ -91,11 +91,11 @@
                     <ProgressBar
                         android:id="@+id/progress_bar"
                         style="?android:attr/progressBarStyle"
-                        android:indeterminate="true"
+                        android:indeterminate="false"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:indeterminateTint="@color/progress_indicator"
+                        android:indeterminateTint="@color/progress_indicator_low"
                         android:layout_margin="3dp"/>
                     <TextView
                         android:id="@+id/progress_text"
