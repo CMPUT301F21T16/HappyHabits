@@ -224,7 +224,7 @@ public class FireBase implements FirestoreCallback{
 
     /**
      * Send request to certain user
-     * @param name
+     * @param name the person send request to
      */
     public void sendRequest (String name){
         Map<String, Object> map = new HashMap<>();
@@ -275,7 +275,7 @@ public class FireBase implements FirestoreCallback{
 
     /**
      * this function get follower list and store in list
-     * @param list
+     * @param list list to store the followers
      */
     public void getFollowerList(ArrayList<User> list){
 
@@ -297,7 +297,7 @@ public class FireBase implements FirestoreCallback{
 
     /**
      * this function get followee list and store in list
-     * @param list
+     * @param list list to store the followees
      */
     public void getFolloweeList(ArrayList<User> list){
         ArrayList<String> followees = new ArrayList<>();
@@ -339,7 +339,7 @@ public class FireBase implements FirestoreCallback{
 
     /**
      * this function get habit list and store in list
-     * @param list
+     * @param list list to store the habits
      */
     public void getHabitList(ArrayList<Habit> list){
         list.clear();
@@ -383,10 +383,10 @@ public class FireBase implements FirestoreCallback{
     }
 
 
-
     /**
-     * this function get habit event list and store in list
-     * @param list
+     * this function get habitevents of a habit and store it in the list
+     * @param list list to store the events
+     * @param habit the habit of the events
      */
     public void getEventList(ArrayList<HabitEvent> list, Habit habit){
         final Map<String, Object>[] map = new Map[]{new HashMap<>()};
@@ -450,7 +450,7 @@ public class FireBase implements FirestoreCallback{
 
     /**
      * This function gets all the pending requests and store it in the passed in ArrayList
-     * @param requesters
+     * @param requesters list to store the users in request pending list
      */
     public void getRequestList(ArrayList<User> requesters){
         requesters.clear();
@@ -470,6 +470,121 @@ public class FireBase implements FirestoreCallback{
                 fireapi.callUserList(requesters);
             }
         });
+    }
+
+    /**
+     * get the other people's public habit
+     * @param name the other user's name
+     * @param list list to store the habits
+     */
+    public void getOthersHabit(String name, ArrayList<Habit> list){
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
+        Users
+                .document(name)
+                .collection("HabitList")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        for (QueryDocumentSnapshot doc: value){
+                            map[0] = doc.getData();
+                            // get title
+                            String title = (String) map[0].get("Title");
+                            // get reason
+                            String reason = (String) map[0].get("Reason");
+                            // get week_freq
+                            List<Long> freq = (List<Long>) map[0].get("Days");
+                            int[] finalFreq = new int[freq.size()];
+                            for (int i = 0; i<freq.size(); i++){
+                                //Long l = new Long(freq[i]);
+                                finalFreq[i] = freq.get(i).intValue();
+                            }
+                            // get date
+                            Map<String, Object> dates = (Map<String, Object>) map[0].get("Dates");
+                            Timestamp createDate = (Timestamp) dates.get("time");
+                            Date cal = createDate.toDate();
+                            Calendar finalDate  = Calendar.getInstance();
+                            finalDate.setTime(cal);
+                            // get public status
+                            boolean pub = (boolean) map[0].get("Public");
+                            // construct habit and add to list
+                            Habit habit = new Habit(title, reason, finalDate, finalFreq, pub, null);
+                            Log.d(TAG, String.valueOf(finalFreq[0]));
+                            if (habit.getPublicHabit()){
+                                list.add(habit);
+                            }
+                        }
+                        fireapi.callHabitList(list);
+                    }
+                });
+    }
+
+    /**
+     * get the other's selected habit's habit events
+     * @param name the other user's name
+     * @param list list to store the events
+     * @param habit the habit for the events
+     */
+    public void getOthersEvent (String name, ArrayList<HabitEvent> list, Habit habit){
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
+        final int[] final_stat = new int[1];
+        Users
+                .document(name)
+                .collection("HabitList")
+                .document(habit.getTitle())
+                .collection("Events")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        list.clear();
+                        Log.d(TAG, "onEvent: getting Habit events");
+                        for (QueryDocumentSnapshot doc: value){
+                            map[0] = doc.getData();
+                            // get date
+                            Map<String, Object> dates = (Map<String , Object>) map[0].get("Date");
+                            Timestamp createDate = (Timestamp) dates.get("time");
+                            Date cal = createDate.toDate();
+                            Calendar finalDate = Calendar.getInstance();
+                            finalDate.setTime(cal);
+                            // get title
+                            String title = (String) map[0].get("Title");
+                            //get status
+                            Long temp_stat = (Long) map[0].get("Status");
+
+                            if (temp_stat == 0){
+                                final_stat[0] = 0;
+                                Log.d(TAG, "onEvent: 0");
+                            } else if (temp_stat == 1){
+                                final_stat[0] = 1;
+                                Log.d(TAG, "onEvent: 1");
+                            }else if (temp_stat == 2){
+                                final_stat[0] = 2;
+                                Log.d(TAG, "onEvent: 2");
+                            }
+                            // get description
+                            String description = (String) map[0].get("Description");
+                            // get picPath
+                            String picPath = (String) map[0].get("picPath");
+                            // get location
+                            Long longitude = (Long) map[0].get("longitude");
+                            Long latitude = (Long) map[0].get("latitude");
+                            if (latitude == null || longitude == null){
+                                Log.d(TAG, "onEvent: null~");
+                                // if no location selected use constructor without location
+                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath);
+                                list.add(event);
+                            }else {
+                                // if location is selected use full constructor
+                                double final_longitude = longitude.doubleValue();
+                                double final_latitude = latitude.doubleValue();
+                                com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(final_latitude, final_longitude);
+                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath, location);
+                                list.add(event);
+                            }
+                        }
+                        fireapi.callEventList(list);
+                    }
+                });
     }
 
 
