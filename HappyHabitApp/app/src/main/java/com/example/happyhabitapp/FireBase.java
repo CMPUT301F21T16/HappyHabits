@@ -63,8 +63,11 @@ public class FireBase implements FirestoreCallback{
      */
 
     public void setUser(User user) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("DisplayName", user.getUsername());
+        map.put("UID", getCurrent_uid());
         User
-                .set(user)
+                .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -367,7 +370,7 @@ public class FireBase implements FirestoreCallback{
                             Calendar finalDate  = Calendar.getInstance();
                             finalDate.setTime(cal);
                             // get public status
-                            boolean pub = (boolean) map[0].get("Public");
+                            boolean pub = (boolean) map[0].get("public");
                             // construct habit and add to list
                             Habit habit = new Habit(title, reason, finalDate, finalFreq, pub, null);
                             Log.d(TAG, String.valueOf(finalFreq[0]));
@@ -500,7 +503,7 @@ public class FireBase implements FirestoreCallback{
                             Calendar finalDate  = Calendar.getInstance();
                             finalDate.setTime(cal);
                             // get public status
-                            boolean pub = (boolean) map[0].get("Public");
+                            boolean pub = (boolean) map[0].get("public");
                             // construct habit and add to list
                             Habit habit = new Habit(title, reason, finalDate, finalFreq, pub, null);
                             Log.d(TAG, String.valueOf(finalFreq[0]));
@@ -723,6 +726,7 @@ public class FireBase implements FirestoreCallback{
      * @param name
      */
     public void hasUser(String name, boolean[] has){
+
         has[0] = false;
         Users
                 .document(name)
@@ -746,6 +750,21 @@ public class FireBase implements FirestoreCallback{
                     }
                 });
     }
+
+//    public void displayNameExists(String name, boolean has[]){
+//        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
+//        has[0] = false;
+//        Users.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                for (QueryDocumentSnapshot doc : value){
+//                    map[0] = doc.getData();
+//                    String name = (String) map[0].get("DisplayName");
+//
+//                }
+//            }
+//        });
+//    }
 
     /* ================================================================================== Special Helper Functions ============================================================ */
 

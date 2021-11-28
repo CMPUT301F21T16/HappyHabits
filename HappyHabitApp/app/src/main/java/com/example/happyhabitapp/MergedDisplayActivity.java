@@ -61,6 +61,8 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     private FireBase fire = new FireBase(); // FireBase
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         User user = new User(fire.getUserName());
