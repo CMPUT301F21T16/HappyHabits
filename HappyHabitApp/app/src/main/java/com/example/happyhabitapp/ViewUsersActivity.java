@@ -69,6 +69,8 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
         });
     }
 
+
+
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
 

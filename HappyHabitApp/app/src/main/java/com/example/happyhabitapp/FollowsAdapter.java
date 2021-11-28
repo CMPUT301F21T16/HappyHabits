@@ -67,7 +67,7 @@ public class FollowsAdapter extends ArrayAdapter<User> {
             view.setOnClickListener(v -> {
                 //TODO: Pass the selected username to the dashboard
 
-                Intent toUserDashboard = new Intent(getContext(), MergedDisplayActivity.class);
+                Intent toUserDashboard = new Intent(getContext(), FollowerHabitsActivity.class);
                 toUserDashboard.putExtra("username", requestingUser.getUsername());
                 getContext().startActivity(toUserDashboard);
             });

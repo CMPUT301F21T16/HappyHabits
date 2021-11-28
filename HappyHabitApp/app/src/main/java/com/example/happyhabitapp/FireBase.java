@@ -485,6 +485,7 @@ public class FireBase implements FirestoreCallback{
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        Log.d(TAG, "onEvent: getting other's habits");
                         list.clear();
                         for (QueryDocumentSnapshot doc: value){
                             map[0] = doc.getData();

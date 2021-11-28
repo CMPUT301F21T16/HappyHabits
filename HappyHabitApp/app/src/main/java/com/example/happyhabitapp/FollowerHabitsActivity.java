@@ -1,13 +1,14 @@
 package com.example.happyhabitapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +18,7 @@ import java.util.Calendar;
  * This class represents the dashboard of a follower, which is view-only
  * It is similar to the standard Dashboard activity.
  */
-public class FollowerHabitsActivity extends AppCompatActivity {
+public class FollowerHabitsActivity extends AppCompatActivity implements FirestoreCallback{
 
     private int TODAY = 0;         //Constants for changing the display type
     private int ALL= 1;
@@ -25,18 +26,29 @@ public class FollowerHabitsActivity extends AppCompatActivity {
 
 
     //TODO: Add onClickListener to each item to view events
+    private FireBase fire = new FireBase();
     private DashboardAdapter todaysHabitsAdapter;
     private DashboardAdapter allHabitsAdapter;   //For the view of today's habits (view only)
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
 
     private ListView todaysHabitsView;              //Preserve information on visibility swaps
     private ListView allHabitsView;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fire.setApi(this);
         super.onCreate(savedInstanceState);
+        Bundle extra = getIntent().getExtras();
+        if (extra != null){
+            username = extra.getString("username");
+        }
+        fire.getOthersHabit(username, habitList);
         setContentView(R.layout.activity_follower_habits);
-        setListAdapters();
+//        setListAdapters();
+        setButtons();
+        setUsername();
+
     }
 
     /**
@@ -96,14 +108,14 @@ public class FollowerHabitsActivity extends AppCompatActivity {
 
         if (buttonSelected != mode) {        //Only trigger if the button isn't already selected
             if (mode == ALL) {
-                currentButton = findViewById(R.id.todays_habits_btn);
-                otherButton = findViewById(R.id.all_habits_btn);
+                currentButton = findViewById(R.id.follower_todays_habits_btn);
+                otherButton = findViewById(R.id.follower_all_habits_btn);
                 todaysHabitsView.setVisibility(View.INVISIBLE);                  //Hide the listview, show the recycler view.
                 allHabitsView.setVisibility(View.VISIBLE);
             }
             else {
-                currentButton = findViewById(R.id.all_habits_btn);
-                otherButton = findViewById(R.id.todays_habits_btn);
+                currentButton = findViewById(R.id.follower_all_habits_btn);
+                otherButton = findViewById(R.id.follower_todays_habits_btn);
                 todaysHabitsView.setVisibility(View.VISIBLE);                    //Hide the recycler, show the list view.
                 allHabitsView.setVisibility(View.INVISIBLE);
             }
@@ -152,4 +164,34 @@ public class FollowerHabitsActivity extends AppCompatActivity {
         return todaysHabits;
     }
 
+    /**
+     * set the header view for activity
+     */
+    private void setUsername() {
+        TextView usernameTextView = findViewById(R.id.follower_dashboard_title);
+
+        String headerContent = username;
+
+        usernameTextView.setText(headerContent+"'s Habits");
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+        setListAdapters();
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+
+    }
 }

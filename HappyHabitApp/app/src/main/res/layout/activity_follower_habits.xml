@@ -64,7 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3.5"
                 android:gravity="center"
-                android:textSize="28sp"
+                android:textSize="22sp"
                 android:paddingLeft="10dp"
                 android:text="Username's Habits"
                 android:textColor="@color/theme_secondary"/>
