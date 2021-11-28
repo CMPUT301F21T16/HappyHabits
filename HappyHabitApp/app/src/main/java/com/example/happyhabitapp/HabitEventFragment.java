@@ -3,12 +3,14 @@ package com.example.happyhabitapp;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +35,10 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -61,6 +67,7 @@ public class HabitEventFragment extends DialogFragment {
     private String editKey = "event";
     private ActivityResultLauncher<Intent> getLocationFromMap; //Launch activity to get location
     private ActivityResultLauncher<String> requestPermissionLauncher; // request permissions
+    LocationCallback mLocationCallback; // start location polling
     private LatLng latlng = null; // location of habit event
     private Boolean edit; // if editing, true.
 
@@ -193,6 +200,15 @@ public class HabitEventFragment extends DialogFragment {
                         });
                         alertDialog.show();
                     }});
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                }
+            };
+
 
         return;
     }
@@ -215,6 +231,7 @@ public class HabitEventFragment extends DialogFragment {
         edit = false;
 
         addLocationButton.setOnClickListener(new View.OnClickListener() {
+             @SuppressLint("MissingPermission")
              @RequiresApi(api = Build.VERSION_CODES.M)
              @Override
              public void onClick(View view) {
@@ -222,6 +239,14 @@ public class HabitEventFragment extends DialogFragment {
                      requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
                  }
                  else{
+                     // start getting location updates
+                     LocationRequest mLocationRequest = LocationRequest.create();
+                     mLocationRequest.setInterval(60000);
+                     mLocationRequest.setFastestInterval(5000);
+                     mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+                     LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+
                      Intent intent = new Intent(getContext(),MapActivity.class);
                      intent.putExtra("latlng", latlng);
                      intent.putExtra("edit",edit);
@@ -288,6 +313,7 @@ public class HabitEventFragment extends DialogFragment {
         edit = true;
 
         addLocationButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
@@ -295,6 +321,13 @@ public class HabitEventFragment extends DialogFragment {
                     requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
                 }
                 else{
+                    LocationRequest mLocationRequest = LocationRequest.create();
+                    mLocationRequest.setInterval(60000);
+                    mLocationRequest.setFastestInterval(5000);
+                    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+                    LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+
                     Intent intent = new Intent(getContext(),MapActivity.class);
                     intent.putExtra("latlng", latlng);
                     intent.putExtra("edit",edit);
