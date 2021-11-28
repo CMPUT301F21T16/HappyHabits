@@ -419,6 +419,7 @@ public class FireBase implements FirestoreCallback{
                                 list.add(event);
                             }
                         }
+                        fireapi.callEventList(list);
                     }
                 });
     }
