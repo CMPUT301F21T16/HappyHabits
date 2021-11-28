@@ -63,7 +63,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fire.setFollowees(followee);
         fire.setFollowers(follower);
         fire.setRequest(requester);
-        fire.setHabitEventEvent(event1, habit1);
+
     }
 
     public void readDocument(View view){

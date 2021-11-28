@@ -187,7 +187,7 @@ public class FireBase implements FirestoreCallback{
      * @param event (HabitEvent class object)
      */
 
-    public void setHabitEventEvent(HabitEvent event, Habit about) {
+    public void setHabitEvent(HabitEvent event, Habit about) {
 
 
 
