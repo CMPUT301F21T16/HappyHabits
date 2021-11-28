@@ -65,7 +65,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             currLocationButton.setVisibility(View.VISIBLE);
             Bundle bundle = getIntent().getExtras();
             latlng = bundle.getParcelable("latlng");
-            addMarker(googleMap);
+
+            // an existing HabitEvent may not have location data, so we check for null
+            if (latlng == null) {
+                // the event had no location data
+                getLastLocation(googleMap);
+            } else {
+                // the event did have location data
+                addMarker(googleMap);
+            }
+
         }
     }
     public void addMarker(GoogleMap googleMap){
