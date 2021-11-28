@@ -1,13 +1,21 @@
 package com.example.happyhabitapp;
 
-import android.app.Activity;
+import static android.app.Activity.RESULT_OK;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,19 +27,39 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the class for the Habit Event Fragment
@@ -39,6 +67,8 @@ import java.util.Calendar;
  * for a new Habit Event
  */
 public class HabitEventFragment extends DialogFragment {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     // Attributes
     private ImageView eventPhoto; // Optional image to be uploaded by the user showcasing their habit event
@@ -56,6 +86,7 @@ public class HabitEventFragment extends DialogFragment {
     private ActivityResultLauncher<Intent> getLocationFromMap;
     private LatLng latlng;
     private Boolean edit;
+    String currentPhotoPath;
 
     /**
      * Denotes actions to be taken when the fragment is first created
@@ -137,17 +168,18 @@ public class HabitEventFragment extends DialogFragment {
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusMenu.setAdapter(statusAdapter);
 
+        addPhotoButton.setOnClickListener(view -> dispatchTakePictureIntent());
+
+
         getLocationFromMap = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getResultCode() == RESULT_OK) {
                         Intent intent = result.getData();
                         latlng = intent.getExtras().getParcelable("latlng");
                         Log.d("testReceive", String.valueOf(latlng.latitude));
                         Log.d("testReceive", String.valueOf(latlng.longitude));
                     }
                 });
-
-        return;
     }
 
     /**
@@ -293,7 +325,6 @@ public class HabitEventFragment extends DialogFragment {
 
     }
 
-
     /**
      * Translates the possible selectable statuses into the corresponding
      * integers to be passed into the Habit Event
@@ -345,6 +376,59 @@ public class HabitEventFragment extends DialogFragment {
         return;
     }
 
+    /**
+     * Start the camera by dispatching a camera intent.
+     */
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        // Ensure that the camera is functional and available to use
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
 
+    /**
+     * The activity returns with the photo.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            eventPhoto.setImageBitmap(imageBitmap);
+            encodeBitmapAndSaveToFirebase(imageBitmap);
+        } else {
+            Toast.makeText(getActivity(), "Image Capture Failed", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        FireBase fire = new FireBase();
+
+        /* Will Have to cahnge this so it will be in our firebase class
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("test").document("test1");
+
+        Map<String,String> map = new HashMap<>();
+        map.put("EncodedImage",imageEncoded);
+        ref
+                .set(map)
+                .addOnSuccessListener(unused -> Log.d("TEST", "onSuccess: user added to fire"))
+                .addOnFailureListener(e -> Log.e("TEST", "onFailure: could not add user", e));
+
+         */
+    }
+
+    public Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+    }
 }
