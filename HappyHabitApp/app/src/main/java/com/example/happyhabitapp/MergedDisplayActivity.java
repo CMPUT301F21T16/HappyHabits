@@ -66,6 +66,8 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        User user = new User(fire.getUsername());
+        fire.setUser(user);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
         fire.setApi(this);
@@ -401,8 +403,13 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
         return;
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
     }
 
     /**

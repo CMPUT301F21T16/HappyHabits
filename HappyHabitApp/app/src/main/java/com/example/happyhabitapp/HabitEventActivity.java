@@ -1,16 +1,16 @@
 package com.example.happyhabitapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,6 +45,7 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
         //---- For testing only (delete after) ----
         int[] weekFreq = {1,1,1,1,1,1,1,1};
+        passedInHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true, events);
 
         HabitEvent event1 = new HabitEvent(null, "Dinner", 0, "Turkey Dinner Yum");
         HabitEvent event2 = new HabitEvent(null, "Lunch", 1, "Starved this time :(");
@@ -53,7 +54,6 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
         events = new ArrayList<HabitEvent>();
         events.add(event1); events.add(event2); events.add(event3);
 
-        passedInHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true, events);
 
         //----- END TEST -----
         setContentView(R.layout.habit_event_activity);

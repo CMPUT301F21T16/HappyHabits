@@ -14,7 +14,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,6 +21,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -187,33 +187,64 @@ public class FireBase implements FirestoreCallback{
      * @param event (HabitEvent class object)
      */
 
-//    public void setHabitEventEvent(HabitEvent event) {
-//
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("About", event.getHabit().getTitle());
-//        map.put("Date", event.getEvent_date());
-//        map.put("picPath", event.getPic_path());
-//        map.put("location", event.getLocation());
-//        map.put("description", event.getDescription());
-//
-//        HabitList
-//                .document(event.getHabit().getTitle())
-//                .collection("Events")
-//                .document(event.getTitle())
-//                .set(map)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        Log.d(TAG, "onSuccess: added event to fire");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.e(TAG, "onFailure: could not add event", e);
-//                    }
-//                });
-//    }
+    public void setHabitEventEvent(HabitEvent event, Habit about) {
+
+
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("About", about.getTitle());
+        map.put("Title", event.getTitle());
+        map.put("Date", event.getEvent_date());
+        map.put("picPath", event.getPic_path());
+        if (event.getLocation() != null){
+            map.put("longitude", event.getLocation().longitude);
+            map.put("latitude", event.getLocation().latitude);
+        }
+        map.put("Description", event.getDescription());
+        map.put("Status", event.getStatus());
+
+        HabitList
+                .document(about.getTitle())
+                .collection("Events")
+                .document(event.getTitle())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: added event to fire");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: could not add event", e);
+                    }
+                });
+    }
+
+
+    public void sendRequest (String name){
+        Map<String, Object> map = new HashMap<>();
+        map.put("Name", getUsername());
+        DocumentReference other_user = getOtherUser(name);
+        CollectionReference others_request = other_user.collection("Requests");
+        others_request
+                .document(getUsername())
+                .set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: request sent");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: ", e);
+                    }
+                });
+
+    }
 
 
     /* ================================================================== Functions to Retrieve data from firebase ======================================================= */
@@ -256,7 +287,7 @@ public class FireBase implements FirestoreCallback{
                             Log.d(TAG, "onEvent: " + follower.getUsername());
                             list.add(follower);
                         }
-                        fireapi.callRequestList(list);
+                        fireapi.callUserList(list);
                     }
                 });
     }
@@ -277,7 +308,7 @@ public class FireBase implements FirestoreCallback{
                             Log.d(TAG, "onEvent: " + followee.getUsername());
                             list.add(followee);
                         }
-                        fireapi.callRequestList(list);
+                        fireapi.callUserList(list);
                     }
                 });
     }
@@ -295,23 +326,29 @@ public class FireBase implements FirestoreCallback{
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
+                        Log.d(TAG, "onEvent: getting Habits");
                         for (QueryDocumentSnapshot doc: value){
-                            Log.d(TAG, "onEvent: getting Habits");
                             map[0] = doc.getData();
+                            // get title
                             String title = (String) map[0].get("Title");
+                            // get reason
                             String reason = (String) map[0].get("Reason");
+                            // get week_freq
                             List<Long> freq = (List<Long>) map[0].get("Days");
                             int[] finalFreq = new int[freq.size()];
                             for (int i = 0; i<freq.size(); i++){
                                 //Long l = new Long(freq[i]);
                                 finalFreq[i] = freq.get(i).intValue();
                             }
+                            // get date
                             Map<String, Object> dates = (Map<String, Object>) map[0].get("Dates");
                             Timestamp createDate = (Timestamp) dates.get("time");
                             Date cal = createDate.toDate();
                             Calendar finalDate  = Calendar.getInstance();
                             finalDate.setTime(cal);
+                            // get public status
                             boolean pub = (boolean) map[0].get("Public");
+                            // construct habit and add to list
                             Habit habit = new Habit(title, reason, finalDate, finalFreq, pub, null);
                             Log.d(TAG, String.valueOf(finalFreq[0]));
                             list.add(habit);
@@ -328,6 +365,7 @@ public class FireBase implements FirestoreCallback{
      * @param list
      */
     public void getEventList(ArrayList<HabitEvent> list, Habit habit){
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
         HabitList
                 .document(habit.getTitle())
                 .collection("Events")
@@ -335,11 +373,33 @@ public class FireBase implements FirestoreCallback{
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
+                        Log.d(TAG, "onEvent: getting Habit events");
                         for (QueryDocumentSnapshot doc: value){
-                            Log.d(TAG, "onEvent: getting Habit events");
-                            HabitEvent event = doc.toObject(HabitEvent.class);
-                            Log.d(TAG, "onEvent: " + event.getTitle());
-                            list.add(event);
+                            map[0] = doc.getData();
+                            // get date
+                            Map<String, Object> dates = (Map<String , Object>) map[0].get("Date");
+                            Timestamp createDate = (Timestamp) dates.get("time");
+                            Date cal = createDate.toDate();
+                            Calendar finalDate = Calendar.getInstance();
+                            finalDate.setTime(cal);
+                            // get title
+                            String title = (String) map[0].get("Title");
+                            //get status
+                            Long temp_stat = (Long) map[0].get("Status");
+                            if (temp_stat == 0){
+                                Log.d(TAG, "onEvent: got status");
+                            }
+//                            int final_stat = temp_stat.intValue();
+                            // get description
+                            String description = (String) map[0].get("Description");
+                            // get picPath
+                            String picPath = (String) map[0].get("picPath");
+                            // get location
+                            Long longitude = (Long) map[0].get("longitude");
+                            Long latitude = (Long) map[0].get("latitude");
+                            if (latitude == null || longitude == null){
+                                Log.d(TAG, "onEvent: null~");
+                            }
                         }
                     }
                 });
@@ -363,10 +423,13 @@ public class FireBase implements FirestoreCallback{
                     User user = new User(requester_name);
                     requesters.add(user);
                 }
-                fireapi.callRequestList(requesters);
+//                Log.d(TAG, "onEvent: " + requesters.get(0).getUsername());
+                fireapi.callUserList(requesters);
             }
         });
     }
+
+
 
 
     /* ======================================================================== Functions that delete data from firebase ============================================================================ */
@@ -504,11 +567,40 @@ public class FireBase implements FirestoreCallback{
 
     /* ======================================================== Functions that check status of data in the firebase ============================================================= */
 
-    public boolean hasUser(String name){
-        boolean has = false;
-
-        return has;
+    /**
+     * check if the name is in the Users collection and change the boolean value through callBack
+     * @param name
+     */
+    public void hasUser(String name, boolean[] has){
+        has[0] = false;
+        Users
+                .document(name)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            has[0] = true;
+                            if (has[0] == true){
+                                Log.d(TAG, "onSuccess: yes");
+                            }
+                        }
+                        fireapi.checkUser(has);
+                    }
+                });
     }
+
+    /* ================================================================================== Special Helper Functions ============================================================ */
+
+    /**
+     * function to get other user's document reference, used when viewing public habits
+     * @param name
+     * @return DocumentReference
+     */
+    public DocumentReference getOtherUser (String name){
+        return Users.document(name);
+    }
+
 
 
     /* ============================================================================ CallBack Related Functions ================================================================== */
@@ -526,8 +618,14 @@ public class FireBase implements FirestoreCallback{
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
 
     }
+
+    @Override
+    public void checkUser(boolean[] has) {
+    }
+
+
 }
 
