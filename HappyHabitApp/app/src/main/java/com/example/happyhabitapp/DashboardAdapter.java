@@ -26,13 +26,14 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
     private FireBase fire = new FireBase();
     private ProgressBar progressBar;
     private TextView progressBarText;
-    private View view;
+    private View progressView;
     private String username;
     private ArrayList<HabitEvent> events = new ArrayList<HabitEvent>();
     private Integer percentage;
 
     public DashboardAdapter(Context context, ArrayList<Habit> habits){
         super(context, 0, habits);
+        fire.setApi(this);
         this.habits = habits;
         this.context = context;
         this.username = "";
@@ -40,6 +41,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
 
     public DashboardAdapter(Context context, ArrayList<Habit> habits, String username){
         super(context, 0, habits);
+        fire.setApi(this);
         this.habits = habits;
         this.context = context;
         this.username = username;
@@ -52,13 +54,14 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
      */
     public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
-        this.view = view;           //Required for progress bar manipulation
 
         if (view == null) {
             view = LayoutInflater
                     .from(context)
                     .inflate(R.layout.customlist_content, parent, false);
         }
+        progressView = view;                  //Required for progress bar manipulation
+
 
         Habit habit = habits.get(pos);
 
@@ -66,22 +69,22 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
         TextView habitTitle = view.findViewById(R.id.habit_title);
         TextView habitReason = view.findViewById(R.id.reason_text);
         TextView habitFreq = view.findViewById(R.id.selected_dates);
-        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
-        TextView progressText = view.findViewById(R.id.progress_text);
+        progressBar = view.findViewById(R.id.progress_bar);
+        progressBarText = view.findViewById(R.id.progress_text);
 
         //Setters
         habitTitle.setText(habit.getTitle());
         habitReason.setText(habit.getReason());
         habitFreq.setText(habit.getWeekAsStr());
-        //setProgressOnBar(habit);
+        setProgressOnBar(habit);
 
     return view;
     }
 
     private void setProgressOnBar(Habit habit) {
         getProgressOnBar(habit);
-        progressBar = view.findViewById(R.id.progress_bar);
-        progressBarText = view.findViewById(R.id.progress_text);
+//        progressBar = view.findViewById(R.id.progress_bar);
+//        progressBarText = view.findViewById(R.id.progress_text);
     }
 
     /**
@@ -93,19 +96,16 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
         Drawable progressPortion = progressDrawable.getDrawable(1);                             //Get the top layer
 
         if (percentage <= 33) {
-            progressBarText.setTextColor(view.getContext().getResources().getColor(R.color.progress_indicator_low));
-            //progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_low)));
-            progressPortion.setTint(view.getContext().getResources().getColor(R.color.progress_indicator_low));
+            progressBarText.setTextColor(progressView.getContext().getResources().getColor(R.color.progress_indicator_low));
+            progressPortion.setTint(progressView.getContext().getResources().getColor(R.color.progress_indicator_low));
         }
         else if (percentage <= 66) {
-            progressBarText.setTextColor(view.getContext().getResources().getColor(R.color.progress_indicator_mid));
-            //progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_mid)));
-            progressPortion.setTint(view.getContext().getResources().getColor(R.color.progress_indicator_mid));
+            progressBarText.setTextColor(progressView.getContext().getResources().getColor(R.color.progress_indicator_mid));
+            progressPortion.setTint(progressView.getContext().getResources().getColor(R.color.progress_indicator_mid));
         }
         else {
-            progressBarText.setTextColor(view.getContext().getResources().getColor(R.color.progress_indicator_high));
-            //progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_high)));
-            progressPortion.setTint(view.getContext().getResources().getColor(R.color.progress_indicator_high));
+            progressBarText.setTextColor(progressView.getContext().getResources().getColor(R.color.progress_indicator_high));
+            progressPortion.setTint(progressView.getContext().getResources().getColor(R.color.progress_indicator_high));
         }
         progressBar.setProgress(percentage);
     }
@@ -117,6 +117,8 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
         // the body is in callEvents for firebase asynchronous access
         if (username != ""){
             fire.getOthersEvent(username, events, habit);
+        }else {
+            fire.getEventList(events, habit);
         }
 
     }
