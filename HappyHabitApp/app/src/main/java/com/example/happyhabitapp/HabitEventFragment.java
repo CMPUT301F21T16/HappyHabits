@@ -317,7 +317,7 @@ public class HabitEventFragment extends DialogFragment {
         // set latlng to be the event's previously chosen location
         // if one was not chosen, latlng will null
         latlng = habitEvent.getLocation();
-
+        imageEncoded = habitEvent.getImage();
         // Set visible fields to display current Event's attributes
         displayCurrentEvent(habitEvent, dateString);
 
