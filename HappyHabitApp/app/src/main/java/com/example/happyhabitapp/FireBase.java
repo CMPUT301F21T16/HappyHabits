@@ -315,6 +315,7 @@ public class FireBase implements FirestoreCallback{
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             if (documentSnapshot.exists()){
                                                 User followee = new User(followee_name);
+                                                setFollowees(followee);
                                                 list.add(followee);
                                             }
                                             fireapi.callUserList(list);
