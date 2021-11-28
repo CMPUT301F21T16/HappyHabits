@@ -15,6 +15,8 @@
         <entry key="app/src/main/res/layout/activity_follower.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/layout/activity_follower_habits.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/layout/activity_habit.xml" value="0.17692307692307693" />
+        <entry key="app/src/main/res/layout/activity_log_in.xml" value="0.2635416666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18262411347517732" />
         <entry key="app/src/main/res/layout/activity_merged_display.xml" value="0.18461538461538463" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.30811965811965814" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.33" />
@@ -28,6 +30,7 @@
         <entry key="app/src/main/res/layout/list_followers_followees.xml" value="0.2828125" />
         <entry key="app/src/main/res/layout/map_view.xml" value="0.2252157776280914" />
         <entry key="app/src/main/res/layout/requester_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/splash_screen.xml" value="0.223731884057971" />
       </map>
     </option>
   </component>

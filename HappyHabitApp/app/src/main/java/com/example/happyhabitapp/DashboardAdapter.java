@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,21 +19,33 @@ import java.util.ArrayList;
  * An adapter for the non-interactable listview of today's habits in the dashboard activity
  * @author Jonathan
  */
-public class DashboardAdapter extends ArrayAdapter<Habit> {
+public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCallback{
 
     private ArrayList<Habit> habits;
     private Context context;
-
+    private FireBase fire = new FireBase();
     private ProgressBar progressBar;
     private TextView progressBarText;
     private View view;
-
+    private String username;
+    private ArrayList<HabitEvent> events = new ArrayList<HabitEvent>();
+    private Integer percentage;
 
     public DashboardAdapter(Context context, ArrayList<Habit> habits){
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;
+        this.username = "";
     }
+
+    public DashboardAdapter(Context context, ArrayList<Habit> habits, String username){
+        super(context, 0, habits);
+        this.habits = habits;
+        this.context = context;
+        this.username = username;
+    }
+
+
 
     /**
      * Inflates the view of each element in the file.
@@ -104,9 +115,60 @@ public class DashboardAdapter extends ArrayAdapter<Habit> {
      */
     private void getProgressOnBar(Habit habit) {
         // the body is in callEvents for firebase asynchronous access
+        if (username != ""){
+            fire.getOthersEvent(username, events, habit);
+        }
+
     }
 
 
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
 
+    }
 
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+        int progressCap = events.size();
+        float totalProgress = 0;
+
+        if (progressCap == 0) {
+            progressBar.setVisibility(View.INVISIBLE);//If there are no respective events, progress bar will not show up.
+            progressBarText.setVisibility(View.INVISIBLE);
+        }
+        else {
+            progressBar.setMax(progressCap);
+        }
+
+        //Gets the total progress of the event
+        for (int i = 0; i < progressCap; i++) {
+            int status = events.get(i).getStatus();  //Get the status code of the habit event
+
+            switch (status) {
+                case 0: totalProgress += 0;     //Event is incomplete
+                    break;
+                case 1: totalProgress += 1;     //Event is completed
+                    break;
+                case 2: totalProgress += 0.5;   //Event is in progress
+                    break;
+            }
+        }
+        float temp = totalProgress/progressCap * 100;
+        Integer temp2 = Math.round(temp);
+        percentage = temp2;  //Gets a rounded percentage out of 100
+        progressBarText.setText(percentage.toString());
+
+        fillProgressBar(percentage);
+        progressBar.setProgress(percentage);
+    }
 }

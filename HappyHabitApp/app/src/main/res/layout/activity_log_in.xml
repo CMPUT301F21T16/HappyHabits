@@ -26,5 +26,17 @@
         android:textColor="@color/theme_primary"
         android:textSize="52sp" />
 
-
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/log_in_btn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:onClick="handleLoginRegister"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/theme_primary"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textColor="@color/theme_secondary"
+        android:textSize="18sp"
+        app:cornerRadius="40dp"
+        tools:ignore="TextContrastCheck" />
 </LinearLayout>

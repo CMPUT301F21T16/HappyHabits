@@ -104,7 +104,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * Takes user back to the log-in screen
      */
     private void startLogin(){
-        startActivity(new Intent(MergedDisplayActivity.this, MainActivity.class));
+        startActivity(new Intent(MergedDisplayActivity.this, LogInActivity.class));
         this.finish();
     }
 

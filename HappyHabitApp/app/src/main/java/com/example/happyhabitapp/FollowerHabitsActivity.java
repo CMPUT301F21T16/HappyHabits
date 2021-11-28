@@ -58,7 +58,7 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
         allHabitsView = findViewById(R.id.follower_habits_list);
         todaysHabitsView = findViewById(R.id.follower_todays_habits_list);
 
-        allHabitsAdapter = new DashboardAdapter(this, habitList);
+        allHabitsAdapter = new DashboardAdapter(this, habitList, username);
         todaysHabitsAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
 
         allHabitsView.setAdapter(allHabitsAdapter);

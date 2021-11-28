@@ -16,11 +16,14 @@
         android:theme="@style/Theme.HappyHabitApp"
         android:windowSoftInputMode="stateHidden|adjustNothing">
         <activity
+            android:name=".LogInActivity"
+            android:exported="false" />
+        <activity
             android:name=".FollowerHabitsActivity"
             android:exported="true" />
         <activity
             android:name=".ViewUsersActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".HabitEventActivity"
             android:exported="true" />
