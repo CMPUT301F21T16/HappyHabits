@@ -60,7 +60,7 @@
                         android:paddingTop="2dp"
                         android:text="Selected Dates"
                         android:textColor="@color/theme_secondary"
-                        android:textSize="14dp" />
+                        android:textSize="15dp" />
 
 
                 </LinearLayout>
@@ -90,12 +90,11 @@
 
                     <ProgressBar
                         android:id="@+id/progress_bar"
-                        style="?android:attr/progressBarStyle"
-                        android:indeterminate="false"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/progress_bar_style"
+                        tools:progress="25"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:indeterminateTint="@color/progress_indicator_low"
                         android:layout_margin="3dp"/>
                     <TextView
                         android:id="@+id/progress_text"

@@ -84,9 +84,9 @@ public class MergedDisplayActivity extends AppCompatActivity
         //-------TEST INFO - REMOVE LATER -------
         int[] selectedDates = {1,0,0,1,0,0,0};
         int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true, null);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false, null);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true, null);
+        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
@@ -390,9 +390,6 @@ public class MergedDisplayActivity extends AppCompatActivity
         newFragment.show(getSupportFragmentManager(), "Edit Habit");
     }
 
-
-
-
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
         setAdapters();
@@ -423,6 +420,5 @@ public class MergedDisplayActivity extends AppCompatActivity
         Intent eventActivity = new Intent( MergedDisplayActivity.this , HabitEventActivity.class);
         eventActivity.putExtra("habit", habit); // pass in the activity
         startActivity(eventActivity);
-
     }
 }

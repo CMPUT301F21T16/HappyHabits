@@ -95,6 +95,7 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
             progressBarText.setTextColor(view.getContext().getResources().getColor(R.color.progress_indicator_high));
             progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_high)));
         }
+        progressBar.setProgress(percentage);
     }
 
     /**
@@ -103,7 +104,6 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
     private void getProgressOnBar(Habit habit) {
         fire.getEventList(event_list, habit);
         // the body is in callEvents for firebase asynchronous access
-
     }
 
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,11 +48,15 @@ public class DashboardAdapter extends ArrayAdapter<Habit> {
         TextView habitTitle = view.findViewById(R.id.habit_title);
         TextView habitReason = view.findViewById(R.id.reason_text);
         TextView habitFreq = view.findViewById(R.id.selected_dates);
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
+        TextView progressText = view.findViewById(R.id.progress_text);
 
         //Setters
         habitTitle.setText(habit.getTitle());
         habitReason.setText(habit.getReason());
         habitFreq.setText(habit.getWeekAsStr());
+        progressBar.setVisibility(View.INVISIBLE);   //Progress won't appear on today's habits
+        progressText.setVisibility(View.INVISIBLE);
 
     return view;
     }
