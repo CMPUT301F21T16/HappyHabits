@@ -297,18 +297,36 @@ public class FireBase implements FirestoreCallback{
      * @param list
      */
     public void getFolloweeList(ArrayList<User> list){
-        Followees
+        ArrayList<String> followees = new ArrayList<>();
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
+        Users
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        list.clear();
                         for (QueryDocumentSnapshot doc: value){
-                            Log.d(TAG, "onEvent: getting followees");
-                            User followee = doc.toObject(com.example.happyhabitapp.User.class);
-                            Log.d(TAG, "onEvent: " + followee.getUsername());
-                            list.add(followee);
+                            map[0] = doc.getData();
+                            String followee_name = (String) map[0].get("username");
+                            getOtherUser(followee_name)
+                                    .collection("Followers")
+                                    .document(getUsername())
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            if (documentSnapshot.exists()){
+                                                User followee = new User(followee_name);
+                                                list.add(followee);
+                                            }
+                                            fireapi.callUserList(list);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                        }
+                                    });
                         }
-                        fireapi.callUserList(list);
                     }
                 });
     }
@@ -605,6 +623,12 @@ public class FireBase implements FirestoreCallback{
                             }
                         }
                         fireapi.checkUser(has);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                     }
                 });
     }

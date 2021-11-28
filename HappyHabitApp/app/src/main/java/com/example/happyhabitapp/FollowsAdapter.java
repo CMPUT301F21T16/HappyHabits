@@ -17,12 +17,12 @@ import java.util.ArrayList;
 /**
  * A class that adapts and inflates a list of users
  */
-public class FollowsAdapter extends ArrayAdapter<User> {
+public class FollowsAdapter extends ArrayAdapter<User> implements FirestoreCallback{
 
-    User currentUser;
     ArrayList<User> users;
     private Context context;
     boolean isAcceptable;
+
 
     private FireBase fire = new FireBase();
 
@@ -74,7 +74,6 @@ public class FollowsAdapter extends ArrayAdapter<User> {
         }
         //Otherwise attach listeners to accept/reject
         else {
-            //TODO: reflect in firebase
             acceptReqButton.setOnClickListener(v -> {
                 //Add to users followers
                 fire.delRequst(requestingUser);       //Remove from the pending list in firebase
@@ -88,5 +87,25 @@ public class FollowsAdapter extends ArrayAdapter<User> {
             });
         }
         return view;
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+
     }
 }
