@@ -15,14 +15,16 @@ import java.util.List;
  * @author Jonathan
  */
 public class EventsAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
-
+    private FireBase fire = new FireBase();
     private List<HabitEvent> habitEventList;
     private ItemTouchHelper touchHelper;
     private HabitListener habitListener;
+    private Habit about;
 
-    public EventsAdapter(List<HabitEvent> habitEventList, HabitListener habitListener) {
+    public EventsAdapter(List<HabitEvent> habitEventList, HabitListener habitListener, Habit about) {
         this.habitEventList = habitEventList;
         this.habitListener = habitListener;
+        this.about = about;
     }
 
     @NonNull
@@ -53,6 +55,7 @@ public class EventsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
 
     @Override
     public void onItemSwipe(int position) {
+        fire.delEvent(about, habitEventList.get(position));
         habitEventList.remove(position);
         notifyItemRemoved(position);
         //Delete from firebase

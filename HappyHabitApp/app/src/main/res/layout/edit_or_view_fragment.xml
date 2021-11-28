@@ -38,30 +38,31 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/go_to_edit_btn"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@color/theme_primary"
+                    android:backgroundTint="@color/theme_primary"
                     android:gravity="center"
                     android:text="@string/go_to_edit_fragment_msg"
                     android:textColor="@color/theme_secondary"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
+                    app:cornerRadius="0dp"
                     tools:ignore="TextContrastCheck" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/go_to_events_btn"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:background="@color/theme_primary"
+                    android:backgroundTint="@color/theme_primary"
                     android:gravity="center"
                     android:text="@string/go_to_view_activity_msg"
                     android:textColor="@color/theme_secondary"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
+                    app:cornerRadius="0dp"
                     tools:ignore="TextContrastCheck" />
 
             </LinearLayout>

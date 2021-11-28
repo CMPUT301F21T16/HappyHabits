@@ -1,14 +1,10 @@
-/**
- * This activity is used for testing firebase
- * Author: Frank Li
- */
+///**
+// * This activity is used for testing firebase
+// * Author: Frank Li
+// */
 
 
 package com.example.happyhabitapp;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,53 +12,72 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class TestActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, FirestoreCallback {
 
-
-    private FireBase fire = new FireBase();
-    private ArrayList<User> followers = new ArrayList<User>();
-    private User john = new User("John");
-    ListView followerLst;
-    ArrayAdapter<User> adapter;
-
-
+    ArrayList<String> test = new ArrayList<String>();
+    FireBase fire = new FireBase();
+    Calendar date = Calendar.getInstance();
+    ArrayList<User> requesters = new ArrayList<User>();
     private final String TAG = "TestActivity";
+    ArrayList<Habit> testHabLst = new ArrayList<Habit>();
+    Calendar c = Calendar.getInstance();
+    int[] freq = {0,0,0,0,0,0,0};
+    Habit habit1 = new Habit("Walk dog", "fat Dog", c, freq, true, null);
+    User followee = new User("john");
+    User follower = new User("Hana");
+    User requester = new User("Lol");
+    HabitEvent event1 = new HabitEvent(date, "Title", 2, "Description");
+    boolean[] has = {false};
+    ArrayList<HabitEvent> events = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fire.setApi(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        followers.add(john);
-        followerLst = findViewById(R.id.followers);
-        adapter = new ArrayAdapter<User>(this, R.layout.activity_test, followers);
-        followerLst.setAdapter(adapter);
+        testHabLst.add(habit1);
+        fire.setRequest(requester);
+//        fire.hasUser("lichild");
+
+
 
     }
+
+    public void createDocument(View view){
+        fire.setHabit(habit1);
+        fire.setFollowees(followee);
+        fire.setFollowers(follower);
+        fire.setRequest(requester);
+
+    }
+
+    public void readDocument(View view){
+        Toast.makeText(this,"Read", Toast.LENGTH_SHORT).show();
+        fire.getEventList(events, habit1);
+
+    }
+
+
+
+
+
+
+
 
     private void startLogin(){
         startActivity(new Intent(TestActivity.this, MainActivity.class));
@@ -99,9 +114,6 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
 
-
-
-
     /* To check if there is a signed in user */
     @Override
     protected void onStart() {
@@ -130,4 +142,31 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     }
                 });
     }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+        if (has[0]){
+            Toast.makeText(this,"success", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+        int size = events.size();
+        if (size == 0){
+
+        }
+    }
+
+
 }

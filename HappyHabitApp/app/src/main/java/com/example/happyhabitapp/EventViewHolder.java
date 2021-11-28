@@ -115,6 +115,6 @@ public class EventViewHolder extends RecyclerView.ViewHolder implements
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         eventGestureDetector.onTouchEvent(motionEvent);
-        return false;
+        return true;
     }
 }

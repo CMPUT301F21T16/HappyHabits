@@ -10,6 +10,7 @@ public class HabitStringTest {
 
     Habit sampleHabit = new Habit("A", "B", null, null);
 
+    //Make sure comma doesn't show up before the first entry (i.e ,Monday, Tuesday)
     @Test
     public void TestMonTues(){
         int[] montues = {0,1,1,0,0,0,0};
@@ -18,6 +19,7 @@ public class HabitStringTest {
         Assert.assertEquals("Monday, Tuesday", sampleHabit.getWeekAsStr());
     }
 
+    //If no days, then nothing should show up (including commas)
     @Test
     public void TestNoDays(){
         int[] nodays =  {0,0,0,0,0,0,0};
@@ -25,6 +27,7 @@ public class HabitStringTest {
         Assert.assertEquals("", sampleHabit.getWeekAsStr());
     }
 
+    //If all days, make sure there's no terminating comma (i.e Monday, ..., Friday, Saturday,)
     @Test
     public void TestAllDays(){
         int[] alldays = {1,1,1,1,1,1,1};
