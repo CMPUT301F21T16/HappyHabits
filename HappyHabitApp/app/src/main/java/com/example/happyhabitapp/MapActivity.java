@@ -4,18 +4,21 @@ import static java.lang.Thread.sleep;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -66,7 +69,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         googleMap.addMarker(new MarkerOptions()
                 .draggable(true)
                 .position(latlng)
-                .title("Marker in Sydney"));
+                .title("Habit Location"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12));
         googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -107,9 +110,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                latlng = new LatLng(location.getLatitude(), location.getLongitude());
-                Log.d("Test","got location");
-                addMarker(googleMap);
+                if (location!= null) {
+                    latlng = new LatLng(location.getLatitude(), location.getLongitude());
+                    Log.d("Test", "got location");
+                    addMarker(googleMap);
+                }
+                else if (location == null) { // in case getlastlocation returns null
+                    Context context = getApplicationContext();
+                    CharSequence text = "Location not found";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                }
             }
             });
     }
