@@ -89,8 +89,8 @@ public class HabitEventFragment extends DialogFragment {
         // An argument is always passed into this fragment, either an existing HabitEvent or a Habit
 
         // if were editing, we pass in an existing HabitEvent and extract it to modify
-       if ( bundle != null && bundle.containsKey("Edit Event")){
-           HabitEvent habitEvent = (HabitEvent) bundle.getSerializable("Edit Event");
+       if ( bundle != null && bundle.containsKey(editKey)){
+           HabitEvent habitEvent = (HabitEvent) bundle.getSerializable(editKey);
            return EditEvent(builder, habitEvent);
        }
        // if were adding a new habit, we pass in a Habit that we pass into the constructor
@@ -428,7 +428,8 @@ public class HabitEventFragment extends DialogFragment {
         // preselect the drop down menu
 
         // IMPORTANT: This assumes the status numbers properly correspond to the order that the
-        // status strings appear on the drop down menu
+        // status strings appear on the drop down menu, to ensure correctness please to refer to
+        // the mapped status attribute values in HabitEvent class
         int pos = event.getStatus();
         statusMenu.setSelection(pos);
 

@@ -28,7 +28,7 @@ public class HabitEvent implements Serializable {
     public HabitEvent() {
     }
 
-    /* counstructors */
+    /* constructors */
     public HabitEvent(Calendar event_date, String title, int statusCode, String description) { // no location or image
         this.event_date = event_date;
         this.title = title;

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the activity that displays all of the habit's events
@@ -33,6 +34,8 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
     private RecyclerView recyclerView;
     private ImageView backIcon;
+    private String addKey = "habit";
+    private String editKey = "event";
 
     private Habit passedInHabit;
 
@@ -101,28 +104,48 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
 
     /**
-     * This method launches the fragment to add a new event
+     * Initializes Button to allow users to add HabitEvents
+     * also determines activity to be done when the button is clicked
      */
     private void setAddButton() {
         FloatingActionButton addButton = findViewById(R.id.add_habit_btn);
+        // set listener for button
+        // when button is clicked, launch HabitEventFragment to facilitate adding
+        // a new Habit Event
         addButton.setOnClickListener(view -> {
             DialogFragment newFragment = new HabitEventFragment();
             Bundle args = new Bundle();
-            args.putSerializable("habit", passedInHabit);
+            args.putSerializable(addKey, passedInHabit);
             newFragment.setArguments(args);
 
             newFragment.show(getSupportFragmentManager(),"ADD_EVENT");
         });
     }
 
+    /**
+     * Determines activity when an existing HabitEVent is clicked on
+     * Launches a HabitEventFragment that allows users to view or
+     * edit their HabitEvent
+     * @param position
+     *      int: index of the Event's position in the RecyclerView
+     */
     @Override
     public void onHabitClick(int position) {
-        Toast.makeText(this, "la", Toast.LENGTH_SHORT).show();
+        HabitEvent selectedEvent = events.get(position); // get the Event from the list
+
+        // launch the fragment
+        DialogFragment newFragment = new HabitEventFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(editKey, selectedEvent); // pass in the event
+        newFragment.setArguments(args);
+
+        newFragment.show(getSupportFragmentManager(),"EDIT_HABIT");
     }
 
     /**
-     * This method receives the event from the fragment.
+     * This adds a new HabitEvent to the Habit's list of Events
      * @param event
+     *      HabitEvent: new Event to be added to the list
      */
     @Override
     public void addNewEvent(HabitEvent event) {
@@ -133,12 +156,33 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
         recyclerAdapter.notifyDataSetChanged();
     }
 
-
-    /* ================================================================ Methods for FirestoreCallback ================================================================ */
+    /**
+     * This methods edits an existing HabitEvent
+     * @param newEvent
+     *      HabitEvent: The event containing updated attributes that the user wants to change to
+     * @param oldEvent
+     *      HabitEvent: The original event that the user wants to edit
+     */
     @Override
     public void editEvent(HabitEvent newEvent, HabitEvent oldEvent) {
+        // get recycler views list of Events to display
+        List<HabitEvent> eventList = recyclerAdapter.getHabitEventList();
+        // get index position of event we wish to edit
+        int pos = eventList.indexOf(oldEvent);
+
+        // error check that the vent exists
+        if ( pos != -1) {
+            eventList.set(pos, newEvent); // replace old event with event with updated values
+            recyclerAdapter.notifyDataSetChanged(); // update the adapter for proper display
+            // update firebase
+            fire.delEvent(passedInHabit, oldEvent);
+            fire.setHabitEvent(newEvent, passedInHabit);
+        }
 
     }
+
+
+    /* ================================================================ Methods for FirestoreCallback ================================================================ */
 
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
