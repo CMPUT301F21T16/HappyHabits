@@ -1,19 +1,21 @@
 package com.example.happyhabitapp;
 
+import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -40,8 +40,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -51,6 +52,8 @@ import java.util.Calendar;
  * for a new Habit Event
  */
 public class HabitEventFragment extends DialogFragment {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     // Attributes
     private ImageView eventPhoto; // Optional image to be uploaded by the user showcasing their habit event
@@ -70,6 +73,7 @@ public class HabitEventFragment extends DialogFragment {
     LocationCallback mLocationCallback; // start location polling
     private LatLng latlng = null; // location of habit event
     private Boolean edit; // if editing, true.
+    String imageEncoded;
 
     /**
      * Denotes actions to be taken when the fragment is first created
@@ -146,15 +150,41 @@ public class HabitEventFragment extends DialogFragment {
         eventTitle = view.findViewById(R.id.habit_event_title);
         eventReason = view.findViewById(R.id.habit_event_reason);
         statusMenu = view.findViewById(R.id.status_menu);
-
+        imageEncoded = null;
         // initialise the adapter for the status drop down menu
         statusAdapter = ArrayAdapter.createFromResource((Context) listener, R.array.statuses, android.R.layout.simple_spinner_item);
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusMenu.setAdapter(statusAdapter);
 
+        addPhotoButton.setOnClickListener(view -> dispatchTakePictureIntent());
+
+        addLocationButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=  PERMISSION_GRANTED){
+                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                }
+                else{
+                    // start getting location updates
+                    LocationRequest mLocationRequest = LocationRequest.create();
+                    mLocationRequest.setInterval(60000);
+                    mLocationRequest.setFastestInterval(5000);
+                    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+                    LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+
+                    Intent intent = new Intent(getContext(),MapActivity.class);
+                    intent.putExtra("latlng", latlng);
+                    intent.putExtra("edit",edit);
+                    getLocationFromMap.launch(intent);
+                }
+            }});
+
         getLocationFromMap = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getResultCode() == RESULT_OK) {
                         Intent intent = result.getData();
                         latlng = intent.getExtras().getParcelable("latlng");
                         Log.d("testReceive", String.valueOf(latlng.latitude));
@@ -230,34 +260,11 @@ public class HabitEventFragment extends DialogFragment {
         Calendar date = Calendar.getInstance(); // Calendar object to be passed in
         String dateString = dateFormat.format(date.getTime());
 
+        eventPhoto.setImageDrawable(null);
         //Display date
         dateDisplay.setText(dateString);
         edit = false;
-
-        addLocationButton.setOnClickListener(new View.OnClickListener() {
-             @SuppressLint("MissingPermission")
-             @RequiresApi(api = Build.VERSION_CODES.M)
-             @Override
-             public void onClick(View view) {
-                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=  PERMISSION_GRANTED){
-                     requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-                 }
-                 else{
-                     // start getting location updates
-                     LocationRequest mLocationRequest = LocationRequest.create();
-                     mLocationRequest.setInterval(60000);
-                     mLocationRequest.setFastestInterval(5000);
-                     mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-                     LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
-
-                     Intent intent = new Intent(getContext(),MapActivity.class);
-                     intent.putExtra("latlng", latlng);
-                     intent.putExtra("edit",edit);
-                     getLocationFromMap.launch(intent);
-                 }
-             }});
-
+        Log.d("TEST ME PLEASE", "TEST ME");
                  // return user inputs
         return builder
                 .setView(view)
@@ -273,8 +280,6 @@ public class HabitEventFragment extends DialogFragment {
                     int status = getStatusNum(statusString);
 
                     // try to create new Habit Event
-
-                    // no title is given
                     if (title.compareTo("") == 0) {
                         Context context = getContext();
 
@@ -283,30 +288,12 @@ public class HabitEventFragment extends DialogFragment {
 
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
-                    }
-                    // no status is given
-                    else if ( status == -1) {
-                        Context context = getContext();
+                    } else {
+                        HabitEvent newHabit = new HabitEvent(date, title, status, reason, imageEncoded, latlng);
 
-                        CharSequence text = "Please select a status";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
+                        listener.addNewEvent(newHabit);
                     }
                     // all required fields are filled
-                    else {
-                        if (latlng != null){ // location added
-                            listener.addNewEvent(new HabitEvent(date,title,status,reason,latlng));
-                        }
-                        else if (latlng != null){ // picture and location added //TODO: add picpath != null
-                            //listener.addNewEvent(new HabitEvent(date, title, status, reason,picpath,latlng));
-                        }
-                        else{
-                        listener.addNewEvent(new HabitEvent(date, title, status, reason));
-
-                        }
-                    }
 
                 }).create();
     }
@@ -331,29 +318,6 @@ public class HabitEventFragment extends DialogFragment {
         // if one was not chosen, latlng will null
         latlng = habitEvent.getLocation();
 
-        addLocationButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("MissingPermission")
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=  PERMISSION_GRANTED){
-                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-                }
-                else{
-                    LocationRequest mLocationRequest = LocationRequest.create();
-                    mLocationRequest.setInterval(60000);
-                    mLocationRequest.setFastestInterval(5000);
-                    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-                    LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
-
-                    Intent intent = new Intent(getContext(),MapActivity.class);
-                    intent.putExtra("latlng", latlng);
-                    intent.putExtra("edit",edit);
-                    getLocationFromMap.launch(intent);
-                }
-            }});
-
         // Set visible fields to display current Event's attributes
         displayCurrentEvent(habitEvent, dateString);
 
@@ -373,7 +337,8 @@ public class HabitEventFragment extends DialogFragment {
 
                     // try to create new Habit Event
 
-                    // no title is given
+
+                    // no status is given
                     if (title.compareTo("") == 0) {
                         Context context = getContext();
 
@@ -382,34 +347,14 @@ public class HabitEventFragment extends DialogFragment {
 
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
-                    }
-                    // no status is given
-                    else if ( status == -1) {
-                        Context context = getContext();
-
-                        CharSequence text = "Please select a status";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                    }
-                    // all required fields are filled
-                    else {
-                        if (latlng != null){ // location added
-                            listener.editEvent(new HabitEvent(date,title,status,reason,latlng),habitEvent);
-                        }
-                        else if (latlng != null){ // picture and location added //TODO: add picpath != null
-                            //listener.addNewEvent(new HabitEvent(date, title, status, reason,picpath,latlng));
-                        }
-                        else {
-                            listener.editEvent(new HabitEvent(date, title, status, reason), habitEvent);
-                        }
+                    } else {
+                        HabitEvent newHabit = new HabitEvent(date, title, status, reason, imageEncoded, latlng);
+                        listener.editEvent(newHabit, habitEvent);
                     }
 
                 }).create();
 
     }
-
 
     /**
      * Translates the possible selectable statuses into the corresponding
@@ -451,6 +396,14 @@ public class HabitEventFragment extends DialogFragment {
         // display text fields
         eventTitle.setText(event.getTitle());
         eventReason.setText(event.getDescription());
+        String encode = event.getImage();
+        Bitmap image = null;
+        try {
+            image = decodeFromFirebaseBase64(encode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        eventPhoto.setImageBitmap(image);
 
         // preselect the drop down menu
 
@@ -463,6 +416,45 @@ public class HabitEventFragment extends DialogFragment {
         return;
     }
 
+    /**
+     * Start the camera by dispatching a camera intent.
+     */
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        // Ensure that the camera is functional and available to use
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
 
+    /**
+     * The activity returns with the photo.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            eventPhoto.setImageBitmap(imageBitmap);
+            encodeBitmapAndSaveToFirebase(imageBitmap);
+        } else {
+            Toast.makeText(getActivity(), "Image Capture Failed", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+    }
+
+    public Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+    }
 }

@@ -63,7 +63,7 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        User user = new User(fire.getUsername());
+        User user = new User(fire.getUserName());
         fire.setUser(user);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
@@ -185,7 +185,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void setUsername(){
         TextView username = findViewById(R.id.userName); //Delete the duplicate "username" ID in activity_habit.xml
-        username.setText(fire.getUsername());
+        username.setText(fire.getUserName());
     }
 
     /**

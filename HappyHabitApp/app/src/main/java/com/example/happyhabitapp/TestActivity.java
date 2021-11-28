@@ -41,7 +41,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User followee = new User("john");
     User follower = new User("Hana");
     User requester = new User("Lol");
-    HabitEvent event1 = new HabitEvent(date, "Title", 2, "Description");
+    HabitEvent event1 = new HabitEvent(date, "Title", 2, "Description","PIC",null);
     boolean[] has = {false};
     ArrayList<HabitEvent> events = new ArrayList<>();
 

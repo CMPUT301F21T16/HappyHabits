@@ -73,7 +73,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
         progressBarText = view.findViewById(R.id.progress_text);
 
         //Setters
-        habitTitle.setText(habit.getTitle());
+        //habitTitle.setText(habit.getTitle());
         habitReason.setText(habit.getReason());
         habitFreq.setText(habit.getWeekAsStr());
         setProgressOnBar(habit);
@@ -116,7 +116,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
     private void getProgressOnBar(Habit habit) {
         // the body is in callEvents for firebase asynchronous access
         if (username != ""){
-            fire.getOthersEvent(username, events, habit);
+            //fire.getOthersEvent(username, events, habit);
         }else {
             fire.getEventList(events, habit);
         }
