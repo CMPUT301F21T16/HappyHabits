@@ -26,7 +26,7 @@ import java.util.ArrayList;
 //TODO: Connect to firebase
 //TODO: Fix issue of Drag event occurring on swipe (Why is it doing this, when habits adapter has no issue?)
 
-public class HabitEventActivity extends AppCompatActivity implements HabitListener, HabitEventFragment.OnFragmentInteractionListener{
+public class HabitEventActivity extends AppCompatActivity implements HabitListener, HabitEventFragment.OnFragmentInteractionListener, FirestoreCallback{
 
     private ArrayList<HabitEvent> events;
     private EventsAdapter recyclerAdapter;
@@ -40,12 +40,16 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            // swap to passedInHabit
+            Habit habit = (Habit) extras.get("habit");
+        }
 
         // TO DO: et passed in Habit from the EditorView Fragment
 
         //---- For testing only (delete after) ----
         int[] weekFreq = {1,1,1,1,1,1,1,1};
-        passedInHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true, events);
 
         HabitEvent event1 = new HabitEvent(null, "Dinner", 0, "Turkey Dinner Yum");
         HabitEvent event2 = new HabitEvent(null, "Lunch", 1, "Starved this time :(");
@@ -54,6 +58,7 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
         events = new ArrayList<HabitEvent>();
         events.add(event1); events.add(event2); events.add(event3);
 
+        passedInHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true, events);
 
         //----- END TEST -----
         setContentView(R.layout.habit_event_activity);
@@ -126,5 +131,25 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
     @Override
     public void editEvent(HabitEvent newEvent, HabitEvent oldEvent) {
 
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+        setAdapter();
     }
 }

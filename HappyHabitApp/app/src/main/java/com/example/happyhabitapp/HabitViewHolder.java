@@ -1,18 +1,18 @@
 package com.example.happyhabitapp;
 
-import android.content.ClipData;
+
 import android.content.res.ColorStateList;
-import android.media.Image;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 /**
  * Represents the view model for each {@link Habit}.
@@ -21,9 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 
 public class HabitViewHolder extends RecyclerView.ViewHolder implements
-    View.OnTouchListener, GestureDetector.OnGestureListener
+    View.OnTouchListener, GestureDetector.OnGestureListener, FirestoreCallback
 {
     GestureDetector habitGestureDetector;
+
+    private FireBase fire = new FireBase();
 
     private View view;
 
@@ -36,6 +38,8 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
 
     private ProgressBar progressBar;
     private TextView progressBarText;
+    private ArrayList<HabitEvent> event_list = new ArrayList<>();
+    private int percentage = 0;
 
     /**
      * Gets all relevant data fields and initializes a {@link GestureDetector} to set to the View.
@@ -49,7 +53,7 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         titleTextView = (TextView) habitView.findViewById(R.id.habit_title);
         reasonTextView = (TextView) habitView.findViewById(R.id.reason_text);
         frequencyTextView = (TextView) habitView.findViewById(R.id.selected_dates);
-
+        fire.setApi(this);
         habitGestureDetector = new GestureDetector(habitView.getContext(), this);
         touchHelper = helper;
         viewListener = habitListener;
@@ -69,7 +73,7 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
     }
 
     private void setProgressOnBar(Habit habit) {
-        int percentage = getProgressOnBar(habit);
+        getProgressOnBar(habit);
         progressBar = view.findViewById(R.id.progress_bar);
         progressBarText = view.findViewById(R.id.progress_text);
         progressBar.setProgress(percentage);
@@ -98,32 +102,10 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
     /**
      * Determines what portion of the bar is filled, and what color it is to be set to.
      */
-    private int getProgressOnBar(Habit habit) {
-        int progressCap = habit.getEvents().size();
-        float totalProgress = 0;
+    private void getProgressOnBar(Habit habit) {
+        fire.getEventList(event_list, habit);
+        // the body is in callEvents for firebase asynchronous access
 
-        if (progressCap == 0) {
-            progressBar.setVisibility(View.INVISIBLE);  //If there are no respective events, progress bar will not show up.
-        }
-        else {
-            progressBar.setMax(progressCap);
-        }
-
-        //Gets the total progress of the event
-        for (int i = 0; i < progressCap - 1; i++) {
-            int status = habit.getEvents().get(i).getStatus();  //Get the status code of the habit event
-
-            switch (status) {
-                case 0: totalProgress += 0;     //Event is incomplete
-                        break;
-                case 1: totalProgress += 1;     //Event is completed
-                        break;
-                case 2: totalProgress += 0.5;   //Event is in progress
-                        break;
-            }
-        }
-
-        return Math.round(totalProgress/progressCap) * 100;  //Gets a rounded percentage out of 100
     }
 
 
@@ -166,4 +148,48 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         return true;
     }
 
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+        
+        int progressCap = events.size();
+        float totalProgress = 0;
+
+        if (progressCap == 0) {
+            progressBar.setVisibility(View.INVISIBLE);  //If there are no respective events, progress bar will not show up.
+        }
+        else {
+            progressBar.setMax(progressCap);
+        }
+
+        //Gets the total progress of the event
+        for (int i = 0; i < progressCap - 1; i++) {
+            int status = events.get(i).getStatus();  //Get the status code of the habit event
+
+            switch (status) {
+                case 0: totalProgress += 0;     //Event is incomplete
+                    break;
+                case 1: totalProgress += 1;     //Event is completed
+                    break;
+                case 2: totalProgress += 0.5;   //Event is in progress
+                    break;
+            }
+        }
+
+        percentage = Math.round(totalProgress/progressCap) * 100;  //Gets a rounded percentage out of 100
+    }
 }

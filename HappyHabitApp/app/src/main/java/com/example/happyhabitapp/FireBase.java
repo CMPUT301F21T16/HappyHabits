@@ -326,7 +326,7 @@ public class FireBase implements FirestoreCallback{
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
-                        Log.d(TAG, "onEvent: getting Habits");
+//                        Log.d(TAG, "onEvent: getting Habits");
                         for (QueryDocumentSnapshot doc: value){
                             map[0] = doc.getData();
                             // get title
@@ -366,6 +366,7 @@ public class FireBase implements FirestoreCallback{
      */
     public void getEventList(ArrayList<HabitEvent> list, Habit habit){
         final Map<String, Object>[] map = new Map[]{new HashMap<>()};
+        final int[] final_stat = new int[1];
         HabitList
                 .document(habit.getTitle())
                 .collection("Events")
@@ -386,10 +387,17 @@ public class FireBase implements FirestoreCallback{
                             String title = (String) map[0].get("Title");
                             //get status
                             Long temp_stat = (Long) map[0].get("Status");
+
                             if (temp_stat == 0){
-                                Log.d(TAG, "onEvent: got status");
+                                final_stat[0] = 0;
+                                Log.d(TAG, "onEvent: 0");
+                            } else if (temp_stat == 1){
+                                final_stat[0] = 1;
+                                Log.d(TAG, "onEvent: 1");
+                            }else if (temp_stat == 2){
+                                final_stat[0] = 2;
+                                Log.d(TAG, "onEvent: 2");
                             }
-//                            int final_stat = temp_stat.intValue();
                             // get description
                             String description = (String) map[0].get("Description");
                             // get picPath
@@ -399,6 +407,16 @@ public class FireBase implements FirestoreCallback{
                             Long latitude = (Long) map[0].get("latitude");
                             if (latitude == null || longitude == null){
                                 Log.d(TAG, "onEvent: null~");
+                                // use constructor without location
+                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath);
+                                list.add(event);
+                            }else {
+                                // use full constructor
+                                double final_longitude = longitude.doubleValue();
+                                double final_latitude = latitude.doubleValue();
+                                com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(final_latitude, final_longitude);
+                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath, location);
+                                list.add(event);
                             }
                         }
                     }
@@ -624,6 +642,11 @@ public class FireBase implements FirestoreCallback{
 
     @Override
     public void checkUser(boolean[] has) {
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+
     }
 
 
