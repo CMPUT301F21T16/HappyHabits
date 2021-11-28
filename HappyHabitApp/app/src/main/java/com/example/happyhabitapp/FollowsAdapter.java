@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * A class that adapts and inflates a list of users
  */
-public class FollowsAdapter extends ArrayAdapter<User> implements FirestoreCallback{
+public class FollowsAdapter extends ArrayAdapter<User> {
 
     ArrayList<User> users;
     private Context context;
@@ -89,23 +89,5 @@ public class FollowsAdapter extends ArrayAdapter<User> implements FirestoreCallb
         return view;
     }
 
-    @Override
-    public void callHabitList(ArrayList<Habit> habits) {
 
-    }
-
-    @Override
-    public void callUserList(ArrayList<User> requesters) {
-
-    }
-
-    @Override
-    public void checkUser(boolean[] has) {
-
-    }
-
-    @Override
-    public void callEventList(ArrayList<HabitEvent> events) {
-
-    }
 }

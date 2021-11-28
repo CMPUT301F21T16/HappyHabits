@@ -1,3 +1,8 @@
+/**
+ * the interface is for callBack functions that will cooperate with FireBase methods
+ * author: Frank Li
+ */
+
 package com.example.happyhabitapp;
 
 import java.util.ArrayList;

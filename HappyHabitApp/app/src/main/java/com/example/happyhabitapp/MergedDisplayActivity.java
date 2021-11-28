@@ -389,7 +389,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         newFragment.setArguments(args);
         newFragment.show(getSupportFragmentManager(), "Edit Habit");
     }
-
+    /* =============================================================== Methods for FirestoreCallback ======================================================= */
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
         setAdapters();
@@ -410,6 +410,7 @@ public class MergedDisplayActivity extends AppCompatActivity
     public void callEventList(ArrayList<HabitEvent> events) {
 
     }
+    /* =========================================================================================================================================================== */
 
     /**
          * Launches the HabitEvents Activity to allow user to view

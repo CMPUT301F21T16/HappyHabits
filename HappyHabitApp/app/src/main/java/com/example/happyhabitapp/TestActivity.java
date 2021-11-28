@@ -1,7 +1,7 @@
-/**
- * This activity is used for testing firebase
- * Author: Frank Li
- */
+///**
+// * This activity is used for testing firebase
+// * Author: Frank Li
+// */
 
 
 package com.example.happyhabitapp;

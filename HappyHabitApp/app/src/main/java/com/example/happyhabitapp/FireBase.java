@@ -1,8 +1,8 @@
 
-/**
- * This class is able to upload desired data to the firebase, and get the current user uid
- * Author: Katia Zhang, Frank Li
- */
+///**
+// * This class is responsible for getting, uploading, deleteing, and all other data communication from Firestore database
+// * Author: Frank (Ziang) Li
+// */
 
 
 
@@ -222,7 +222,10 @@ public class FireBase implements FirestoreCallback{
                 });
     }
 
-
+    /**
+     * Send request to certain user
+     * @param name
+     */
     public void sendRequest (String name){
         Map<String, Object> map = new HashMap<>();
         map.put("Name", getUsername());
@@ -303,6 +306,7 @@ public class FireBase implements FirestoreCallback{
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        // loop through all existing users
                         for (QueryDocumentSnapshot doc: value){
                             map[0] = doc.getData();
                             String followee_name = (String) map[0].get("username");
@@ -313,6 +317,7 @@ public class FireBase implements FirestoreCallback{
                                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            // if the current user is in the follower list of other user, add it to the current user's followee list
                                             if (documentSnapshot.exists()){
                                                 User followee = new User(followee_name);
                                                 setFollowees(followee);
@@ -426,11 +431,11 @@ public class FireBase implements FirestoreCallback{
                             Long latitude = (Long) map[0].get("latitude");
                             if (latitude == null || longitude == null){
                                 Log.d(TAG, "onEvent: null~");
-                                // use constructor without location
+                                // if no location selected use constructor without location
                                 HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath);
                                 list.add(event);
                             }else {
-                                // use full constructor
+                                // if location is selected use full constructor
                                 double final_longitude = longitude.doubleValue();
                                 double final_latitude = latitude.doubleValue();
                                 com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(final_latitude, final_longitude);

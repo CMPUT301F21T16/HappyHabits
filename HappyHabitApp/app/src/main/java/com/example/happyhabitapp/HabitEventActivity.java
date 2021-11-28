@@ -133,6 +133,8 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
         recyclerAdapter.notifyDataSetChanged();
     }
 
+
+    /* ================================================================ Methods for FirestoreCallback ================================================================ */
     @Override
     public void editEvent(HabitEvent newEvent, HabitEvent oldEvent) {
 

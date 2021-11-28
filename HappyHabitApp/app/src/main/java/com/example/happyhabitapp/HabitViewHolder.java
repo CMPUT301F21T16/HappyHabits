@@ -1,7 +1,6 @@
 package com.example.happyhabitapp;
 
 
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.view.GestureDetector;
@@ -155,6 +154,7 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         return true;
     }
 
+    /* ================================================================= Methods for FirestoreCallback ============================================================ */
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
 
