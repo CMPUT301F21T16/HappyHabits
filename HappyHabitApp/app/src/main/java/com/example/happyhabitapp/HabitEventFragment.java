@@ -313,6 +313,7 @@ public class HabitEventFragment extends DialogFragment {
         edit = true;
 
         addLocationButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
@@ -320,6 +321,13 @@ public class HabitEventFragment extends DialogFragment {
                     requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
                 }
                 else{
+                    LocationRequest mLocationRequest = LocationRequest.create();
+                    mLocationRequest.setInterval(60000);
+                    mLocationRequest.setFastestInterval(5000);
+                    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+                    LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+
                     Intent intent = new Intent(getContext(),MapActivity.class);
                     intent.putExtra("latlng", latlng);
                     intent.putExtra("edit",edit);

@@ -34,6 +34,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private LatLng latlng;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Button setLocationButton;
+    private Button currLocationButton;
     private Boolean edit;
 
     @Override
@@ -60,6 +61,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             getLastLocation(googleMap);
         }
         else if(edit){ // if editing place marker at previously chosen location
+            currLocationButton = findViewById(R.id.current_location_btn);
+            currLocationButton.setVisibility(View.VISIBLE);
             Bundle bundle = getIntent().getExtras();
             latlng = bundle.getParcelable("latlng");
             addMarker(googleMap);
