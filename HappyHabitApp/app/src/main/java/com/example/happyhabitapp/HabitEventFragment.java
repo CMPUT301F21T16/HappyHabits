@@ -292,7 +292,16 @@ public class HabitEventFragment extends DialogFragment {
                     }
                     // all required fields are filled
                     else {
+                        if (latlng != null){ // location added
+                            listener.addNewEvent(new HabitEvent(date,title,status,reason,latlng));
+                        }
+                        else if (latlng != null){ // picture and location added //TODO: add picpath != null
+                            //listener.addNewEvent(new HabitEvent(date, title, status, reason,picpath,latlng));
+                        }
+                        else{
                         listener.addNewEvent(new HabitEvent(date, title, status, reason));
+
+                        }
                     }
 
                 }).create();

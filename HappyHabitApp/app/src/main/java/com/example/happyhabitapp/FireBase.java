@@ -427,8 +427,8 @@ public class FireBase implements FirestoreCallback{
                             // get picPath
                             String picPath = (String) map[0].get("picPath");
                             // get location
-                            Long longitude = (Long) map[0].get("longitude");
-                            Long latitude = (Long) map[0].get("latitude");
+                            Double longitude = (Double) map[0].get("longitude");
+                            Double latitude = (Double) map[0].get("latitude");
                             if (latitude == null || longitude == null){
                                 Log.d(TAG, "onEvent: null~");
                                 // if no location selected use constructor without location
@@ -436,9 +436,7 @@ public class FireBase implements FirestoreCallback{
                                 list.add(event);
                             }else {
                                 // if location is selected use full constructor
-                                double final_longitude = longitude.doubleValue();
-                                double final_latitude = latitude.doubleValue();
-                                com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(final_latitude, final_longitude);
+                                com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(latitude, longitude);
                                 HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath, location);
                                 list.add(event);
                             }
