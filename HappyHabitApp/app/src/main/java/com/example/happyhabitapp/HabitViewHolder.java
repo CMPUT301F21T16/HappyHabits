@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +38,7 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
     private ProgressBar progressBar;
     private TextView progressBarText;
     private ArrayList<HabitEvent> event_list = new ArrayList<>();
-    private int percentage = 0;
+    private Integer percentage = 0;
 
     /**
      * Gets all relevant data fields and initializes a {@link GestureDetector} to set to the View.
@@ -76,8 +75,7 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         getProgressOnBar(habit);
         progressBar = view.findViewById(R.id.progress_bar);
         progressBarText = view.findViewById(R.id.progress_text);
-        progressBar.setProgress(percentage);
-        fillProgressBar(percentage);
+        
     }
 
     /**
@@ -165,19 +163,19 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
-        
         int progressCap = events.size();
         float totalProgress = 0;
 
         if (progressCap == 0) {
-            progressBar.setVisibility(View.INVISIBLE);  //If there are no respective events, progress bar will not show up.
+            progressBar.setVisibility(View.INVISIBLE);//If there are no respective events, progress bar will not show up.
+            progressBarText.setVisibility(View.INVISIBLE);
         }
         else {
             progressBar.setMax(progressCap);
         }
 
         //Gets the total progress of the event
-        for (int i = 0; i < progressCap - 1; i++) {
+        for (int i = 0; i < progressCap; i++) {
             int status = events.get(i).getStatus();  //Get the status code of the habit event
 
             switch (status) {
@@ -189,7 +187,12 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
                     break;
             }
         }
+        float temp = totalProgress/progressCap * 100;
+        Integer temp2 = Math.round(temp);
+        percentage = temp2;  //Gets a rounded percentage out of 100
+        progressBarText.setText(percentage.toString());
 
-        percentage = Math.round(totalProgress/progressCap) * 100;  //Gets a rounded percentage out of 100
+        fillProgressBar(percentage);
+        progressBar.setProgress(percentage);
     }
 }

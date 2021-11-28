@@ -162,7 +162,10 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
+        int size = events.size();
+        if (size == 0){
 
+        }
     }
 
 
