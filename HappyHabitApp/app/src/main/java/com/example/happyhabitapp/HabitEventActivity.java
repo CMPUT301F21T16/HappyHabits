@@ -1,15 +1,16 @@
 package com.example.happyhabitapp;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,9 +26,9 @@ import java.util.ArrayList;
 //TODO: Connect to firebase
 //TODO: Fix issue of Drag event occurring on swipe (Why is it doing this, when habits adapter has no issue?)
 
-public class HabitEventActivity extends AppCompatActivity implements HabitListener, HabitEventFragment.OnFragmentInteractionListener{
-
-    private ArrayList<HabitEvent> events;
+public class HabitEventActivity extends AppCompatActivity implements HabitListener, HabitEventFragment.OnFragmentInteractionListener, FirestoreCallback{
+    private FireBase fire = new FireBase();
+    private ArrayList<HabitEvent> events = new ArrayList<>();
     private EventsAdapter recyclerAdapter;
 
     private RecyclerView recyclerView;
@@ -38,23 +39,30 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fire.setApi(this);
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            // swap to passedInHabit
+            passedInHabit = (Habit) extras.get("habit");
+        }
 
         // TO DO: et passed in Habit from the EditorView Fragment
 
         //---- For testing only (delete after) ----
-        int[] weekFreq = {1,1,1,1,1,1,1,1};
-
-        HabitEvent event1 = new HabitEvent(null, "Dinner", 0, "Turkey Dinner Yum");
-        HabitEvent event2 = new HabitEvent(null, "Lunch", 1, "Starved this time :(");
-        HabitEvent event3 = new HabitEvent(null, "Breakfast", 2, "8 Bowls of Rice Krispies");
-
-        events = new ArrayList<HabitEvent>();
-        events.add(event1); events.add(event2); events.add(event3);
-
-        passedInHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true, events);
+//        int[] weekFreq = {1,1,1,1,1,1,1,1};
+//
+//        HabitEvent event1 = new HabitEvent(null, "Dinner", 0, "Turkey Dinner Yum");
+//        HabitEvent event2 = new HabitEvent(null, "Lunch", 1, "Starved this time :(");
+//        HabitEvent event3 = new HabitEvent(null, "Breakfast", 2, "8 Bowls of Rice Krispies");
+//
+//        events = new ArrayList<HabitEvent>();
+//        events.add(event1); events.add(event2); events.add(event3);
+//
+//        passedInHabit = new Habit("gobble gobble", "turkey", null, weekFreq, true, events);
 
         //----- END TEST -----
+        fire.getEventList(events, passedInHabit);
         setContentView(R.layout.habit_event_activity);
         setHabitName();
         setAdapter();
@@ -64,11 +72,11 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
     private void setHabitName(){
         TextView habitName = findViewById(R.id.habit_events_habit_name);
-        habitName.setText("Eat Food");
+        habitName.setText(passedInHabit.getTitle());
     }
 
     private void setAdapter() {
-        recyclerAdapter = new EventsAdapter(passedInHabit.getEvents(), this);
+        recyclerAdapter = new EventsAdapter(events, this, passedInHabit);
         recyclerView = findViewById(R.id.habit_event_list);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));   //Set data to be displayed linearly (instead of grid, etc...)
@@ -109,7 +117,7 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
 
     @Override
     public void onHabitClick(int position) {
-        //TODO: Go to fragment
+        Toast.makeText(this, "la", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -118,12 +126,37 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
      */
     @Override
     public void addNewEvent(HabitEvent event) {
-        passedInHabit.getEvents().add(event);
-        recyclerAdapter.notifyItemInserted(passedInHabit.getEvents().size() - 1);
+//        passedInHabit.getEvents().add(event);
+        fire.setHabitEvent(event, passedInHabit);
+//        setAdapter();
+//        recyclerAdapter.notifyItemInserted(events.size() - 1);
+        recyclerAdapter.notifyDataSetChanged();
     }
 
+
+    /* ================================================================ Methods for FirestoreCallback ================================================================ */
     @Override
     public void editEvent(HabitEvent newEvent, HabitEvent oldEvent) {
 
+    }
+
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+        setAdapter();
     }
 }

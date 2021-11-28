@@ -51,8 +51,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         ArrayList<Habit> habitList = new ArrayList<Habit>();
         data.getHabitLst(habitList);
 
-        // FireBase is not implemented properly so we can not get the current user
-        currentUser = new User("TestUser", "somePath", habitList, null);
+//        currentUser = new User("TestUser", "somePath", testList, null, null);
         initActivity();
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null){

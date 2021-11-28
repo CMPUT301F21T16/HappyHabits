@@ -4,10 +4,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
+
 
 
 public class HabitEvent implements Serializable {
+
 
     //Define constants for status
     private int STATUS_INCOMPLETE = 0;
@@ -33,24 +34,29 @@ public class HabitEvent implements Serializable {
         this.title = title;
         this.status = statusCode;
         this.description = description;
+        this.location = null;
+        this.pic_path = "";
     }
 
-    public HabitEvent(Calendar event_date, int statusCode, String description, String pic_path) { // only image
+    public HabitEvent(Calendar event_date, String title, int statusCode, String description, String pic_path) { // only image
         this.event_date = event_date;
+        this.title = title;
         this.pic_path = pic_path;
+        this.location = null;
+        this.description = description;
+        this.status = statusCode;
+    }
+    public HabitEvent(Calendar event_date, String title, int statusCode, String description, LatLng location) { // only location
+        this.event_date = event_date;
+        this.title = title;
+        this.pic_path = "";
         this.location = location;
         this.description = description;
         this.status = statusCode;
     }
-    public HabitEvent(Calendar event_date, int statusCode, String description, LatLng location) { // only location
+    public HabitEvent(Calendar event_date, String title, int statusCode, String description, String pic_path, LatLng location) { // image and location
         this.event_date = event_date;
-        this.pic_path = pic_path;
-        this.location = location;
-        this.description = description;
-        this.status = statusCode;
-    }
-    public HabitEvent(Calendar event_date, int statusCode, String description, String pic_path, LatLng location) { // image and location
-        this.event_date = event_date;
+        this.title = title;
         this.pic_path = pic_path;
         this.location = location;
         this.description = description;

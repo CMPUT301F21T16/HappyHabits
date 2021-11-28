@@ -25,45 +25,87 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/theme_primary"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:paddingLeft="4dp">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:background="@color/theme_primary"
+                android:orientation="vertical"
+                android:padding="6dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/habit_title"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:text="Habit Title"
+                        android:textColor="@color/theme_secondary"
+                        android:textSize="22dp" />
+
+
+                    <TextView
+                        android:id="@+id/selected_dates"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:paddingTop="2dp"
+                        android:text="Selected Dates"
+                        android:textColor="@color/theme_secondary"
+                        android:textSize="15dp" />
+
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/habit_title"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="6"
-                    android:text="Habit Title"
-                    android:textColor="@color/theme_secondary"
-                    android:textSize="22dp" />
+                    android:id="@+id/reason_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:text="User's Reason"
+                    android:textColor="@color/theme_secondary" />
 
-
-                <TextView
-                    android:id="@+id/selected_dates"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:paddingTop="2dp"
-                    android:text="Selected Dates"
-                    android:textColor="@color/theme_secondary"
-                    android:textSize="14dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/reason_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:text="User's Reason"
-                android:textColor="@color/theme_secondary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left">
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/progress_bar_style"
+                        tools:progress="25"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/progress_text"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/white"
+                        android:text="100"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

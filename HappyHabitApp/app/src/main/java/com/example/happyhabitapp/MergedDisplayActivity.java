@@ -1,25 +1,23 @@
 package com.example.happyhabitapp;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-
-import android.os.Handler;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,7 +36,9 @@ import java.util.List;
 //TODO: Refactor adapters/activities/etc...
 
 public class MergedDisplayActivity extends AppCompatActivity
-        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, EditOrViewFragment.onFragmentInteractionListener{
+
+        implements HabitListener, Add_Edit_Fragment.onFragmentInteractionListener, FirebaseAuth.AuthStateListener, FirestoreCallback, EditOrViewFragment.onFragmentInteractionListener{
+
 
     //Firebase-specific attributes
 
@@ -63,9 +63,11 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        User user = new User(fire.getUsername());
+        fire.setUser(user);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
-
+        fire.setApi(this);
         fire.getHabitList(habitList);
         try {
             Thread.sleep(100);
@@ -74,20 +76,22 @@ public class MergedDisplayActivity extends AppCompatActivity
         }
 
 
+
+
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
 
         //-------TEST INFO - REMOVE LATER -------
         int[] selectedDates = {1,0,0,1,0,0,0};
         int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true, null);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false, null);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true, null);
+        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
+        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
+        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
 
         ArrayList<Habit> testList = new ArrayList<Habit>();
         testList.add(habit1); testList.add(habit2); testList.add(habit3);
         //-----------------------------------
-        currentUser = new User("TestUser", "somePath", testList, null);
+//        currentUser = new User("TestUser", "somePath", testList);
 
         setAdapters();
         setButtonListeners();
@@ -100,7 +104,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * Takes user back to the log-in screen
      */
     private void startLogin(){
-        startActivity(new Intent(MergedDisplayActivity.this, MainActivity.class));
+        startActivity(new Intent(MergedDisplayActivity.this, LogInActivity.class));
         this.finish();
     }
 
@@ -173,17 +177,6 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
 
-    private void refresh(int milliseconds){
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                setAdapters();
-            }
-        };
-        handler.postDelayed(runnable,milliseconds);
-    }
-
     //---Display related methods---
 
 
@@ -200,7 +193,6 @@ public class MergedDisplayActivity extends AppCompatActivity
      * and the recycler view (initially hidden)
      */
     private void setAdapters(){
-        refresh(10000);
         setRecyclerAdapter();
         setListAdapter();
     }
@@ -232,7 +224,7 @@ public class MergedDisplayActivity extends AppCompatActivity
     private void setListAdapter(){
 
 
-//        listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
+//      listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
         listAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
 
         listView = findViewById(R.id.todays_habits_list);
@@ -267,6 +259,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         Button todayButton = findViewById(R.id.todays_habits_btn);
         Button allButton = findViewById(R.id.all_habits_btn);
         FloatingActionButton addButton = findViewById(R.id.add_habit_btn);
+        ImageView profileIcon = findViewById(R.id.dashboard_profile_pic);
 
         todayButton.setOnClickListener((View v) -> {
             buttonToggle(TODAY);
@@ -286,6 +279,11 @@ public class MergedDisplayActivity extends AppCompatActivity
 
             addFragment.show(getSupportFragmentManager(), "ADD_HABIT");
         });
+
+        profileIcon.setOnClickListener((View v) -> {
+            Intent profileIntent = new Intent(MergedDisplayActivity.this, ProfilePageActivity.class);
+            startActivity(profileIntent);
+        });
     }
 
     /**
@@ -297,7 +295,6 @@ public class MergedDisplayActivity extends AppCompatActivity
 
         Button currentButton;
         Button otherButton;
-
 
         if (buttonSelected != mode) {        //Only trigger if the button isn't already selected
             if (mode == ALL) {
@@ -325,12 +322,12 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void swapColor(Button current, Button other) {
         //De-select the current button
-        current.setBackgroundTintList(getResources().getColorStateList(R.color.theme_secondary));   //Different setter due to material button
-        current.setTextColor(getResources().getColor(R.color.theme_primary));
+        other.setBackgroundTintList(getResources().getColorStateList(R.color.theme_secondary));   //Different setter due to material button
+        other.setTextColor(getResources().getColor(R.color.theme_primary));
 
         //Select the other button
-        other.setBackgroundTintList(getResources().getColorStateList(R.color.theme_primary));
-        other.setTextColor(getResources().getColor(R.color.theme_secondary));
+        current.setBackgroundTintList(getResources().getColorStateList(R.color.theme_primary));
+        current.setTextColor(getResources().getColor(R.color.theme_secondary));
     }
 
     /**
@@ -391,13 +388,34 @@ public class MergedDisplayActivity extends AppCompatActivity
         args.putSerializable("habit", habit);
         newFragment.setArguments(args);
         newFragment.show(getSupportFragmentManager(), "Edit Habit");
+    }
+    /* =============================================================== Methods for FirestoreCallback ======================================================= */
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+        setAdapters();
 
     }
 
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+        return;
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+
+    }
+    /* =========================================================================================================================================================== */
+
     /**
-     * Launches the HabitEvents Activity to allow user to view
-     * HabitEvents associated with a Habit
-     */
+         * Launches the HabitEvents Activity to allow user to view
+         * HabitEvents associated with a Habit
+         */
     @Override
     public void goToEvents(Habit habit) {
         Intent eventActivity = new Intent( MergedDisplayActivity.this , HabitEventActivity.class);

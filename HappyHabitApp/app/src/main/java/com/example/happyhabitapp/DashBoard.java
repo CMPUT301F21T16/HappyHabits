@@ -135,8 +135,7 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
         //testList.add(habit1); testList.add(habit2); testList.add(habit3);
         data.getHabitLst(habitList);
         //-----------------------------------
-        // Getting current User is not implemented properly in the FireBase code
-        currentUser = new User("TestUser", "somePath", habitList, null);
+//        currentUser = new User("TestUser", "somePath", testList, null, null);
         return currentUser;
     }
 
