@@ -133,7 +133,7 @@ public class DashBoard extends AppCompatActivity implements FirebaseAuth.AuthSta
 
         ArrayList<Habit> habitList = new ArrayList<Habit>();
         //testList.add(habit1); testList.add(habit2); testList.add(habit3);
-        data.getHabitLst(habitList);
+        data.getHabitList(habitList);
         //-----------------------------------
 //        currentUser = new User("TestUser", "somePath", testList, null, null);
         return currentUser;

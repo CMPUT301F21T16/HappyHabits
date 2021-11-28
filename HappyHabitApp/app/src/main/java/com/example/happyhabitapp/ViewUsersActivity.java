@@ -45,9 +45,8 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
         TextView usernameTextView = findViewById(R.id.follow_list_username);
         TextView listHeader = findViewById(R.id.following_or_followee);
 
-        usernameTextView.setText(fire.getUsername());
+        usernameTextView.setText(fire.getUserName());
         listHeader.setText(followState);
-
     }
 
     private void setList() {

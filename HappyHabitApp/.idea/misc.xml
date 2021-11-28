@@ -3,11 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_activity.xml" value="0.278125" />
         <entry key="..\:/GitHub/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_fragment_layout.xml" value="0.8015873015873016" />
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_dash_board.xml" value="0.14791666666666667" />
-        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_merged_display.xml" value="0.2796875" />
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/edit_or_view_fragment.xml" value="0.2828125" />
-        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_activity.xml" value="0.1" />
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_fragment_layout.xml" value="0.2796875" />
         <entry key="app/src/main/res/drawable/circleshape.xml" value="0.16296296296296298" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.2682291666666667" />
@@ -43,7 +42,7 @@
     <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
-    <option name="OTHER_OPTIONS" value="-classpath C:\Android\Sdk\platforms\android-29\android.jar" />
+    <option name="OTHER_OPTIONS" value="-sourcepath C:\Android\Sdk\platforms\android-29\android.jar" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

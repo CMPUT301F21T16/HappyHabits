@@ -9,15 +9,15 @@
 package com.example.happyhabitapp;
 
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,6 +30,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -190,13 +192,11 @@ public class FireBase implements FirestoreCallback{
 
     public void setHabitEvent(HabitEvent event, Habit about) {
 
-
-
         Map<String, Object> map = new HashMap<>();
         map.put("About", about.getTitle());
         map.put("Title", event.getTitle());
         map.put("Date", event.getEvent_date());
-        map.put("picPath", event.getPic_path());
+        map.put("picPath", event.getImage());
         if (event.getLocation() != null){
             map.put("longitude", event.getLocation().longitude);
             map.put("latitude", event.getLocation().latitude);
@@ -229,11 +229,11 @@ public class FireBase implements FirestoreCallback{
      */
     public void sendRequest (String name){
         Map<String, Object> map = new HashMap<>();
-        map.put("Name", getUsername());
+        map.put("Name", getUserName());
         DocumentReference other_user = getOtherUser(name);
         CollectionReference others_request = other_user.collection("Requests");
         others_request
-                .document(getUsername())
+                .document(getUserName())
                 .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -278,7 +278,7 @@ public class FireBase implements FirestoreCallback{
      * this function get follower list and store in list
      * @param list list to store the followers
      */
-    public void getFollowerLst(ArrayList<User> list){
+    public void getFollowerList(ArrayList<User> list){
 
         Followers
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -313,7 +313,7 @@ public class FireBase implements FirestoreCallback{
                             String followee_name = (String) map[0].get("username");
                             getOtherUser(followee_name)
                                     .collection("Followers")
-                                    .document(getUsername())
+                                    .document(getUserName())
                                     .get()
                                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
@@ -342,7 +342,9 @@ public class FireBase implements FirestoreCallback{
      * this function get habit list and store in list
      * @param list list to store the habits
      */
-    public void getHabitLst(ArrayList<Habit> list){
+    public void getHabitList(ArrayList<Habit> list){
+
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
         HabitList
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -422,19 +424,19 @@ public class FireBase implements FirestoreCallback{
                             // get description
                             String description = (String) map[0].get("Description");
                             // get picPath
-                            String picPath = (String) map[0].get("picPath");
+                            String encodeImage = (String) map[0].get("picPath");
                             // get location
                             Double longitude = (Double) map[0].get("longitude");
                             Double latitude = (Double) map[0].get("latitude");
                             if (latitude == null || longitude == null){
                                 Log.d(TAG, "onEvent: null~");
                                 // if no location selected use constructor without location
-                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath);
+                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, encodeImage,null);
                                 list.add(event);
                             }else {
                                 // if location is selected use full constructor
                                 com.google.android.gms.maps.model.LatLng location = new com.google.android.gms.maps.model.LatLng(latitude, longitude);
-                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath, location);
+                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, encodeImage, location);
                                 list.add(event);
                             }
                         }
@@ -521,7 +523,7 @@ public class FireBase implements FirestoreCallback{
      * @param list list to store the events
      * @param habit the habit for the events
      */
-    public void getOthersEvent (String name, ArrayList<HabitEvent> list, Habit habit){
+    /*public void getOthersEvent (String name, ArrayList<HabitEvent> list, Habit habit){
         final Map<String, Object>[] map = new Map[]{new HashMap<>()};
         final int[] final_stat = new int[1];
         Users
@@ -581,7 +583,7 @@ public class FireBase implements FirestoreCallback{
                         fireapi.callEventList(list);
                     }
                 });
-    }
+    }*/
 
 
 

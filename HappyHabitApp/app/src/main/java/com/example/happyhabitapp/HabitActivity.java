@@ -49,7 +49,7 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
         data = new FireBase();
 
         ArrayList<Habit> habitList = new ArrayList<Habit>();
-        data.getHabitLst(habitList);
+        data.getHabitList(habitList);
 
 //        currentUser = new User("TestUser", "somePath", testList, null, null);
         initActivity();
