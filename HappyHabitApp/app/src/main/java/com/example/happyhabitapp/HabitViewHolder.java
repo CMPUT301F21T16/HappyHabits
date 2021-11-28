@@ -1,8 +1,10 @@
 package com.example.happyhabitapp;
 
+
 import android.content.ClipData;
 import android.content.res.ColorStateList;
 import android.media.Image;
+
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,9 +12,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 /**
  * Represents the view model for each {@link Habit}.
@@ -21,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 
 public class HabitViewHolder extends RecyclerView.ViewHolder implements
-    View.OnTouchListener, GestureDetector.OnGestureListener
+    View.OnTouchListener, GestureDetector.OnGestureListener, FirestoreCallback
 {
     GestureDetector habitGestureDetector;
 
@@ -166,4 +169,23 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
         return true;
     }
 
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+        
+    }
 }

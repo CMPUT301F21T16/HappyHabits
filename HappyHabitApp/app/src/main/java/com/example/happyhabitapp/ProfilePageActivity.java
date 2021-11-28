@@ -1,7 +1,5 @@
 package com.example.happyhabitapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -9,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,9 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     private ArrayList<User> pendingRequests = new ArrayList<User>();
     private Integer follower_num;
     private Integer followee_num;
+    private boolean[] has_user = {false};
+
+    String request_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +36,10 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         fire.getFolloweeList(followeeList);
         fire.getRequestList(pendingRequests);
 
-        setList();
-        setPreliminaryInfo();
+//        setList();
+//        setPreliminaryInfo();
         setButtons();
+        setRequestSender();
     }
 
     /**
@@ -115,18 +120,17 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         ImageView sendButton = findViewById(R.id.send_request);
 
         sendButton.setOnClickListener(v -> {
-            String usernameRequested = requestContent.getText().toString();
+            request_name = requestContent.getText().toString();
+            fire.hasUser(request_name, has_user);
+            requestContent.setText("");
 
-            //TODO: Implement following psuedocode, which adds the current user to reciever pending list if they exist
-            //if (username in firebase)
-            //   do: toast("request sent!")
-            //       User receiver = fire.getUser(username)
-            //       receiver.AddToPendingList(current user)
-            //else:
-            //   do: toast("that user doesn't exist!")
-            //
+
+
         });
     }
+
+
+
 
     /* ===================================================================== Method for FirestoreCallback ========================================================================== */
     @Override
@@ -135,8 +139,21 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
         setList();
         setPreliminaryInfo();
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+        if (has_user[0]){
+            fire.sendRequest(request_name);
+        }else{
+            Toast.makeText(this, "User Doesn't Exits!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
     }
 }

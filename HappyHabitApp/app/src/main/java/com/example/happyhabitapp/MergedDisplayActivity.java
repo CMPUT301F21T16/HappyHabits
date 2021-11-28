@@ -1,16 +1,7 @@
 package com.example.happyhabitapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -66,6 +63,8 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        User user = new User(fire.getUsername());
+        fire.setUser(user);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
         fire.setApi(this);
@@ -401,8 +400,18 @@ public class MergedDisplayActivity extends AppCompatActivity
     }
 
     @Override
-    public void callRequestList(ArrayList<User> requesters) {
+    public void callUserList(ArrayList<User> requesters) {
         return;
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+
     }
 
     /**
