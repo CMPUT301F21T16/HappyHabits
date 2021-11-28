@@ -140,10 +140,6 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
     }
 
 
-
-
-
-
     /**
      * Gets all dates in the habit list whose dates match today's.
      * @return ArrayList<Habit> all the habits that occur today

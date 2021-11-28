@@ -93,8 +93,7 @@
                         android:progressDrawable="@drawable/progress_bar_style"
                         tools:progress="25"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"/>
+                        android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/progress_text"
                         android:layout_height="wrap_content"

@@ -84,7 +84,6 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
      * @param percentage an int representing the percentage of the progress bar
      */
     private void fillProgressBar(int percentage) {
-
         final LayerDrawable progressDrawable = (LayerDrawable) progressBar.getProgressDrawable();
         Drawable progressPortion = progressDrawable.getDrawable(1);                             //Get the top layer
 
