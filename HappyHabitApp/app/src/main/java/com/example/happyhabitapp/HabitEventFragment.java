@@ -89,8 +89,8 @@ public class HabitEventFragment extends DialogFragment {
         // An argument is always passed into this fragment, either an existing HabitEvent or a Habit
 
         // if were editing, we pass in an existing HabitEvent and extract it to modify
-       if ( bundle != null && bundle.containsKey("Edit Event")){
-           HabitEvent habitEvent = (HabitEvent) bundle.getSerializable("Edit Event");
+       if ( bundle != null && bundle.containsKey(editKey)){
+           HabitEvent habitEvent = (HabitEvent) bundle.getSerializable(editKey);
            return EditEvent(builder, habitEvent);
        }
        // if were adding a new habit, we pass in a Habit that we pass into the constructor
@@ -131,6 +131,7 @@ public class HabitEventFragment extends DialogFragment {
     /**
      * Initializes all the views of the Fragment by connecting
      * all the event attributes to the associated xml views on creation
+     * Also initializes the location adding feature
      */
     private void initFragment(){
 
@@ -213,10 +214,13 @@ public class HabitEventFragment extends DialogFragment {
         return;
     }
 
+
     /**
      * Creates a Fragment that supports the addition of a brand new Habit Event
      * User inputted values are used to get attributes of th event
      * @param builder
+     * @param habit
+     *      Habit: Passed in Habit that the event is associated with
      * @return
      */
     private Dialog AddNewEvent(AlertDialog.Builder builder, Habit habit){
@@ -307,10 +311,13 @@ public class HabitEventFragment extends DialogFragment {
                 }).create();
     }
 
+
     /**
      * Create that fragment that supports the editing of an existing habit
-     * Displays the already existing attrbutes and allows users to change them
+     * Displays the already existing attributes and allows users to change them
      * @param builder
+     * @param habitEvent
+     *      HabitEvent: Event that the user wishes to edit
      * @return
      */
     private Dialog EditEvent(AlertDialog.Builder builder, HabitEvent habitEvent){
@@ -320,6 +327,9 @@ public class HabitEventFragment extends DialogFragment {
         Calendar date = habitEvent.getEvent_date();
         String dateString = dateFormat.format(date.getTime());
         edit = true;
+        // set latlng to be the event's previously chosen location
+        // if one was not chosen, latlng will null
+        latlng = habitEvent.getLocation();
 
         addLocationButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("MissingPermission")
@@ -385,7 +395,15 @@ public class HabitEventFragment extends DialogFragment {
                     }
                     // all required fields are filled
                     else {
-                        listener.editEvent( new HabitEvent(date, title, status, reason), habitEvent);
+                        if (latlng != null){ // location added
+                            listener.editEvent(new HabitEvent(date,title,status,reason,latlng),habitEvent);
+                        }
+                        else if (latlng != null){ // picture and location added //TODO: add picpath != null
+                            //listener.addNewEvent(new HabitEvent(date, title, status, reason,picpath,latlng));
+                        }
+                        else {
+                            listener.editEvent(new HabitEvent(date, title, status, reason), habitEvent);
+                        }
                     }
 
                 }).create();
@@ -437,7 +455,8 @@ public class HabitEventFragment extends DialogFragment {
         // preselect the drop down menu
 
         // IMPORTANT: This assumes the status numbers properly correspond to the order that the
-        // status strings appear on the drop down menu
+        // status strings appear on the drop down menu, to ensure correctness please to refer to
+        // the mapped status attribute values in HabitEvent class
         int pos = event.getStatus();
         statusMenu.setSelection(pos);
 

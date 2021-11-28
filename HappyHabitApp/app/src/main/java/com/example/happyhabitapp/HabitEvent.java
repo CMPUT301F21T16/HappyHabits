@@ -1,5 +1,8 @@
 package com.example.happyhabitapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
@@ -19,7 +22,7 @@ public class HabitEvent implements Serializable {
 
     private Calendar event_date;
     private String pic_path;
-    private LatLng location;
+    private transient LatLng location;
     private String description;
     private String title;
     private int status;
@@ -28,7 +31,7 @@ public class HabitEvent implements Serializable {
     public HabitEvent() {
     }
 
-    /* counstructors */
+    /* constructors */
     public HabitEvent(Calendar event_date, String title, int statusCode, String description) { // no location or image
         this.event_date = event_date;
         this.title = title;
@@ -115,5 +118,6 @@ public class HabitEvent implements Serializable {
     public int getStatus() {
         return status;
     }
+
 
 }
