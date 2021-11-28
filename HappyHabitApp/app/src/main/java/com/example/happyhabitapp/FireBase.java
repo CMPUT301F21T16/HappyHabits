@@ -13,8 +13,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -29,13 +27,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 
 public class FireBase implements FirestoreCallback{
 
@@ -196,7 +192,7 @@ public class FireBase implements FirestoreCallback{
         map.put("About", about.getTitle());
         map.put("Title", event.getTitle());
         map.put("Date", event.getEvent_date());
-        map.put("picPath", event.getImage());
+        map.put("decodedImage", event.getImage());
         if (event.getLocation() != null){
             map.put("longitude", event.getLocation().longitude);
             map.put("latitude", event.getLocation().latitude);
@@ -424,7 +420,7 @@ public class FireBase implements FirestoreCallback{
                             // get description
                             String description = (String) map[0].get("Description");
                             // get picPath
-                            String encodeImage = (String) map[0].get("picPath");
+                            String encodeImage = (String) map[0].get("decodedImage");
                             // get location
                             Double longitude = (Double) map[0].get("longitude");
                             Double latitude = (Double) map[0].get("latitude");
@@ -523,7 +519,7 @@ public class FireBase implements FirestoreCallback{
      * @param list list to store the events
      * @param habit the habit for the events
      */
-    /*public void getOthersEvent (String name, ArrayList<HabitEvent> list, Habit habit){
+    public void getOthersEvent (String name, ArrayList<HabitEvent> list, Habit habit){
         final Map<String, Object>[] map = new Map[]{new HashMap<>()};
         final int[] final_stat = new int[1];
         Users
@@ -562,14 +558,13 @@ public class FireBase implements FirestoreCallback{
                             // get description
                             String description = (String) map[0].get("Description");
                             // get picPath
-                            String picPath = (String) map[0].get("picPath");
+                            String picPath = (String) map[0].get("decodedImage");
                             // get location
                             Long longitude = (Long) map[0].get("longitude");
                             Long latitude = (Long) map[0].get("latitude");
                             if (latitude == null || longitude == null){
-                                Log.d(TAG, "onEvent: null~");
                                 // if no location selected use constructor without location
-                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath);
+                                HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath, null);
                                 list.add(event);
                             }else {
                                 // if location is selected use full constructor
@@ -583,7 +578,7 @@ public class FireBase implements FirestoreCallback{
                         fireapi.callEventList(list);
                     }
                 });
-    }*/
+    }
 
 
 
