@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         // if signed in go to Dashboard
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            Intent testIntent = new Intent(MainActivity.this, TestActivity.class);
+            Intent testIntent = new Intent(MainActivity.this, MergedDisplayActivity.class);
             startActivity(testIntent);
             this.finish();
         }

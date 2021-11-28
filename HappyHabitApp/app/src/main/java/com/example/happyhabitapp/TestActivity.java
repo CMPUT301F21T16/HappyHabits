@@ -41,7 +41,7 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
     User followee = new User("john");
     User follower = new User("Hana");
     User requester = new User("Lol");
-    HabitEvent event1 = new HabitEvent(date, "Title", 0, "Description");
+    HabitEvent event1 = new HabitEvent(date, "Title", 2, "Description");
     boolean[] has = {false};
     ArrayList<HabitEvent> events = new ArrayList<>();
 
@@ -158,6 +158,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         if (has[0]){
             Toast.makeText(this,"success", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+
     }
 
 

@@ -84,4 +84,8 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
     public void checkUser(boolean[] has) {
 
     }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+    }
 }
