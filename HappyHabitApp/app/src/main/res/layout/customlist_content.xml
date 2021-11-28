@@ -33,8 +33,7 @@
                 android:layout_weight="6"
                 android:background="@color/theme_primary"
                 android:orientation="vertical"
-                android:padding="10dp"
-                android:paddingLeft="4dp">
+                android:padding="6dp" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,7 +85,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:gravity="center|left">
 
                     <ProgressBar
                         android:id="@+id/progress_bar"
@@ -95,7 +94,7 @@
                         tools:progress="25"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="3dp"/>
+                        android:layout_marginRight="3dp"/>
                     <TextView
                         android:id="@+id/progress_text"
                         android:layout_height="wrap_content"

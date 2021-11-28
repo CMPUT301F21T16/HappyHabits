@@ -2,6 +2,8 @@ package com.example.happyhabitapp;
 
 
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -83,17 +85,24 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
      * @param percentage an int representing the percentage of the progress bar
      */
     private void fillProgressBar(int percentage) {
-        if (percentage < 33) {
+
+        final LayerDrawable progressDrawable = (LayerDrawable) progressBar.getProgressDrawable();
+        Drawable progressPortion = progressDrawable.getDrawable(1);                             //Get the top layer
+
+        if (percentage <= 33) {
             progressBarText.setTextColor(view.getContext().getResources().getColor(R.color.progress_indicator_low));
-            progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_low)));
+            //progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_low)));
+            progressPortion.setTint(view.getContext().getResources().getColor(R.color.progress_indicator_low));
         }
-        else if (percentage < 66) {
+        else if (percentage <= 66) {
             progressBarText.setTextColor(view.getContext().getResources().getColor(R.color.progress_indicator_mid));
-            progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_mid)));
+            //progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_mid)));
+            progressPortion.setTint(view.getContext().getResources().getColor(R.color.progress_indicator_mid));
         }
         else {
             progressBarText.setTextColor(view.getContext().getResources().getColor(R.color.progress_indicator_high));
-            progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_high)));
+            //progressBar.setProgressTintList(ColorStateList.valueOf(view.getContext().getResources().getColor(R.color.progress_indicator_high)));
+            progressPortion.setTint(view.getContext().getResources().getColor(R.color.progress_indicator_high));
         }
         progressBar.setProgress(percentage);
     }

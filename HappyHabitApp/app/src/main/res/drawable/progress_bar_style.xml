@@ -11,7 +11,7 @@
     <item>
         <shape
             android:shape="ring"
-            android:thicknessRatio="16"
+            android:thicknessRatio="15"
             android:useLevel="true">
             <solid android:color="@color/progress_indicator_low"></solid>
         </shape>

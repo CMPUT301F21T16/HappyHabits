@@ -20,7 +20,7 @@
     <color name="highlighted_entry">#FFABCDEF</color>
     <color name="progress_indicator_low">#B60404</color>
     <color name="progress_indicator_mid">#FFC107</color>
-    <color name="progress_indicator_high">#49CD89</color>
+    <color name="progress_indicator_high">#5F28C3</color>
     <color name="transparent">#00000000</color>
 
     <!--  For use with the habit event status indicators  -->
