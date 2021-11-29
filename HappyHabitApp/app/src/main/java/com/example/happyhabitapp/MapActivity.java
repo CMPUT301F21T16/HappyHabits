@@ -57,23 +57,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     public void onMapReady(GoogleMap googleMap) {
-        if (!edit) { // not editing so get current location from map
-            getLastLocation(googleMap);
-        }
-        else if(edit){ // if editing place marker at previously chosen location
-            currLocationButton = findViewById(R.id.current_location_btn);
-            currLocationButton.setVisibility(View.VISIBLE);
-            Bundle bundle = getIntent().getExtras();
-            latlng = bundle.getParcelable("latlng");
 
-            // an existing HabitEvent may not have location data, so we check for null
-            if (latlng == null) {
-                // the event had no location data
-                getLastLocation(googleMap);
-            } else {
-                // the event did have location data
-                addMarker(googleMap);
-            }
+        currLocationButton = findViewById(R.id.current_location_btn);
+        currLocationButton.setVisibility(View.VISIBLE);
+        Bundle bundle = getIntent().getExtras();
+        latlng = bundle.getParcelable("latlng");
+
+        // an existing HabitEvent may not have location data, so we check for null
+        if (latlng == null) {
+            // the event had no location data
+            getLastLocation(googleMap);
+        } else {
+            // the event did have location data
+            addMarker(googleMap);
 
         }
     }
