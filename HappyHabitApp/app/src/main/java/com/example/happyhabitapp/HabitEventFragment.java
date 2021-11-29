@@ -72,7 +72,6 @@ public class HabitEventFragment extends DialogFragment {
     private ActivityResultLauncher<String> requestPermissionLauncher; // request permissions
     LocationCallback mLocationCallback; // start location polling
     private LatLng latlng = null; // location of habit event
-    private Boolean edit; // if editing, true.
     String imageEncoded;
 
     /**
@@ -177,7 +176,6 @@ public class HabitEventFragment extends DialogFragment {
 
                     Intent intent = new Intent(getContext(),MapActivity.class);
                     intent.putExtra("latlng", latlng);
-                    intent.putExtra("edit",edit);
                     getLocationFromMap.launch(intent);
                 }
             }});
@@ -199,7 +197,6 @@ public class HabitEventFragment extends DialogFragment {
                         // app.
                         Intent intent = new Intent(getContext(),MapActivity.class);
                         intent.putExtra("latlng", latlng);
-                        intent.putExtra("edit",edit);
                         getLocationFromMap.launch(intent);
                     } else {
                         // Explain to the user that the feature is unavailable because the
@@ -263,7 +260,6 @@ public class HabitEventFragment extends DialogFragment {
         eventPhoto.setImageDrawable(null);
         //Display date
         dateDisplay.setText(dateString);
-        edit = false;
         Log.d("TEST ME PLEASE", "TEST ME");
                  // return user inputs
         return builder
@@ -313,7 +309,6 @@ public class HabitEventFragment extends DialogFragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Calendar date = habitEvent.getEvent_date();
         String dateString = dateFormat.format(date.getTime());
-        edit = true;
         // set latlng to be the event's previously chosen location
         // if one was not chosen, latlng will null
         latlng = habitEvent.getLocation();
