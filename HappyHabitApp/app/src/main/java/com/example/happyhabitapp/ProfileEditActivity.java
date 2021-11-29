@@ -61,6 +61,25 @@ public class ProfileEditActivity extends AppCompatActivity {
         upload.setText("Upload");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        StorageReference ref = FirebaseStorage.getInstance().getReference();
+        ref
+                .child("profileImage")
+                .child(fire.getUserName()+".jpeg")
+                .getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(ProfileEditActivity.this)
+                                .load(uri)
+                                .into(userProfile);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
         if (user != null){
             if (user.getPhotoUrl() != null){
                 Glide.with(this)
@@ -101,7 +120,7 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         StorageReference reference = FirebaseStorage.getInstance().getReference()
                 .child("profileImage")
-                .child(fire.getCurrent_uid()+".jpeg");
+                .child(fire.getUserName()+".jpeg");
         reference.putBytes(baos.toByteArray())
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

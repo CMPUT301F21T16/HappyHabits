@@ -30,7 +30,7 @@
             android:paddingLeft="4dp">
 
             <ImageView
-                android:id="@+id/profile_page_pic"
+                android:id="@+id/other_profile_page_pic"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

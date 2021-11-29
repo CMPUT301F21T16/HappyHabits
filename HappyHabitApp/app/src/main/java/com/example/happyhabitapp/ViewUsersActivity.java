@@ -1,6 +1,7 @@
 package com.example.happyhabitapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -88,5 +89,10 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
+    }
+
+    @Override
+    public void callUri(Uri uri) {
+
     }
 }

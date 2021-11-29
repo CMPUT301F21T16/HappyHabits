@@ -1,6 +1,7 @@
 package com.example.happyhabitapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -171,5 +172,10 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
+    }
+
+    @Override
+    public void callUri(Uri uri) {
+
     }
 }

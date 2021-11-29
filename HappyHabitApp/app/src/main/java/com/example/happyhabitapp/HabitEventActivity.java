@@ -1,6 +1,7 @@
 package com.example.happyhabitapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -201,5 +202,10 @@ public class HabitEventActivity extends AppCompatActivity implements HabitListen
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
         setAdapter();
+    }
+
+    @Override
+    public void callUri(Uri uri) {
+
     }
 }

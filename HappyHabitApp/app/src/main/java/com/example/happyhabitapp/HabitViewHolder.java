@@ -3,6 +3,7 @@ package com.example.happyhabitapp;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -233,5 +234,10 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
 
         fillProgressBar(percentage);
         progressBar.setProgress(percentage);
+    }
+
+    @Override
+    public void callUri(Uri uri) {
+
     }
 }

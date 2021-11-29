@@ -1,6 +1,7 @@
 package com.example.happyhabitapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -451,6 +452,11 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
+
+    }
+
+    @Override
+    public void callUri(Uri uri) {
 
     }
     /* =========================================================================================================================================================== */
