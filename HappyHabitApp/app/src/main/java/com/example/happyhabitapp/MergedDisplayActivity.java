@@ -69,6 +69,8 @@ public class MergedDisplayActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         fire.setApi(this);
+        User user = new User(fire.getUserName());
+        fire.setUser(user);
         fire.displayNameExists(fire.getUserName(), fire.getCurrent_uid(), existDiaplayName);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
@@ -424,6 +426,7 @@ public class MergedDisplayActivity extends AppCompatActivity
                         }
                     });
         } else if (has[0] == false){
+            Toast.makeText(this,"new user", Toast.LENGTH_SHORT).show();
             User user = new User(fire.getUserName());
             fire.setUser(user);
         }
