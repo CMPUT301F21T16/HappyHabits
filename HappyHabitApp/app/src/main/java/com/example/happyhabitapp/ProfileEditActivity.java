@@ -21,7 +21,9 @@ public class ProfileEditActivity extends AppCompatActivity {
         userProfile = findViewById(R.id.imageView4);
         upload = findViewById(R.id.button3);
         userName.setText(fire.getUserName());
+
 //        userProfile.setBackground(default_profile_pic);
+
         upload.setText("Upload");
     }
 }

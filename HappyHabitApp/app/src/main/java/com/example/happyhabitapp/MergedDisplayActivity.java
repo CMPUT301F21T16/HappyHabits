@@ -52,14 +52,13 @@ public class MergedDisplayActivity extends AppCompatActivity
     private int TODAY = 0;         //Constants for changing the display type
     private int ALL= 1;
 
-    private User currentUser;      //Change this to firebase??
     private HabitsAdapter recyclerAdapter;  //For the view of all habits (interactable)
-    private DashboardAdapter listAdapter;   //For the view of today's habits (view only)
+    private NoTouchHabitAdapter listAdapter;   //For the view of today's habits (view only)
     private int buttonSelected = TODAY;     //Indicates what state buttons are in.
 
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
 
-    private ListView listView;              //Preserve information on visibility swaps
+    private RecyclerView listView;              //Preserve information on visibility swaps
     private RecyclerView recyclerView;
 
     private FireBase fire = new FireBase(); // FireBase
@@ -223,10 +222,12 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void setListAdapter(){
 
-
-        listAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
+        listAdapter = new NoTouchHabitAdapter(getTodaysHabits(habitList));
 
         listView = findViewById(R.id.todays_habits_list);
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.setHasFixedSize(true);
+
         listView.setAdapter(listAdapter);
     }
 
@@ -307,7 +308,7 @@ public class MergedDisplayActivity extends AppCompatActivity
                otherButton = findViewById(R.id.todays_habits_btn);
                listView.setVisibility(View.VISIBLE);                    //Hide the recycler, show the list view.
                recyclerView.setVisibility(View.INVISIBLE);
-//               setListAdapter();    //Re-draw listView in case any habits were removed
+               setListAdapter();    //Re-draw listView in case any habits were removed
             }
             swapColor(currentButton, otherButton);
             buttonSelected = (buttonSelected + 1) % 2;                  //Swap the state

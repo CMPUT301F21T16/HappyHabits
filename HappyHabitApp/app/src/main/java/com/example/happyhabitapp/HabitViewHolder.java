@@ -38,8 +38,9 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
 
     private ProgressBar progressBar;
     private TextView progressBarText;
-    private ArrayList<HabitEvent> event_list = new ArrayList<>();
+    private ArrayList<HabitEvent> eventList = new ArrayList<>();
     private Integer percentage = 0;
+    private String username = "";
 
     /**
      * Gets all relevant data fields and initializes a {@link GestureDetector} to set to the View.
@@ -60,6 +61,30 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
 
         habitView.setOnTouchListener(this);
     }
+
+    /**
+     * Gets all relevant data fields that does not require gesstures to set to the View.
+     * @param habitView a {@link View}
+     */
+    public HabitViewHolder(View habitView) {
+        super(habitView);
+        view = habitView;
+        titleTextView = habitView.findViewById(R.id.habit_title);
+        reasonTextView = habitView.findViewById(R.id.reason_text);
+        frequencyTextView = habitView.findViewById(R.id.selected_dates);
+        fire.setApi(this);
+    }
+
+    public HabitViewHolder(View habitView, String inUsername) {
+        super(habitView);
+        view = habitView;
+        username = inUsername;
+        titleTextView = habitView.findViewById(R.id.habit_title);
+        reasonTextView = habitView.findViewById(R.id.reason_text);
+        frequencyTextView = habitView.findViewById(R.id.selected_dates);
+        fire.setApi(this);
+    }
+
 
     /**
      * Sets the data in the view model according to {@link Habit} instance.
@@ -109,7 +134,13 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements
      * Determines what portion of the bar is filled, and what color it is to be set to.
      */
     private void getProgressOnBar(Habit habit) {
-        fire.getEventList(event_list, habit);
+        if (username.equals("")) {
+            fire.getEventList(eventList, habit);
+        }
+        else {
+            fire.getOthersEvent(username, eventList, habit);
+        }
+
         // the body is in callEvents for firebase asynchronous access
     }
 

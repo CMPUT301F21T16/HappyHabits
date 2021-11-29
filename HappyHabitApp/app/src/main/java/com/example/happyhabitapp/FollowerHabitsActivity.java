@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,12 +29,13 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
 
     //TODO: Add onClickListener to each item to view events
     private FireBase fire = new FireBase();
-    private DashboardAdapter todaysHabitsAdapter;
-    private DashboardAdapter allHabitsAdapter;   //For the view of today's habits (view only)
+    private NoTouchHabitAdapter todaysHabitsAdapter;
+    private NoTouchHabitAdapter allHabitsAdapter;   //For the view of today's habits (view only)
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
+    private ArrayList<HabitEvent> eventList = new ArrayList<HabitEvent>();
 
-    private ListView todaysHabitsView;              //Preserve information on visibility swaps
-    private ListView allHabitsView;
+    private RecyclerView todaysHabitsView;              //Preserve information on visibility swaps
+    private RecyclerView allHabitsView;
     private String username;
 
     @Override
@@ -45,10 +48,9 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
         }
         fire.getOthersHabit(username, habitList);
         setContentView(R.layout.activity_follower_habits);
-//        setListAdapters();
+        //setListAdapters();
         setButtons();
         setUsername();
-
     }
 
     /**
@@ -58,11 +60,17 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
         allHabitsView = findViewById(R.id.follower_habits_list);
         todaysHabitsView = findViewById(R.id.follower_todays_habits_list);
 
-        allHabitsAdapter = new DashboardAdapter(this, habitList, username);
-        todaysHabitsAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
-
-        allHabitsView.setAdapter(allHabitsAdapter);
+        //Set adapter for todays habits
+        todaysHabitsAdapter = new NoTouchHabitAdapter(getTodaysHabits(habitList), username);
+        todaysHabitsView.setLayoutManager(new LinearLayoutManager(this));
+        todaysHabitsView.setHasFixedSize(true);
         todaysHabitsView.setAdapter(todaysHabitsAdapter);
+
+        //Set adapter for all habits
+        allHabitsAdapter = new NoTouchHabitAdapter(habitList, username);
+        allHabitsView.setLayoutManager(new LinearLayoutManager(this));
+        allHabitsView.setHasFixedSize(true);
+        allHabitsView.setAdapter(allHabitsAdapter);
     }
 
     /**

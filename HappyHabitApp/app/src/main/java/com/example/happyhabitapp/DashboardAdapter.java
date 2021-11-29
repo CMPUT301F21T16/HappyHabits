@@ -144,8 +144,9 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
         float totalProgress = 0;
 
         if (progressCap == 0) {
-            progressBar.setVisibility(View.INVISIBLE);//If there are no respective events, progress bar will not show up.
+            progressBar.setVisibility(View.INVISIBLE);    //If there are no respective events, progress bar will not show up.
             progressBarText.setVisibility(View.INVISIBLE);
+            this.notifyDataSetChanged();
         }
         else {
             progressBar.setMax(progressCap);
@@ -164,6 +165,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
                     break;
             }
         }
+
         float temp = (totalProgress/progressCap) * 100;
         Integer temp2 = Math.round(temp);
         percentage = temp2;  //Gets a rounded percentage out of 100
@@ -171,5 +173,9 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
 
         fillProgressBar(percentage);
         progressBar.setProgress(percentage);
+
+
+
+
     }
 }

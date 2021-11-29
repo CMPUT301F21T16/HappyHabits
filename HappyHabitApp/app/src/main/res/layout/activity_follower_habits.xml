@@ -8,7 +8,7 @@
     tools:context=".MergedDisplayActivity">
 
     <!--  Overlaps with recyclerview, toggles on button press  -->
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/follower_todays_habits_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -18,9 +18,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-    </ListView>
+    </androidx.recyclerview.widget.RecyclerView>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/follower_habits_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-    </ListView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -93,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:backgroundTint="@color/theme_primary"
+                app:backgroundTint="@color/theme_secondary"
                 android:gravity="center"
                 android:insetLeft="0dp"
                 android:insetTop="0dp"
@@ -101,7 +101,7 @@
                 android:insetBottom="0dp"
                 android:minWidth="0dp"
                 android:text="@string/todays_habit_header"
-                android:textColor="@color/theme_secondary"
+                android:textColor="@color/theme_primary"
                 android:textSize="18sp"
                 app:cornerRadius="0dp"
                 tools:ignore="TextContrastCheck" />
@@ -111,7 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:backgroundTint="@color/theme_secondary"
+                app:backgroundTint="@color/theme_primary"
                 android:gravity="center"
                 android:insetLeft="0dp"
                 android:insetTop="0dp"
@@ -120,7 +120,7 @@
                 android:minWidth="0dp"
                 android:padding="0dp"
                 android:text="@string/all_habit_header"
-                android:textColor="@color/theme_primary"
+                android:textColor="@color/theme_secondary"
                 android:textSize="18sp"
                 app:cornerRadius="0dp"
                 tools:ignore="TextContrastCheck" />
