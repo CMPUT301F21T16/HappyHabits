@@ -8,7 +8,10 @@
     tools:context=".ProfileEditActivity"
     android:orientation="vertical">
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,7 +29,10 @@
 
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
     <TextView
         android:id="@+id/user_name"
@@ -42,11 +48,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         android:background="@color/theme_primary"
         android:onClick="uploadProfile"
         android:text="Button"
         android:backgroundTint="@color/theme_primary"
         android:textColor="@color/theme_secondary"/>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 </LinearLayout>

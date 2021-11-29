@@ -30,14 +30,14 @@ import java.io.ByteArrayOutputStream;
 public class ProfileEditActivity extends AppCompatActivity {
     private final String TAG = "ProfileEditActivity";
 
-
     private FireBase fire = new FireBase();
     private TextView userName;
     private ImageView userProfile;
     private Button upload;
-
     String PROFILE_IMAGE_URL = null;
     int TAKE_IMAGE_CODE = 10002;
+
+
 
 
     @Override
@@ -48,6 +48,9 @@ public class ProfileEditActivity extends AppCompatActivity {
         userProfile = findViewById(R.id.imageView4);
         upload = findViewById(R.id.button3);
         userName.setText(fire.getUserName());
+
+
+
 
         upload.setText("Upload");
 
