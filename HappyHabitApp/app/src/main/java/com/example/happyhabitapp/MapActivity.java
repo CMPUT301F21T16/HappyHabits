@@ -57,6 +57,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
 
         currLocationButton = findViewById(R.id.current_location_btn);
+        currLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                googleMap.clear();
+                getLastLocation(googleMap);
+            }
+        });
         Bundle bundle = getIntent().getExtras();
         latlng = bundle.getParcelable("latlng");
 
@@ -75,7 +82,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .draggable(true)
                 .position(latlng)
                 .title("Habit Location"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
         googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDrag(@NonNull Marker marker) {
