@@ -221,7 +221,6 @@ public class MergedDisplayActivity extends AppCompatActivity
     private void setListAdapter(){
 
 
-//      listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
         listAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
 
         listView = findViewById(R.id.todays_habits_list);
@@ -305,7 +304,7 @@ public class MergedDisplayActivity extends AppCompatActivity
                otherButton = findViewById(R.id.todays_habits_btn);
                listView.setVisibility(View.VISIBLE);                    //Hide the recycler, show the list view.
                recyclerView.setVisibility(View.INVISIBLE);
-               setListAdapter();    //Re-draw listView in case any habits were removed
+//               setListAdapter();    //Re-draw listView in case any habits were removed
             }
             swapColor(currentButton, otherButton);
             buttonSelected = (buttonSelected + 1) % 2;                  //Swap the state
@@ -426,7 +425,6 @@ public class MergedDisplayActivity extends AppCompatActivity
                         }
                     });
         } else if (has[0] == false){
-            Toast.makeText(this,"new user", Toast.LENGTH_SHORT).show();
             User user = new User(fire.getUserName());
             fire.setUser(user);
         }
