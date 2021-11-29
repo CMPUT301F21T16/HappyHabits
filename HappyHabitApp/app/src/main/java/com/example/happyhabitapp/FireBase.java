@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class FireBase implements FirestoreCallback{
 
-    private final static String TAG = "FireBase";
+    private final String TAG = "FireBase";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -327,12 +327,12 @@ public class FireBase implements FirestoreCallback{
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         // loop through all existing users
+                        Log.d(TAG, "onEvent: getting followees");
                         if (value != null){
                             for (QueryDocumentSnapshot doc: value){
                                 map[0] = doc.getData();
-                                String followee_name = (String) map[0].get("username");
+                                String followee_name = (String) map[0].get("DisplayName");
                                 if (followee_name != null){
-
                                     Log.d(TAG, "onEvent: null followees");
                                     getOtherUser(followee_name)
                                             .collection("Followers")

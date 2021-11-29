@@ -63,7 +63,7 @@ public class LogInActivity extends AppCompatActivity {
                 //Checking for User (New/Old)
                 if (user.getMetadata().getCreationTimestamp() == user.getMetadata().getLastSignInTimestamp()) {
                     //This is a New User
-                    Toast.makeText(this,"Welcome new User", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this,"Welcome new User", Toast.LENGTH_SHORT).show();
                 } else {
                     //This is a returning user
                     Toast.makeText(this,"Welcome back", Toast.LENGTH_SHORT).show();

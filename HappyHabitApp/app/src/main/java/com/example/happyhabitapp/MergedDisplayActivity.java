@@ -138,6 +138,9 @@ public class MergedDisplayActivity extends AppCompatActivity
                             }
                         }
                     });
+        }else if (item_id == R.id.profile){
+            Toast.makeText(this, "Set profile", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MergedDisplayActivity.this, ProfileEditActivity.class));
         }
         return true;
     }
