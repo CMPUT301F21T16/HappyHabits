@@ -1,11 +1,11 @@
 package com.example.happyhabitapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -196,6 +196,11 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
+
+    }
+
+    @Override
+    public void callUri(Uri uri) {
 
     }
 }

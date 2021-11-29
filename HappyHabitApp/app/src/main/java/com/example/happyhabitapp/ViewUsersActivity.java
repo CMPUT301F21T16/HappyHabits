@@ -1,12 +1,17 @@
 package com.example.happyhabitapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -21,6 +26,7 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
     ArrayList<User> followerList = new ArrayList<User>();
     ArrayList<User> followeeList = new ArrayList<User>();
     ListView followUsers;
+
 
     FireBase fire = new FireBase();
 
@@ -44,6 +50,16 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
     private void setPreliminaryInfo() {
         TextView usernameTextView = findViewById(R.id.follow_list_username);
         TextView listHeader = findViewById(R.id.following_or_followee);
+        // to display the userProfile from firebase storage
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null){
+            if (currentUser.getPhotoUrl() != null){
+                ImageView userProfile = findViewById(R.id.follow_list_pic);
+                Glide.with(this)
+                        .load(currentUser.getPhotoUrl())
+                        .into(userProfile);
+            }
+        }
 
         usernameTextView.setText(fire.getUserName());
         listHeader.setText(followState);
@@ -88,5 +104,10 @@ public class ViewUsersActivity extends AppCompatActivity implements FirestoreCal
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
+    }
+
+    @Override
+    public void callUri(Uri uri) {
+
     }
 }

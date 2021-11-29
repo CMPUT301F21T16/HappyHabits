@@ -8,6 +8,7 @@
 
 package com.example.happyhabitapp;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -614,6 +617,26 @@ public class FireBase implements FirestoreCallback{
                 });
     }
 
+    public void getOtherPic(String name){
+        StorageReference ref = FirebaseStorage.getInstance().getReference();
+        ref
+                .child("profileImage")
+                .child(name+".jpeg")
+                .getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        fireapi.callUri(uri);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
 
 
 
@@ -864,6 +887,11 @@ public class FireBase implements FirestoreCallback{
 
     @Override
     public void callEventList(ArrayList<HabitEvent> events) {
+
+    }
+
+    @Override
+    public void callUri(Uri uri) {
 
     }
 

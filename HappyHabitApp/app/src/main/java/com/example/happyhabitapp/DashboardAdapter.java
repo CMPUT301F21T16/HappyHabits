@@ -3,6 +3,7 @@ package com.example.happyhabitapp;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -176,6 +177,11 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
 
 
 
+
+    }
+
+    @Override
+    public void callUri(Uri uri) {
 
     }
 }

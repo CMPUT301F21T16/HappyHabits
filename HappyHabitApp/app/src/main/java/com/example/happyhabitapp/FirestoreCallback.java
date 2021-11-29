@@ -5,6 +5,8 @@
 
 package com.example.happyhabitapp;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 public interface FirestoreCallback {
@@ -12,4 +14,5 @@ public interface FirestoreCallback {
     void callUserList(ArrayList<User> requesters);
     void checkUser(boolean[] has);
     void callEventList(ArrayList<HabitEvent> events);
+    void callUri(Uri uri);
 }

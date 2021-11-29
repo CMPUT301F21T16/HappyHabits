@@ -7,6 +7,7 @@
 package com.example.happyhabitapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -166,6 +167,11 @@ public class TestActivity extends AppCompatActivity implements FirebaseAuth.Auth
         if (size == 0){
 
         }
+    }
+
+    @Override
+    public void callUri(Uri uri) {
+
     }
 
 

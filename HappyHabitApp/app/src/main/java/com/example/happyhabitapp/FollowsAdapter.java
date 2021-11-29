@@ -2,26 +2,31 @@ package com.example.happyhabitapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 /**
  * A class that adapts and inflates a list of users
  */
-public class FollowsAdapter extends ArrayAdapter<User> {
+public class FollowsAdapter extends ArrayAdapter<User> implements FirestoreCallback{
 
     ArrayList<User> users;
     private Context context;
     boolean isAcceptable;
+    private ImageView requestUserPic;
 
 
     private FireBase fire = new FireBase();
@@ -33,6 +38,7 @@ public class FollowsAdapter extends ArrayAdapter<User> {
      */
     public FollowsAdapter(Context context, ArrayList<User> users, boolean isAcceptable) {
         super(context, 0, users);
+        fire.setApi(this);
         this.users = users;
         this.context = context;
         this.isAcceptable = isAcceptable;
@@ -54,9 +60,13 @@ public class FollowsAdapter extends ArrayAdapter<User> {
         TextView usernameTextView = view.findViewById(R.id.follow_request_username);
         Button acceptReqButton = view.findViewById(R.id.accept_req_btn);
         Button rejectReqButton = view.findViewById(R.id.reject_req_btn);
+        requestUserPic = view.findViewById(R.id.other_profile_page_pic);
+
 
         //Setters
         usernameTextView.setText(requestingUser.getUsername());
+        fire.getOtherPic(requestingUser.getUsername());
+
 
         //Do not render the buttons if the users are already accepted as followers
         if (!isAcceptable) {
@@ -90,4 +100,30 @@ public class FollowsAdapter extends ArrayAdapter<User> {
     }
 
 
+    @Override
+    public void callHabitList(ArrayList<Habit> habits) {
+
+    }
+
+    @Override
+    public void callUserList(ArrayList<User> requesters) {
+
+    }
+
+    @Override
+    public void checkUser(boolean[] has) {
+
+    }
+
+    @Override
+    public void callEventList(ArrayList<HabitEvent> events) {
+
+    }
+
+    @Override
+    public void callUri(Uri uri) {
+        Glide.with(this.getContext())
+                .load(uri)
+                .into(requestUserPic);
+    }
 }
