@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class FireBase implements FirestoreCallback{
 
-    private final String TAG = "FireBase";
+    private final static String TAG = "FireBase";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -63,23 +63,43 @@ public class FireBase implements FirestoreCallback{
      */
 
     public void setUser(User user) {
+
         Map<String, Object> map = new HashMap<>();
         map.put("DisplayName", user.getUsername());
-        map.put("UID", getCurrent_uid());
-        User
-                .set(map)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        map.put(getCurrent_uid(), "Uid");
+        Users.document(user.getUsername())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "onSuccess: user added to fire");
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+
+                        }else {
+                            User
+                                    .set(map)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.d(TAG, "onSuccess: user added to fire");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e(TAG, "onFailure: could not add user", e);
+                                        }
+                                    });
+                        }
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: could not add user", e);
+                        Log.e(TAG, "onFailure: database error", e);
                     }
                 });
+
     }
 
     /**
@@ -307,32 +327,40 @@ public class FireBase implements FirestoreCallback{
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         // loop through all existing users
-                        for (QueryDocumentSnapshot doc: value){
-                            map[0] = doc.getData();
-                            String followee_name = (String) map[0].get("username");
-                            getOtherUser(followee_name)
-                                    .collection("Followers")
-                                    .document(getUserName())
-                                    .get()
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            // if the current user is in the follower list of other user, add it to the current user's followee list
-                                            if (documentSnapshot.exists()){
-                                                User followee = new User(followee_name);
-                                                setFollowees(followee);
-                                                list.add(followee);
-                                            }
-                                            fireapi.callUserList(list);
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
+                        if (value != null){
+                            for (QueryDocumentSnapshot doc: value){
+                                map[0] = doc.getData();
+                                String followee_name = (String) map[0].get("username");
+                                if (followee_name != null){
 
-                                        }
-                                    });
+                                    Log.d(TAG, "onEvent: null followees");
+                                    getOtherUser(followee_name)
+                                            .collection("Followers")
+                                            .document(getUserName())
+                                            .get()
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    // if the current user is in the follower list of other user, add it to the current user's followee list
+                                                    if (documentSnapshot.exists()){
+                                                        User followee = new User(followee_name);
+                                                        setFollowees(followee);
+                                                        list.add(followee);
+                                                    }
+                                                    fireapi.callUserList(list);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+
+                                                }
+                                            });
+                                }
+
+                            }
                         }
+
                     }
                 });
     }
@@ -350,33 +378,36 @@ public class FireBase implements FirestoreCallback{
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         list.clear();
 //                        Log.d(TAG, "onEvent: getting Habits");
-                        for (QueryDocumentSnapshot doc: value){
-                            map[0] = doc.getData();
-                            // get title
-                            String title = (String) map[0].get("Title");
-                            // get reason
-                            String reason = (String) map[0].get("Reason");
-                            // get week_freq
-                            List<Long> freq = (List<Long>) map[0].get("Days");
-                            int[] finalFreq = new int[freq.size()];
-                            for (int i = 0; i<freq.size(); i++){
-                                //Long l = new Long(freq[i]);
-                                finalFreq[i] = freq.get(i).intValue();
+                        if (value != null){
+                            for (QueryDocumentSnapshot doc: value){
+                                map[0] = doc.getData();
+                                // get title
+                                String title = (String) map[0].get("Title");
+                                // get reason
+                                String reason = (String) map[0].get("Reason");
+                                // get week_freq
+                                List<Long> freq = (List<Long>) map[0].get("Days");
+                                int[] finalFreq = new int[freq.size()];
+                                for (int i = 0; i<freq.size(); i++){
+                                    //Long l = new Long(freq[i]);
+                                    finalFreq[i] = freq.get(i).intValue();
+                                }
+                                // get date
+                                Map<String, Object> dates = (Map<String, Object>) map[0].get("Dates");
+                                Timestamp createDate = (Timestamp) dates.get("time");
+                                Date cal = createDate.toDate();
+                                Calendar finalDate  = Calendar.getInstance();
+                                finalDate.setTime(cal);
+                                // get public status
+                                boolean pub = (boolean) map[0].get("public");
+                                // construct habit and add to list
+                                Habit habit = new Habit(title, reason, finalDate, finalFreq, pub, null);
+                                Log.d(TAG, String.valueOf(finalFreq[0]));
+                                list.add(habit);
                             }
-                            // get date
-                            Map<String, Object> dates = (Map<String, Object>) map[0].get("Dates");
-                            Timestamp createDate = (Timestamp) dates.get("time");
-                            Date cal = createDate.toDate();
-                            Calendar finalDate  = Calendar.getInstance();
-                            finalDate.setTime(cal);
-                            // get public status
-                            boolean pub = (boolean) map[0].get("public");
-                            // construct habit and add to list
-                            Habit habit = new Habit(title, reason, finalDate, finalFreq, pub, null);
-                            Log.d(TAG, String.valueOf(finalFreq[0]));
-                            list.add(habit);
+                            fireapi.callHabitList(list);
                         }
-                        fireapi.callHabitList(list);
+
                     }
                 });
     }
@@ -751,20 +782,49 @@ public class FireBase implements FirestoreCallback{
                 });
     }
 
-//    public void displayNameExists(String name, boolean has[]){
-//        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
-//        has[0] = false;
-//        Users.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                for (QueryDocumentSnapshot doc : value){
-//                    map[0] = doc.getData();
-//                    String name = (String) map[0].get("DisplayName");
-//
-//                }
-//            }
-//        });
-//    }
+    /**
+     * check if new user's username has already been taken
+     * @param name
+     * @param Uid
+     * @param has
+     */
+    public void displayNameExists(String name, String Uid, boolean has[]){
+        final Map<String, Object>[] map = new Map[]{new HashMap<>()};
+        has[0] = false;
+        Users
+                .document(name)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Log.d(TAG, "onSuccess: check names");
+                        if (documentSnapshot.exists()){
+                            Log.d(TAG, "onSuccess: name exists");
+                            User
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            String uid = (String) documentSnapshot.get(getCurrent_uid());
+                                            if (uid == null){
+                                                Log.d(TAG, "onSuccess: different uid");
+                                                has[0]=true;
+                                            }else {
+                                                Log.d(TAG, "onSuccess: same uid");
+                                            }
+                                            fireapi.checkUser(has);
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        
+                    }
+                });
+    }
 
     /* ================================================================================== Special Helper Functions ============================================================ */
 

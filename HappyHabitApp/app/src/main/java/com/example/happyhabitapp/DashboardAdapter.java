@@ -73,7 +73,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
         progressBarText = view.findViewById(R.id.progress_text);
 
         //Setters
-        //habitTitle.setText(habit.getTitle());
+        habitTitle.setText(habit.getTitle());
         habitReason.setText(habit.getReason());
         habitFreq.setText(habit.getWeekAsStr());
         setProgressOnBar(habit);
@@ -83,8 +83,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
 
     private void setProgressOnBar(Habit habit) {
         getProgressOnBar(habit);
-//        progressBar = view.findViewById(R.id.progress_bar);
-//        progressBarText = view.findViewById(R.id.progress_text);
+
     }
 
     /**
@@ -116,7 +115,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
     private void getProgressOnBar(Habit habit) {
         // the body is in callEvents for firebase asynchronous access
         if (username != ""){
-            //fire.getOthersEvent(username, events, habit);
+            fire.getOthersEvent(username, events, habit);
         }else {
             fire.getEventList(events, habit);
         }
@@ -165,7 +164,7 @@ public class DashboardAdapter extends ArrayAdapter<Habit> implements FirestoreCa
                     break;
             }
         }
-        float temp = totalProgress/progressCap * 100;
+        float temp = (totalProgress/progressCap) * 100;
         Integer temp2 = Math.round(temp);
         percentage = temp2;  //Gets a rounded percentage out of 100
         progressBarText.setText(percentage.toString());

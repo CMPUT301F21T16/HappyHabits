@@ -27,8 +27,8 @@ public class Habit implements Serializable {
         this.date = date;
         this.week_freq = week_freq;
         this.publicHabit = publicHabit;
-        HabitEvent dummy = new HabitEvent();
-        this.events.add(dummy);
+//        HabitEvent dummy = new HabitEvent();
+//        this.events.add(dummy);
     }
 
     public Habit(String title, String reason, Calendar date, int[] week_freq, boolean publicHabit, ArrayList<HabitEvent> events) {

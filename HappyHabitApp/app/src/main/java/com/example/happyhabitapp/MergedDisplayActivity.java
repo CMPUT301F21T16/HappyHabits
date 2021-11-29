@@ -23,7 +23,10 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,16 +63,15 @@ public class MergedDisplayActivity extends AppCompatActivity
     private RecyclerView recyclerView;
 
     private FireBase fire = new FireBase(); // FireBase
-
+    private boolean[] existDiaplayName = {false};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        User user = new User(fire.getUserName());
-        fire.setUser(user);
+        fire.setApi(this);
+        fire.displayNameExists(fire.getUserName(), fire.getCurrent_uid(), existDiaplayName);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
-        fire.setApi(this);
         fire.getHabitList(habitList);
         try {
             Thread.sleep(100);
@@ -83,17 +85,8 @@ public class MergedDisplayActivity extends AppCompatActivity
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
 
-        //-------TEST INFO - REMOVE LATER -------
-        int[] selectedDates = {1,0,0,1,0,0,0};
-        int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true);
 
-        ArrayList<Habit> testList = new ArrayList<Habit>();
-        testList.add(habit1); testList.add(habit2); testList.add(habit3);
-        //-----------------------------------
-//        currentUser = new User("TestUser", "somePath", testList);
+
 
         setAdapters();
         setButtonListeners();
@@ -405,6 +398,35 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     public void checkUser(boolean[] has) {
+        if (has[0] == true) {
+            Toast.makeText(this, "Username Already Used", Toast.LENGTH_SHORT).show();
+            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            // Get auth credentials from the user for re-authentication. The example below shows
+            // email and password credentials but there are multiple possible providers,
+            // such as GoogleAuthProvider or FacebookAuthProvider.
+            AuthCredential credential = EmailAuthProvider
+                    .getCredential("user@example.com", "password1234");
+
+            // Prompt the user to re-provide their sign-in credentials
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            user.delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User account deleted.");
+                                            }
+                                        }
+                                    });
+                        }
+                    });
+        } else if (has[0] == false){
+            User user = new User(fire.getUserName());
+            fire.setUser(user);
+        }
 
     }
 
