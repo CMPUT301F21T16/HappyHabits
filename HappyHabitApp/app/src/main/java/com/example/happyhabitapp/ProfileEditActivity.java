@@ -1,7 +1,5 @@
 package com.example.happyhabitapp;
 
-import static com.example.happyhabitapp.R.drawable.default_profile_pic;
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,7 +21,7 @@ public class ProfileEditActivity extends AppCompatActivity {
         userProfile = findViewById(R.id.imageView4);
         upload = findViewById(R.id.button3);
         userName.setText(fire.getUserName());
-        userProfile.setBackground(default_profile_pic);
+//        userProfile.setBackground(default_profile_pic);
         upload.setText("Upload");
     }
 }
