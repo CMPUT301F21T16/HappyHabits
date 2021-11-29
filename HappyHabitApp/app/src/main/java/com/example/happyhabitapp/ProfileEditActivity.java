@@ -1,3 +1,8 @@
+/**
+ * This class is to let user to change their user profile pictures
+ */
+
+
 package com.example.happyhabitapp;
 
 import android.content.Intent;
@@ -16,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,7 +63,9 @@ public class ProfileEditActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null){
             if (user.getPhotoUrl() != null){
-                
+                Glide.with(this)
+                        .load(user.getPhotoUrl())
+                        .into(userProfile);
             }
         }
     }

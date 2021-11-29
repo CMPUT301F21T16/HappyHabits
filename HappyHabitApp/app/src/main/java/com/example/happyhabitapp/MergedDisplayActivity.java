@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -63,10 +63,12 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     private FireBase fire = new FireBase(); // FireBase
     private boolean[] existDiaplayName = {false};
+    private ImageView userProfile;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         fire.setApi(this);
         User user = new User(fire.getUserName());
         fire.setUser(user);
@@ -79,6 +81,18 @@ public class MergedDisplayActivity extends AppCompatActivity
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // to display the userProfile from firebase storage
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null){
+            if (currentUser.getPhotoUrl() != null){
+                userProfile = findViewById(R.id.dashboard_profile_pic);
+                Glide.with(this)
+                        .load(currentUser.getPhotoUrl())
+                        .into(userProfile);
+            }
+        }
+
 
 
 

@@ -11,6 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 
 public class ProfilePageActivity extends AppCompatActivity implements FirestoreCallback{
@@ -25,7 +29,8 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
     private Integer followee_num;
     private boolean[] has_user = {false};
 
-    String request_name;
+    private String request_name;
+    private ImageView userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,17 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         fire.getFollowerList(followerList);
         fire.getFolloweeList(followeeList);
         fire.getRequestList(pendingRequests);
+
+        // to display the userProfile from firebase storage
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null){
+            if (currentUser.getPhotoUrl() != null){
+                userProfile = findViewById(R.id.profile_page_pic);
+                Glide.with(this)
+                        .load(currentUser.getPhotoUrl())
+                        .into(userProfile);
+            }
+        }
 
 //        setList();
 //        setPreliminaryInfo();
