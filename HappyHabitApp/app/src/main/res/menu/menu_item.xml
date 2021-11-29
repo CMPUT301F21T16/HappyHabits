@@ -14,6 +14,11 @@
                 app:showAsAction="never">
 
             </item>
+            <item
+                android:id="@+id/profile"
+                android:title="Profile"
+                app:showAsAction="never">
+            </item>
 
         </menu>
 

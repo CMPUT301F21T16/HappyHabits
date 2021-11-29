@@ -4,18 +4,21 @@ import static java.lang.Thread.sleep;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +34,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private LatLng latlng;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Button setLocationButton;
-    private Boolean edit;
+    private Button currLocationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         setContentView(R.layout.map_view);
         Bundle bundle = getIntent().getExtras();
         latlng = bundle.getParcelable("latlng");
-        edit = bundle.getBoolean("edit");
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -53,21 +55,34 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     public void onMapReady(GoogleMap googleMap) {
-        if (!edit) { // not editing so get current location from map
+
+        currLocationButton = findViewById(R.id.current_location_btn);
+        currLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                googleMap.clear();
+                getLastLocation(googleMap);
+            }
+        });
+        Bundle bundle = getIntent().getExtras();
+        latlng = bundle.getParcelable("latlng");
+
+        // an existing HabitEvent may not have location data, so we check for null
+        if (latlng == null) {
+            // the event had no location data
             getLastLocation(googleMap);
-        }
-        else if(edit){ // if editing place marker at previously chosen location
-            Bundle bundle = getIntent().getExtras();
-            latlng = bundle.getParcelable("latlng");
+        } else {
+            // the event did have location data
             addMarker(googleMap);
+
         }
     }
     public void addMarker(GoogleMap googleMap){
         googleMap.addMarker(new MarkerOptions()
                 .draggable(true)
                 .position(latlng)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12));
+                .title("Habit Location"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
         googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDrag(@NonNull Marker marker) {
@@ -107,9 +122,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                latlng = new LatLng(location.getLatitude(), location.getLongitude());
-                Log.d("Test","got location");
-                addMarker(googleMap);
+                if (location!= null) {
+                    latlng = new LatLng(location.getLatitude(), location.getLongitude());
+                    Log.d("Test", "got location");
+                    addMarker(googleMap);
+                }
+                else if (location == null) { // in case getlastlocation returns null
+                    Context context = getApplicationContext();
+                    CharSequence text = "Location not found";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                }
             }
             });
     }

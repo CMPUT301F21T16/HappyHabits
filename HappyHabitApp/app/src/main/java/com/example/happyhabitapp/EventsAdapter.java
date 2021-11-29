@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,14 +16,16 @@ import java.util.List;
  * @author Jonathan
  */
 public class EventsAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
-
-    private List<HabitEvent> habitEventList;
+    private FireBase fire = new FireBase();
+    private ArrayList<HabitEvent> habitEventList;
     private ItemTouchHelper touchHelper;
     private HabitListener habitListener;
+    private Habit about;
 
-    public EventsAdapter(List<HabitEvent> habitEventList, HabitListener habitListener) {
+    public EventsAdapter(ArrayList<HabitEvent> habitEventList, HabitListener habitListener, Habit about) {
         this.habitEventList = habitEventList;
         this.habitListener = habitListener;
+        this.about = about;
     }
 
     @NonNull
@@ -53,6 +56,7 @@ public class EventsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
 
     @Override
     public void onItemSwipe(int position) {
+        fire.delEvent(about, habitEventList.get(position));
         habitEventList.remove(position);
         notifyItemRemoved(position);
         //Delete from firebase
@@ -60,6 +64,14 @@ public class EventsAdapter extends RecyclerView.Adapter implements ItemTouchHelp
 
     public void setTouchHelper(ItemTouchHelper helper) {
         this.touchHelper = helper;
+    }
+
+    public List<HabitEvent> getHabitEventList() {
+        return habitEventList;
+    }
+
+    public ArrayList<HabitEvent> getEventsList() {
+        return habitEventList;
     }
 }
 

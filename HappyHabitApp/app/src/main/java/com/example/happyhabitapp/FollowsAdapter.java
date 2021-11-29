@@ -19,10 +19,10 @@ import java.util.ArrayList;
  */
 public class FollowsAdapter extends ArrayAdapter<User> {
 
-    User currentUser;
     ArrayList<User> users;
     private Context context;
     boolean isAcceptable;
+
 
     private FireBase fire = new FireBase();
 
@@ -67,14 +67,13 @@ public class FollowsAdapter extends ArrayAdapter<User> {
             view.setOnClickListener(v -> {
                 //TODO: Pass the selected username to the dashboard
 
-                Intent toUserDashboard = new Intent(getContext(), MergedDisplayActivity.class);
+                Intent toUserDashboard = new Intent(getContext(), FollowerHabitsActivity.class);
                 toUserDashboard.putExtra("username", requestingUser.getUsername());
                 getContext().startActivity(toUserDashboard);
             });
         }
         //Otherwise attach listeners to accept/reject
         else {
-            //TODO: reflect in firebase
             acceptReqButton.setOnClickListener(v -> {
                 //Add to users followers
                 fire.delRequst(requestingUser);       //Remove from the pending list in firebase
@@ -89,4 +88,6 @@ public class FollowsAdapter extends ArrayAdapter<User> {
         }
         return view;
     }
+
+
 }

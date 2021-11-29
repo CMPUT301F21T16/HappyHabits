@@ -2,6 +2,9 @@ package com.example.happyhabitapp;
 
 
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,12 +13,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.widget.ImageViewCompat;
+
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.io.Resources;
+
+import java.io.IOException;
 
 
 /**
@@ -55,7 +58,16 @@ public class EventViewHolder extends RecyclerView.ViewHolder implements
         eventTitleTextView.setText(event.getTitle());
         commentTextView.setText(event.getDescription());
         //TODO: Replace this with the actual image
-        thumbnailImageView.setBackgroundResource(R.drawable.lol);
+        String encode = event.getImage();
+        Bitmap image = null;
+
+        try {
+            image = decodeFromFirebaseBase64(encode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        thumbnailImageView.setImageBitmap(image);
+
 
         //Switch which icon is shown in response to the retrieved status
         switch(event.getStatus()) {
@@ -116,5 +128,10 @@ public class EventViewHolder extends RecyclerView.ViewHolder implements
     public boolean onTouch(View view, MotionEvent motionEvent) {
         eventGestureDetector.onTouchEvent(motionEvent);
         return true;
+    }
+
+    public Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 }

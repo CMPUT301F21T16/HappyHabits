@@ -39,14 +39,17 @@ public class HabitActivity extends AppCompatActivity implements HabitListener, A
     private RecyclerView habitViewList;
     private ImageButton addButton; // button to add habits to list
     private HabitsAdapter adapter;
+    FireBase data;
     private final String TAG = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit);
+        data = new FireBase();
 
-        ArrayList<Habit> testList = new ArrayList<Habit>();
+        ArrayList<Habit> habitList = new ArrayList<Habit>();
+        data.getHabitList(habitList);
 
 //        currentUser = new User("TestUser", "somePath", testList, null, null);
         initActivity();

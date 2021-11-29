@@ -1,10 +1,7 @@
 package com.example.happyhabitapp;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**Implements the User Object.
  *
@@ -17,6 +14,7 @@ public class User {
 
     private String picPath;  //Represents the path of the profilePicture (Not mandatory?)
     private String username;
+    private String uid;
     private ArrayList<Habit> habitList;
     private Calendar startDate;
 
@@ -35,6 +33,7 @@ public class User {
      */
     public User(String username) {
         this.username = username;
+        this.uid = uid;
         //this.picPath = someDefaultPath; //Where we will put the default profile image
         this.habitList = new ArrayList<Habit>();
     }

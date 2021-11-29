@@ -23,7 +23,10 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,25 +52,27 @@ public class MergedDisplayActivity extends AppCompatActivity
     private int TODAY = 0;         //Constants for changing the display type
     private int ALL= 1;
 
-    private User currentUser;      //Change this to firebase??
     private HabitsAdapter recyclerAdapter;  //For the view of all habits (interactable)
-    private DashboardAdapter listAdapter;   //For the view of today's habits (view only)
+    private NoTouchHabitAdapter listAdapter;   //For the view of today's habits (view only)
     private int buttonSelected = TODAY;     //Indicates what state buttons are in.
 
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
 
-    private ListView listView;              //Preserve information on visibility swaps
+    private RecyclerView listView;              //Preserve information on visibility swaps
     private RecyclerView recyclerView;
 
     private FireBase fire = new FireBase(); // FireBase
+    private boolean[] existDiaplayName = {false};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        User user = new User(fire.getUsername());
+        fire.setApi(this);
+        User user = new User(fire.getUserName());
         fire.setUser(user);
+        fire.displayNameExists(fire.getUserName(), fire.getCurrent_uid(), existDiaplayName);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merged_display);
-        fire.setApi(this);
         fire.getHabitList(habitList);
         try {
             Thread.sleep(100);
@@ -81,17 +86,8 @@ public class MergedDisplayActivity extends AppCompatActivity
         //Eventually get from the login-screen. For now, make a dummy version.
         Calendar today = Calendar.getInstance();
 
-        //-------TEST INFO - REMOVE LATER -------
-        int[] selectedDates = {1,0,0,1,0,0,0};
-        int[] selectedDates2 = {0,0,0,0,1,1,1};
-        Habit habit1 = new Habit("Get Food", "I am hungry", today, selectedDates,true, null);
-        Habit habit2 = new Habit("Feed dog", "They are hungry", today, selectedDates2,false, null);
-        Habit habit3 = new Habit("Test the list", "Who knows if it works", today, selectedDates,true, null);
 
-        ArrayList<Habit> testList = new ArrayList<Habit>();
-        testList.add(habit1); testList.add(habit2); testList.add(habit3);
-        //-----------------------------------
-//        currentUser = new User("TestUser", "somePath", testList);
+
 
         setAdapters();
         setButtonListeners();
@@ -104,7 +100,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      * Takes user back to the log-in screen
      */
     private void startLogin(){
-        startActivity(new Intent(MergedDisplayActivity.this, MainActivity.class));
+        startActivity(new Intent(MergedDisplayActivity.this, LogInActivity.class));
         this.finish();
     }
 
@@ -141,6 +137,9 @@ public class MergedDisplayActivity extends AppCompatActivity
                             }
                         }
                     });
+        }else if (item_id == R.id.profile){
+            Toast.makeText(this, "Set profile", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MergedDisplayActivity.this, ProfileEditActivity.class));
         }
         return true;
     }
@@ -185,7 +184,7 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void setUsername(){
         TextView username = findViewById(R.id.userName); //Delete the duplicate "username" ID in activity_habit.xml
-        username.setText(fire.getUsername());
+        username.setText(fire.getUserName());
     }
 
     /**
@@ -223,11 +222,12 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void setListAdapter(){
 
-
-//        listAdapter = new DashboardAdapter(this, getTodaysHabits(currentUser.getHabitList()));
-        listAdapter = new DashboardAdapter(this, getTodaysHabits(habitList));
+        listAdapter = new NoTouchHabitAdapter(getTodaysHabits(habitList));
 
         listView = findViewById(R.id.todays_habits_list);
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.setHasFixedSize(true);
+
         listView.setAdapter(listAdapter);
     }
 
@@ -296,7 +296,6 @@ public class MergedDisplayActivity extends AppCompatActivity
         Button currentButton;
         Button otherButton;
 
-
         if (buttonSelected != mode) {        //Only trigger if the button isn't already selected
             if (mode == ALL) {
                currentButton = findViewById(R.id.todays_habits_btn);
@@ -323,12 +322,12 @@ public class MergedDisplayActivity extends AppCompatActivity
      */
     private void swapColor(Button current, Button other) {
         //De-select the current button
-        current.setBackgroundTintList(getResources().getColorStateList(R.color.theme_secondary));   //Different setter due to material button
-        current.setTextColor(getResources().getColor(R.color.theme_primary));
+        other.setBackgroundTintList(getResources().getColorStateList(R.color.theme_secondary));   //Different setter due to material button
+        other.setTextColor(getResources().getColor(R.color.theme_primary));
 
         //Select the other button
-        other.setBackgroundTintList(getResources().getColorStateList(R.color.theme_primary));
-        other.setTextColor(getResources().getColor(R.color.theme_secondary));
+        current.setBackgroundTintList(getResources().getColorStateList(R.color.theme_primary));
+        current.setTextColor(getResources().getColor(R.color.theme_secondary));
     }
 
     /**
@@ -390,10 +389,7 @@ public class MergedDisplayActivity extends AppCompatActivity
         newFragment.setArguments(args);
         newFragment.show(getSupportFragmentManager(), "Edit Habit");
     }
-
-
-
-
+    /* =============================================================== Methods for FirestoreCallback ======================================================= */
     @Override
     public void callHabitList(ArrayList<Habit> habits) {
         setAdapters();
@@ -407,6 +403,35 @@ public class MergedDisplayActivity extends AppCompatActivity
 
     @Override
     public void checkUser(boolean[] has) {
+        if (has[0] == true) {
+            Toast.makeText(this, "Username Already Used", Toast.LENGTH_SHORT).show();
+            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            // Get auth credentials from the user for re-authentication. The example below shows
+            // email and password credentials but there are multiple possible providers,
+            // such as GoogleAuthProvider or FacebookAuthProvider.
+            AuthCredential credential = EmailAuthProvider
+                    .getCredential("user@example.com", "password1234");
+
+            // Prompt the user to re-provide their sign-in credentials
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            user.delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User account deleted.");
+                                            }
+                                        }
+                                    });
+                        }
+                    });
+        } else if (has[0] == false){
+            User user = new User(fire.getUserName());
+            fire.setUser(user);
+        }
 
     }
 
@@ -414,6 +439,7 @@ public class MergedDisplayActivity extends AppCompatActivity
     public void callEventList(ArrayList<HabitEvent> events) {
 
     }
+    /* =========================================================================================================================================================== */
 
     /**
          * Launches the HabitEvents Activity to allow user to view
@@ -424,6 +450,5 @@ public class MergedDisplayActivity extends AppCompatActivity
         Intent eventActivity = new Intent( MergedDisplayActivity.this , HabitEventActivity.class);
         eventActivity.putExtra("habit", habit); // pass in the activity
         startActivity(eventActivity);
-
     }
 }

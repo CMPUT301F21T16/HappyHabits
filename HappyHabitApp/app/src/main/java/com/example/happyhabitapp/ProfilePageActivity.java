@@ -50,7 +50,7 @@ public class ProfilePageActivity extends AppCompatActivity implements FirestoreC
         TextView usernameTextView = findViewById(R.id.profile_page_username);
         TextView followerCountTextView = findViewById(R.id.follower_count);
         TextView followCountTextView = findViewById(R.id.following_count);
-        usernameTextView.setText(fire.getUsername());
+        usernameTextView.setText(fire.getUserName());
         follower_num = followerList.size();
         followee_num = followeeList.size();
         followerCountTextView.setText(follower_num.toString()); //Get the count of the followers/followees

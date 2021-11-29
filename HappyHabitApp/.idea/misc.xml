@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_dash_board.xml" value="0.14791666666666667" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/activity_merged_display.xml" value="0.2796875" />
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/edit_or_view_fragment.xml" value="0.2828125" />
+        <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_activity.xml" value="0.1" />
         <entry key="..\:/Users/Antho/AndroidStudioProjects/HappyHabits/HappyHabitApp/app/src/main/res/layout/habit_event_fragment_layout.xml" value="0.2796875" />
         <entry key="..\:/Users/Armaan Singh M/Desktop/CMPUT 301/HappyHabits/HappyHabitApp/app/src/main/res/layout/map_view.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/drawable/circleshape.xml" value="0.16296296296296298" />
@@ -13,11 +15,17 @@
         <entry key="app/src/main/res/layout/activity_dash_board.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/layout/activity_followee.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/activity_follower.xml" value="0.37552083333333336" />
+        <entry key="app/src/main/res/layout/activity_follower_habits.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/layout/activity_habit.xml" value="0.17692307692307693" />
+        <entry key="app/src/main/res/layout/activity_log_in.xml" value="0.2635416666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18262411347517732" />
         <entry key="app/src/main/res/layout/activity_merged_display.xml" value="0.18461538461538463" />
+        <entry key="app/src/main/res/layout/activity_profile_edit.xml" value="0.32135416666666666" />
+        <entry key="app/src/main/res/layout/activity_profile_page.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.30811965811965814" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/add_edit_habit_fragment_layout.xml" value="0.2520833333333333" />
+        <entry key="app/src/main/res/layout/customlist_content.xml" value="0.125" />
         <entry key="app/src/main/res/layout/dashboard_list_header.xml" value="0.2520833333333333" />
         <entry key="app/src/main/res/layout/edit_or_view_fragment.xml" value="0.2520833333333333" />
         <entry key="app/src/main/res/layout/habit_event_activity.xml" value="0.2520833333333333" />
@@ -26,6 +34,8 @@
         <entry key="app/src/main/res/layout/list_followers_followees.xml" value="0.2828125" />
         <entry key="app/src/main/res/layout/map_view.xml" value="0.2252157776280914" />
         <entry key="app/src/main/res/layout/requester_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/splash_screen.xml" value="0.223731884057971" />
+        <entry key="app/src/main/res/menu/menu_item.xml" value="0.33697916666666666" />
       </map>
     </option>
   </component>
@@ -36,7 +46,7 @@
     <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
-    <option name="OTHER_OPTIONS" value="-sourcepath C:\Android\Sdk\platforms\android-29\android.jar" />
+    <option name="OTHER_OPTIONS" value="-classpath C:\Android\Sdk\platforms\android-29\android.jar" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

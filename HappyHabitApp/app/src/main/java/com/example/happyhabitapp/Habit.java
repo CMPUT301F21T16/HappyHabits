@@ -60,7 +60,6 @@ public class Habit implements Serializable {
         this.reason = reason;
     }
 
-
     public Calendar getDate() {
         return date;
     }
@@ -96,13 +95,14 @@ public class Habit implements Serializable {
         String weekDaysSelected = "";
 
         String[] week = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        String[] weekAbbv = {"Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"};   //Abbv days for display purposes
 
         for (int k = 0; k < week.length; k++) {
             if (week_freq[k] == 1) {
                 if(weekDaysSelected.compareTo("") != 0) {
                     weekDaysSelected = weekDaysSelected.concat(", ");
                 }
-                weekDaysSelected = weekDaysSelected.concat(week[k]);
+                weekDaysSelected = weekDaysSelected.concat(weekAbbv[k]);
                 if (k != week.length - 1) {
 
                 }
