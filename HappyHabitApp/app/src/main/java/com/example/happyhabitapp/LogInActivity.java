@@ -39,7 +39,9 @@ public class LogInActivity extends AppCompatActivity {
 
     public void handleLoginRegister(View view) {
         List<AuthUI.IdpConfig> provider = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build()
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build()
+//                new AuthUI.IdpConfig.PhoneBuilder().build() // firebase data structure currently not supporting
         );
 
         Intent intent = AuthUI.getInstance()
