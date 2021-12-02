@@ -44,12 +44,6 @@
             android:name=".TestActivity"
             android:exported="false" />
         <activity
-            android:name=".HabitActivity"
-            android:exported="true" />
-        <activity
-            android:name=".DashBoard"
-            android:exported="false" />
-        <activity
             android:name=".MapActivity"
             android:exported="false" />
         <activity

@@ -727,11 +727,11 @@ public class FireBase implements FirestoreCallback{
     }
 
     /**
-     * this function delete havit event from Events
+     * this function delete habit event from Events
      * @param habit
      * @param event
      */
-    public void delEvent(Habit habit,HabitEvent event){
+    public void delEvent(Habit habit, HabitEvent event){
         HabitList
                 .document(habit.getTitle())
                 .collection("Events")
