@@ -216,6 +216,7 @@ public class FireBase implements FirestoreCallback{
 
         Map<String, Object> map = new HashMap<>();
         map.put("About", about.getTitle());
+
         map.put("Title", event.getTitle());
         map.put("Date", event.getEvent_date());
         map.put("decodedImage", event.getImage());
@@ -336,7 +337,7 @@ public class FireBase implements FirestoreCallback{
                                 map[0] = doc.getData();
                                 String followee_name = (String) map[0].get("DisplayName");
                                 if (followee_name != null){
-                                    Log.d(TAG, "onEvent: null followees");
+                                    Log.d(TAG, "onEvent: not null followees");
                                     getOtherUser(followee_name)
                                             .collection("Followers")
                                             .document(getUserName())
@@ -780,7 +781,6 @@ public class FireBase implements FirestoreCallback{
      * @param name
      */
     public void hasUser(String name, boolean[] has){
-
         has[0] = false;
         Users
                 .document(name)
