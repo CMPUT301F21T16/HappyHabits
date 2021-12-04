@@ -597,8 +597,8 @@ public class FireBase implements FirestoreCallback{
                             // get picPath
                             String picPath = (String) map[0].get("decodedImage");
                             // get location
-                            Long longitude = (Long) map[0].get("longitude");
-                            Long latitude = (Long) map[0].get("latitude");
+                            Double longitude = (Double) map[0].get("longitude");
+                            Double latitude = (Double) map[0].get("latitude");
                             if (latitude == null || longitude == null){
                                 // if no location selected use constructor without location
                                 HabitEvent event = new HabitEvent(finalDate, title, final_stat[0], description, picPath, null);
