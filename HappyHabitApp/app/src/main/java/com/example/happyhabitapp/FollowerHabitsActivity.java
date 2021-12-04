@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -37,6 +39,7 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
     private RecyclerView todaysHabitsView;              //Preserve information on visibility swaps
     private RecyclerView allHabitsView;
     private String username;
+    private ImageView followerProfilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
             username = extra.getString("username");
         }
         fire.getOthersHabit(username, habitList);
+        followerProfilePic = findViewById(R.id.follower_dashboard_profile_pic);
+        fire.getOtherPic(username);
         setContentView(R.layout.activity_follower_habits);
         //setListAdapters();
         setButtons();
@@ -201,6 +206,8 @@ public class FollowerHabitsActivity extends AppCompatActivity implements Firesto
 
     @Override
     public void callUri(Uri uri) {
-
+        Glide.with(this)
+                .load(uri)
+                .into(followerProfilePic);
     }
 }
